@@ -1,0 +1,6 @@
+biomMethod: "convert"
+otuTable: 
+  class: File
+  path:  /Users/rdf/Projects/Metagenomics/CWL/otu_table.biom
+otuFormat: "to-json"
+otuOutputFile: "otu_table.json"
