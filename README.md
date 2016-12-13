@@ -15,7 +15,7 @@ https://github.com/common-workflow-language/cwltool
 
 4. Choose the command line tool or workflow you want to run
 
-5. Write you YAML job file for the selected command line tool or workflow
+5. Write an YAML job file for the selected command line tool or workflow
 
 6. Run the command line tool/workflow,e.g. FragGeneScan
 
