@@ -4,7 +4,11 @@ label: InterProScan 5.21-60 job.
 doc: |
       InterProScan is an application for classifying protein sequences.
 
-      Version 5.21-6 can be downloaded here:
+      Version 5.21-60 can be downloaded here:
+      https://github.com/ebi-pf-team/interproscan/wiki/HowToDownload
+      
+      Documentation on how to run InterProScan 5 can be found here:
+      https://github.com/ebi-pf-team/interproscan/wiki/HowToRun
 baseCommand: interproscan.sh
 requirements:
   InitialWorkDirRequirement:
