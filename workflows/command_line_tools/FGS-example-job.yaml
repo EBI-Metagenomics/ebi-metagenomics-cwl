@@ -1,0 +1,8 @@
+sequence:
+ class: File
+ path: NC_000913.fna
+trainingName: complete
+trainDir:
+ class: Directory
+ path: train  # path to a local copy of the FGS training directory
+completeSeq: true

@@ -3,22 +3,23 @@ class: Workflow
 label: EMG pipeline description in CWL
 doc: |
      Current steps include FragGeneScan (Fgs) and InterProScan (Ips).
-      
+
+requirements:
+ - $import: command_line_tools/FragGeneScan1_20-types.yaml
+ - $import: command_line_tools/InterProScan5.21-60-types.yaml
+
 inputs:
   FgsInputFile:
     type: File
-    label: FragGeneScan input file
-  FgsLength: int
-  FgsTrainingSet: string
+    doc: FragGeneScan input file
+  FgsTrainDir: Directory
+  FgsTrainingName: string
   FgsThreads:
-    type: int
-    label: FragGeneScan number of threads
-  FgsTrainingDir: Directory
-  IpsWorkdir:
-    type: Directory
-    label: InterProScan installation directory
-  IpsApps: string
-  IpsType: string
+    type: int?
+    doc: FragGeneScan number of threads
+  IpsApps: command_line_tools/InterProScan5.21-60-types.yaml#apps[]?
+  IpsType: command_line_tools/InterProScan5.21-60-types.yaml#protein_formats
+  FgsLength: boolean
 
 outputs: []
 
@@ -26,18 +27,17 @@ steps:
   fraggenescan:
     run: command_line_tools/FragGeneScan1_20.cwl
     in:
-      trainDir: FgsTrainingDir
-      sequenceFileName: FgsInputFile
-      sequenceLength: FgsLength
-      trainingFileName: FgsTrainingSet 
+      sequence: FgsInputFile
+      completeSeq: FgsLength
+      trainingName: FgsTrainingName
       threadNumber: FgsThreads
+      trainDir: FgsTrainDir
     out: [predictedCDS]
 
   interproscan:
     run: command_line_tools/InterProScan5.21-60.cwl
     in:
       proteinFile: fraggenescan/predictedCDS
-      workDir: IpsWorkdir
       applications: IpsApps
       outputFileType: IpsType
     out: [i5Annotations]

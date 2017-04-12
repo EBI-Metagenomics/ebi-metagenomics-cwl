@@ -17,6 +17,9 @@ https://github.com/common-workflow-language/cwltool
 
 5. Write an YAML job file for the selected command line tool or workflow
 
-6. Run the command line tool/workflow, e.g. FragGeneScan
+6. Run the command line tool/workflow, specifying the path if the tools are not
+   installed to /usr/bin or /usr/local/bin
 
-  $ cwl-runner FragGeneScan1_20.cwl jobs/FragGeneScan1_20-job.yaml
+  $ PATH=~/my/FragGeneScan:~/my/InterProScan:${PATH} cwltool \
+      --preserve-environment PATH workflows/emg-pipeline-v3.cwl \
+      workflows/emg-pipeline-v3-example-job.yaml
