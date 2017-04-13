@@ -21,7 +21,10 @@ inputs:
   IpsType: command_line_tools/InterProScan5.21-60-types.yaml#protein_formats
   FgsLength: boolean
 
-outputs: []
+outputs:
+  annotations:
+    type: File
+    outputSource: interproscan/i5Annotations
 
 steps:
   fraggenescan:
