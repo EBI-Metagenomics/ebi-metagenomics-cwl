@@ -123,3 +123,5 @@ outputs:
     outputBinding:
       glob: input_dataset.yaml
 
+$namespaces: { edam: http://edamontology.org/ }
+$schemas: [ http://edamontology.org/EDAM_1.16.owl ]
