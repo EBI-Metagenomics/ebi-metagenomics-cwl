@@ -1,0 +1,4 @@
+class: DockerRequirement
+dockerImageId: infernal
+dockerFile:
+ $include: infernal-Dockerfile
