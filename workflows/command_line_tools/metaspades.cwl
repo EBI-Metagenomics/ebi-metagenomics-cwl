@@ -27,12 +27,12 @@ inputs:
     format: edam:format_1930  # FASTQ
     inputBinding:
       prefix: "-2"
-  threads:
-    label: Number of threads
-    type: int
-    default: $(runtime.cores)
-    inputBinding:
-      prefix: --threads
+  #threads:
+  #  label: Number of threads
+  #  type: int
+  #  default: $(runtime.cores) # not working in CWL v1.0
+  #  inputBinding:
+  #    prefix: --threads
   memory_limit:
     label: Set memory limit in Gb
     doc: |
@@ -53,7 +53,7 @@ inputs:
 
 baseCommand: [ metaspades.py ]
 
-arguments: [ -o, $(runtime.outdir) ]
+arguments: [ -o, $(runtime.outdir), --threads, $(runtime.cores) ]
 
 outputs:
   contigs:

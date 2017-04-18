@@ -26,25 +26,9 @@ doc: |
       Step 8: Create a phylogenetic tree by pruning GreenGenes and keeping observed otus
       ${python} ${qiimeDir}/bin/filter_tree.py -i ${qiimeDir}/gg_13_8_otus/trees/97_otus.tree -t ${resultDir}/cr_otus/${infileBase}_otu_observations.txt -o ${resultDir}/cr_otus/${infileBase}_pruned.tree
 
-inputs:
-  inp: File
-  ex: string
+inputs: []
 
-outputs:
-  classout:
-    type: File
-    outputSource: compile/classfile
+outputs: []
 
-steps:
-  qiime:
-    run: pick_closed_reference_otus.cwl
-    in:
-      tarfile: inp
-      extractfile: ex
-    out: [example_out]
+steps: []
 
-  compile:
-    run: arguments.cwl
-    in:
-      src: untar/example_out
-    out: [classfile]

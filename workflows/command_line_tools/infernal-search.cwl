@@ -54,13 +54,7 @@ inputs:
 
 baseCommand: cmscan
 
-arguments:
- - --fmt
- - '2'
- - --tblout
- - matches.tbl
- - valueFrom: $(runtime.cores)
-   prefix: --cpu
+arguments: [ --fmt, '2', --tblout, matches.tbl, --cpu, $(runtime.cores) ]
 
 outputs:
   matches:
