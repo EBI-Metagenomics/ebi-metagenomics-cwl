@@ -27,6 +27,29 @@ inputs:
     format: edam:format_1930  # FASTQ
     inputBinding:
       prefix: "-2"
+  threads:
+    label: Number of threads
+    type: int
+    default: $(runtime.cores)
+    inputBinding:
+      prefix: --threads
+  memory_limit:
+    label: Set memory limit in Gb
+    doc: |
+      SPAdes terminates if it reaches this limit. Actual amount of consumed
+      RAM will be below this limit. Make sure the provided value is correct for
+      the given machine. SPAdes uses the limit value to automatically determine
+      the sizes of various buffers, etc.
+    type: int
+    default: $(runtime.ram)
+    inputBinding:
+      prefix: --memory
+  tmp_dir:
+    label: directory for temporary files from read error correction
+    type: string
+    default: $(runtime.tmpdir)
+    inputBinding:
+      prefix: --tmp-dir
 
 baseCommand: [ metaspades.py ]
 
