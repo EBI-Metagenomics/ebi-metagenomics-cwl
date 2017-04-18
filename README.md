@@ -1,3 +1,5 @@
+https://travis-ci.org/ProteinsWebTeam/ebi-metagenomics-cwl.svg?branch=master
+
 # ebi-metagenomics-cwl
 This repository contains the CWL description of the EBI Metagenomics pipeline
 
