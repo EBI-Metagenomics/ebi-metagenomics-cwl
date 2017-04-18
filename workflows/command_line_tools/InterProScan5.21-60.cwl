@@ -1,6 +1,8 @@
 cwlVersion: v1.0
 class: CommandLineTool
-label: InterProScan 5.21-60 job.
+
+label: InterProScan 5.21-60
+
 doc: |
       InterProScan is an application for classifying protein sequences.
 
@@ -9,25 +11,35 @@ doc: |
       
       Documentation on how to run InterProScan 5 can be found here:
       https://github.com/ebi-pf-team/interproscan/wiki/HowToRun
-baseCommand: interproscan.sh
+
 requirements:
-  InitialWorkDirRequirement:
-    listing: [ $(inputs.workDir) ]
-arguments: [ -o, i5_annotations ]
+ - $import: InterProScan5.21-60-types.yaml
+
+hints:
+  SoftwareRequirement:
+    packages:
+      interproscan:
+        specs: [ https://identifiers.org/rrid/RRID:SCR_005829 ]
+        version: [ "5.21-60" ]
+
 inputs:
-  workDir: Directory
   proteinFile:
     type: File
     inputBinding:
-      prefix: -i
+      prefix: --input
   outputFileType:
-    type: string
+    type: InterProScan5.21-60-types.yaml#protein_formats
     inputBinding:
-      prefix: -f
+      prefix: --formats
   applications:
-    type: string
+    type: InterProScan5.21-60-types.yaml#apps[]?
     inputBinding:
-      prefix: -appl
+      prefix: --applications
+
+baseCommand: interproscan.sh
+
+arguments: [ --outfile, i5_annotations ]
+
 outputs:
   i5Annotations:
     type: File

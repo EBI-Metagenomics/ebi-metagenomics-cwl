@@ -11,26 +11,55 @@ doc: |
 
       Version 1.20 can be downloaded here:
       https://sourceforge.net/projects/fraggenescan/files/
+
 baseCommand: FragGeneScan
+
 requirements:
-  InitialWorkDirRequirement:
+  - $import: FragGeneScan1_20-types.yaml
+  - class: InlineJavascriptRequirement
+  - class: InitialWorkDirRequirement
     listing: [ $(inputs.trainDir) ]
-#  EnvVarRequirement:
-#    envDef:
-#      PATH: $(inputs.pathToBinary)
-arguments: [ -o, predicted_cds ]
+
+hints:
+  SoftwareRequirement:
+    packages:
+      fraggenescan:
+        specs: [ https://identifiers.org/rrid/RRID:SCR_011929 ]
+        version: [ "1.20" ]
+
+arguments: [ -o, $(runtime.outdir)/predicted_cds ]
+
 inputs:
   trainDir: Directory
-  sequenceFileName:
+  sequence:
     type: File
     inputBinding:
       prefix: -s
-  sequenceLength:
-    type: int
+  completeSeq:
+    doc: |
+       True if the sequence file has complete genomic sequences
+       False if the sequence file has short sequence reads
+    type: boolean
     inputBinding:
-      prefix: -w
-  trainingFileName:
+      valueFrom: |
+       ${ if (self) {
+            return [ "-w", "1" ];
+          } else {
+            return [ "-w", "0" ];
+          }
+        }
+  trainingName:
     type: string
+    doc: |
+      default models:
+      [complete] for complete genomic sequences or short sequence reads without sequencing error
+      [sanger_5] for Sanger sequencing reads with about 0.5% error
+      [sanger_10] for Sanger sequencing reads with about 1% error
+      [454_5] for 454 pyrosequencing reads with about 0.5% error
+      [454_10] for 454 pyrosequencing reads with about 1% error
+      [454_30] for 454 pyrosequencing reads with about 3% error
+      [illumina_5] for Illumina sequencing reads with about 0.5%
+      [illumina_10] for Illumina sequencing reads with about 1% error rate
     inputBinding:
       prefix: -t
   threadNumber:
