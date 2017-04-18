@@ -83,3 +83,6 @@ outputs:
     type: File
     outputBinding:
       glob: matches.tbl
+
+$namespaces: { edam: http://edamontology.org/ }
+$schemas: [ http://edamontology.org/EDAM_1.16.owl ]
