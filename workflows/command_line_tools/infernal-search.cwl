@@ -37,6 +37,13 @@ inputs:
       # pfam ?
       # afa ?
 
+  clan_information:
+    label: clan information on the models provided
+    type: File?
+    inputBinding:
+      prefix: --clanin
+    doc: Not all models provided need to be a member of a clan
+
   omit_alignment_section:
     label: Omit the alignment section from the main output.
     type: boolean?
@@ -45,6 +52,19 @@ inputs:
       prefix: --noali
     doc: This can greatly reduce the output volume.
 
+  only_hmm:
+    label: Only use the filter profile HMM for searches, do not use the CM
+    type: boolean?
+    default: false
+    inputBinding:
+      prefix: --hmmonly
+    doc: |
+      Only filter stages F1 through F3 will be executed, using strict P-value
+      thresholds (0.02 for F1, 0.001 for F2 and 0.00001 for F3). Additionally
+      a bias composition filter is used after the F1 stage (with P=0.02
+      survival threshold).  Any hit that survives all stages and has an HMM
+      E-value or bit score above the reporting threshold will be output. 
+    
   #threads:
   #  label: number of parallel worker threads
   #  type: int
