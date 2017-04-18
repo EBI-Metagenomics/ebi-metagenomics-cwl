@@ -1,0 +1,4 @@
+sequences:
+  class: File
+  path: /usr/share/doc/infernal/examples/testsuite/1k.fa
+  format: http://edamontology.org/format_1929
