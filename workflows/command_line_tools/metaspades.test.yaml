@@ -1,0 +1,9 @@
+forwardReads: 
+  class: File
+  format: http://edamontology.org/format_1930
+  path:  SPAdes-3.10.0/test_dataset/ecoli_1K_1.fq.gz 
+reverseReads: 
+  class: File
+  format: http://edamontology.org/format_1930
+  path:  SPAdes-3.10.0/test_dataset/ecoli_1K_2.fq.gz 
+memory_limit: 100
