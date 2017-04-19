@@ -1,0 +1,4 @@
+sequences:
+  class: File
+  path: 1k.fa
+  format: http://edamontology.org/format_1929
