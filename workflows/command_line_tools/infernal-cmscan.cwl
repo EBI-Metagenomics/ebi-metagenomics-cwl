@@ -94,6 +94,8 @@ arguments: [ --fmt, '2', --tblout, matches.tbl ]
 
 outputs:
   matches:
+    label: target hits table, format 2
+    doc: http://eddylab.org/infernal/Userguide.pdf#page=60
     type: File
     outputBinding:
       glob: matches.tbl
