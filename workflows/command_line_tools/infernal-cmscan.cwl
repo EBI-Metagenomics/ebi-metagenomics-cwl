@@ -66,17 +66,31 @@ inputs:
       a bias composition filter is used after the F1 stage (with P=0.02
       survival threshold).  Any hit that survives all stages and has an HMM
       E-value or bit score above the reporting threshold will be output. 
-    
-  #threads:
-  #  label: number of parallel worker threads
-  #  type: int
-  #  default: $(runtime.cores)  # not working in CWL v1.0
-  #  inputBinding:
-  #    prefix: --cpu
+
+  cut_ga:
+    label: use CM's GA gathering cutoffs as reporting thresholds
+    type: boolean?
+    default: false
+    inputBinding:
+      prefix: --cut_ga
+
+  oskip:
+    label: do not output lower scoring overlaps
+    type: boolean?
+    default: false
+    inputBinding:
+      prefix: --oskip
+ 
+  threads:
+    label: number of parallel worker threads
+    type: int?
+    default: 1
+    inputBinding:
+      prefix: --cpu
 
 baseCommand: cmscan
 
-arguments: [ --fmt, '2', --tblout, matches.tbl, --cpu, $(runtime.cores) ]
+arguments: [ --fmt, '2', --tblout, matches.tbl ]
 
 outputs:
   matches:
