@@ -7,7 +7,7 @@ hints:
   - class: SoftwareRequirement
     packages:
       spades:
-        specs: [ https://identifiers.org/rrid/RRID:SCR_011809 ]
+        specs: [ "https://identifiers.org/rrid/RRID:SCR_011809" ]
         version: [ "1.1.2" ]
 
 inputs:
@@ -95,10 +95,10 @@ arguments: [ --fmt, '2', --tblout, matches.tbl ]
 outputs:
   matches:
     label: target hits table, format 2
-    doc: http://eddylab.org/infernal/Userguide.pdf#page=60
+    doc: "http://eddylab.org/infernal/Userguide.pdf#page=60"
     type: File
     outputBinding:
       glob: matches.tbl
 
-$namespaces: { edam: http://edamontology.org/ }
-$schemas: [ http://edamontology.org/EDAM_1.16.owl ]
+$namespaces: { edam: "http://edamontology.org/" }
+$schemas: [ "http://edamontology.org/EDAM_1.16.owl" ]

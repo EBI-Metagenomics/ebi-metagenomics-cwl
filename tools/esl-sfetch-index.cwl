@@ -10,13 +10,16 @@ doc: https://github.com/EddyRivasLab/easel
 #         specs: [ https://identifiers.org/rrid/RRID:TBD ]
 #         version: [ "???" ]
 
+requirements:
+  InitialWorkDirRequirement:
+    listing: [ $(inputs.sequences) ]
+
 inputs:
   sequences:
-    label: sequence file indexed by esl-sfetch-index
     type: File
-    secondaryFiles: .ssi
     inputBinding:
       position: 1
+      valueFrom: $(self.basename)
     format:
       - edam:format_1929  # FASTA
       - edam:format_1927  # EMBL
@@ -25,18 +28,15 @@ inputs:
       - edam:format_1963  # UniProt
       # ddbj ?
 
-  name:
-    type: string
-    label: sequence name to retrieve
-    inputBinding:
-      position: 2
-
-baseCommand: [ esl-sfetch ]
+baseCommand: [ esl-sfetch, --index ]
 
 outputs:
-  sequence:
-    type: stdout
-    format: edam:format_1929  # FASTA
+  sequences_with_index:
+    type: File
+    secondaryFiles: .ssi
+    format: $(inputs.sequences.format)
+    outputBinding:
+      glob: $(inputs.sequences.basename)
 
-$namespaces: { edam: http://edamontology.org/ }
-$schemas: [ http://edamontology.org/EDAM_1.16.owl ]
+$namespaces: { edam: "http://edamontology.org/" }
+$schemas: [ "http://edamontology.org/EDAM_1.16.owl" ]

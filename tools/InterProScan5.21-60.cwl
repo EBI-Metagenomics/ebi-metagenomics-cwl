@@ -19,7 +19,7 @@ hints:
   SoftwareRequirement:
     packages:
       interproscan:
-        specs: [ https://identifiers.org/rrid/RRID:SCR_005829 ]
+        specs: [ "https://identifiers.org/rrid/RRID:SCR_005829" ]
         version: [ "5.21-60" ]
 
 inputs:
