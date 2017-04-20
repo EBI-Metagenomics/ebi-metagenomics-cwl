@@ -24,7 +24,7 @@ hints:
   SoftwareRequirement:
     packages:
       fraggenescan:
-        specs: [ https://identifiers.org/rrid/RRID:SCR_011929 ]
+        specs: [ "https://identifiers.org/rrid/RRID:SCR_011929" ]
         version: [ "1.20" ]
 
 arguments: [ -o, $(runtime.outdir)/predicted_cds ]

@@ -5,8 +5,8 @@ doc: |
      Current steps include FragGeneScan (Fgs) and InterProScan (Ips).
 
 requirements:
- - $import: command_line_tools/FragGeneScan1_20-types.yaml
- - $import: command_line_tools/InterProScan5.21-60-types.yaml
+ - $import: ../tools//FragGeneScan1_20-types.yaml
+ - $import: ../tools//InterProScan5.21-60-types.yaml
 
 inputs:
   FgsInputFile:
@@ -17,8 +17,8 @@ inputs:
   FgsThreads:
     type: int?
     doc: FragGeneScan number of threads
-  IpsApps: command_line_tools/InterProScan5.21-60-types.yaml#apps[]?
-  IpsType: command_line_tools/InterProScan5.21-60-types.yaml#protein_formats
+  IpsApps: ../tools//InterProScan5.21-60-types.yaml#apps[]?
+  IpsType: ../tools//InterProScan5.21-60-types.yaml#protein_formats
   FgsLength: boolean
 
 outputs:
@@ -28,7 +28,7 @@ outputs:
 
 steps:
   fraggenescan:
-    run: command_line_tools/FragGeneScan1_20.cwl
+    run: ../tools//FragGeneScan1_20.cwl
     in:
       sequence: FgsInputFile
       completeSeq: FgsLength
@@ -38,7 +38,7 @@ steps:
     out: [predictedCDS]
 
   interproscan:
-    run: command_line_tools/InterProScan5.21-60.cwl
+    run: ../tools//InterProScan5.21-60.cwl
     in:
       proteinFile: fraggenescan/predictedCDS
       applications: IpsApps

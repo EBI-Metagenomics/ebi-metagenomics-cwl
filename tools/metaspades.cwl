@@ -13,7 +13,7 @@ hints:
   SoftwareRequirement:
     packages:
       spades:
-        specs: [ https://identifiers.org/rrid/RRID:SCR_000131 ]
+        specs: [ "https://identifiers.org/rrid/RRID:SCR_000131" ]
         version: [ "3.10.1" ]
 
 inputs:
@@ -123,5 +123,5 @@ outputs:
     outputBinding:
       glob: input_dataset.yaml
 
-$namespaces: { edam: http://edamontology.org/ }
-$schemas: [ http://edamontology.org/EDAM_1.16.owl ]
+$namespaces: { edam: "http://edamontology.org/" }
+$schemas: [ "http://edamontology.org/EDAM_1.16.owl" ]

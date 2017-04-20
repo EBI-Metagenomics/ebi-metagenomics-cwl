@@ -11,7 +11,7 @@ doc: https://github.com/EddyRivasLab/easel
 #         version: [ "???" ]
 
 inputs:
-  sequences:
+  indexed_sequences:
     label: sequence file indexed by esl-sfetch-index
     type: File
     secondaryFiles: .ssi
@@ -40,9 +40,9 @@ inputs:
 baseCommand: [ esl-sfetch ]
 
 outputs:
-  sequence:
+  sequences:
     type: stdout
     format: edam:format_1929  # FASTA
 
-$namespaces: { edam: http://edamontology.org/ }
-$schemas: [ http://edamontology.org/EDAM_1.16.owl ]
+$namespaces: { edam: "http://edamontology.org/" }
+$schemas: [ "http://edamontology.org/EDAM_1.16.owl" ]
