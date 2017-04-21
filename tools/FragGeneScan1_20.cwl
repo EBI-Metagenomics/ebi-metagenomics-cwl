@@ -12,13 +12,14 @@ doc: |
       Version 1.20 can be downloaded here:
       https://sourceforge.net/projects/fraggenescan/files/
 
-baseCommand: FragGeneScan
+baseCommand: [] # FragGeneScan
 
 requirements:
   - $import: FragGeneScan1_20-types.yaml
   - class: InlineJavascriptRequirement
-  - class: InitialWorkDirRequirement
-    listing: [ $(inputs.trainDir) ]
+  - class: ShellCommandRequirement
+#  - class: InitialWorkDirRequirement
+#    listing: [ $(inputs.trainDir) ]
 
 hints:
   SoftwareRequirement:
@@ -27,10 +28,17 @@ hints:
         specs: [ "https://identifiers.org/rrid/RRID:SCR_011929" ]
         version: [ "1.20" ]
 
-arguments: [ -o, $(runtime.outdir)/predicted_cds ]
+arguments:
+ - mkdir train;
+ - cp
+ - valueFrom: $(input.model)
+ - train/
+ - ;
+ - FragGeneScan
+ - -o
+ - $(runtime.outdir)/predicted_cds
 
 inputs:
-  trainDir: Directory
   sequence:
     type: File
     inputBinding:
@@ -48,24 +56,30 @@ inputs:
             return [ "-w", "0" ];
           }
         }
-  trainingName:
-    type: string
-    doc: |
-      default models:
-      [complete] for complete genomic sequences or short sequence reads without sequencing error
-      [sanger_5] for Sanger sequencing reads with about 0.5% error
-      [sanger_10] for Sanger sequencing reads with about 1% error
-      [454_5] for 454 pyrosequencing reads with about 0.5% error
-      [454_10] for 454 pyrosequencing reads with about 1% error
-      [454_30] for 454 pyrosequencing reads with about 3% error
-      [illumina_5] for Illumina sequencing reads with about 0.5%
-      [illumina_10] for Illumina sequencing reads with about 1% error rate
+  model:
+    type: File
     inputBinding:
       prefix: -t
+      valueFrom: $(self.basename)
   threadNumber:
     type: int?
     inputBinding:
       prefix: -p
+#  trainDir: Directory
+#  trainingName:
+#    type: string
+#    doc: |
+#      default models:
+#      [complete] for complete genomic sequences or short sequence reads without sequencing error
+#      [sanger_5] for Sanger sequencing reads with about 0.5% error
+#      [sanger_10] for Sanger sequencing reads with about 1% error
+#      [454_5] for 454 pyrosequencing reads with about 0.5% error
+#      [454_10] for 454 pyrosequencing reads with about 1% error
+#      [454_30] for 454 pyrosequencing reads with about 3% error
+#      [illumina_5] for Illumina sequencing reads with about 0.5%
+#      [illumina_10] for Illumina sequencing reads with about 1% error rate
+#    inputBinding:
+#      prefix: -t
 outputs:
   predictedCDS:
     type: File

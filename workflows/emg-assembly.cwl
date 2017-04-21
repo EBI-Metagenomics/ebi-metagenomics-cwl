@@ -22,7 +22,7 @@ inputs:
      - .i1i
      - .i1m
      - .i1p
-  fraggenescan_models: Directory
+  fraggenescan_model: File
 
 outputs:
   SSUs:
@@ -95,9 +95,10 @@ steps:
       sequence: assembly/scaffolds
       completeSeq:
         valueFrom: $(true)
-      trainingName:
-        valueFrom: complete
-      trainDir: fraggenescan_models
+      model: fraggenescan_model
+      #trainingName:
+      #  valueFrom: complete
+      #trainDir: fraggenescan_models
     out: [predictedCDS]
 
   interproscan:
