@@ -17,12 +17,12 @@ hints:
         version: [ "3.10.1" ]
 
 inputs:
-  forwardReads:
+  forward_reads:
     type: File
     format: edam:format_1930  # FASTQ
     inputBinding:
       prefix: "-1"
-  reverseReads:
+  reverse_reads:
     type: File
     format: edam:format_1930  # FASTQ
     inputBinding:
