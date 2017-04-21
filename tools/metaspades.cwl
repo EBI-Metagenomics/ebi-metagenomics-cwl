@@ -44,16 +44,16 @@ inputs:
     #default: $(runtime.ram)
     inputBinding:
       prefix: --memory
-  tmp_dir:
-    label: directory for temporary files from read error correction
-    type: string
-    default: $(runtime.tmpdir)
-    inputBinding:
-      prefix: --tmp-dir
+  # tmp_dir:
+  #   label: directory for temporary files from read error correction
+  #   type: string
+  #   # default: $(runtime.tmpdir)
+  #   inputBinding:
+  #     prefix: --tmp-dir
 
 baseCommand: [ metaspades.py ]
 
-arguments: [ -o, $(runtime.outdir) ]
+arguments: [ -o, $(runtime.outdir), --tmp-dir, $(runtime.tmpdir) ]
 
 outputs:
   contigs:
