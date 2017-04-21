@@ -40,5 +40,5 @@ outputs:
     outputBinding:
       glob: merged.fastq
 
-$namespaces: { edam: http://edamontology.org/ }
-$schemas: [ http://edamontology.org/EDAM_1.16.owl ]
+$namespaces: { edam: "http://edamontology.org/" }
+$schemas: [ "http://edamontology.org/EDAM_1.16.owl" ]
