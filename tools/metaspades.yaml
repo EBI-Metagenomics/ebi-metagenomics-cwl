@@ -1,8 +1,8 @@
-forwardReads: 
+forward_reads: 
   class: File
   format: http://edamontology.org/format_1930
   path:  /nfs/nobackup/interpro/rdf/metagenomics/grasp_testing/data/target/ERR771104/ERR771104_1.fastq.gz 
-reverseReads: 
+reverse_reads: 
   class: File
   format: http://edamontology.org/format_1930
   path:  /nfs/nobackup/interpro/rdf/metagenomics/grasp_testing/data/target/ERR771104/ERR771104_2.fastq.gz 
