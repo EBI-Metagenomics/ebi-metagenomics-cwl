@@ -41,7 +41,7 @@ inputs:
       the given machine. SPAdes uses the limit value to automatically determine
       the sizes of various buffers, etc.
     type: int
-    default: $(runtime.ram)
+    #default: $(runtime.ram)
     inputBinding:
       prefix: --memory
   tmp_dir:

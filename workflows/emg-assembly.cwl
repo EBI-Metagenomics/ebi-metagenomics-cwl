@@ -4,7 +4,6 @@ label: EMG assembly for paired end Illumina
 
 requirements:
  - class: StepInputExpressionRequirement
- - class: InlineJavascriptRequirement
  - class: SubworkflowFeatureRequirement
  - $import: ../tools/InterProScan5.21-60-types.yaml
 
@@ -23,6 +22,9 @@ inputs:
      - .i1m
      - .i1p
   fraggenescan_model: File
+  assembly_mem_limit:
+    type: int
+    doc: in Gb
 
 outputs:
   SSUs:
@@ -52,6 +54,7 @@ steps:
     in:
       forward_reads: forward_reads
       reverse_reads: reverse_reads
+      memory_limit: assembly_mem_limit
     out: [ scaffolds ]
 
   cmscan:
@@ -59,8 +62,8 @@ steps:
     in: 
       query_sequences: assembly/scaffolds
       covariance_model_database: covariance_model_database
-      only_hmm: { valueFrom: $(true) }
-      omit_alignment_section: { valueFrom: $(true) }
+      only_hmm: { default: true }
+      omit_alignment_section: { default: true }
     out: [ matches ]
   
   get_SSU_coords:
@@ -80,7 +83,7 @@ steps:
     in:
       indexed_sequences: index_scaffolds/sequences_with_index
       names: get_SSU_coords/SSU_coordinates
-      names_contain_subseq_coords: { valueFrom: $(true) }
+      names_contain_subseq_coords: { default: true }
     out: [ sequences ]
 
   classify_SSUs:
@@ -93,8 +96,7 @@ steps:
     run: ../tools/FragGeneScan1_20.cwl
     in:
       sequence: assembly/scaffolds
-      completeSeq:
-        valueFrom: $(true)
+      completeSeq: { default: true }
       model: fraggenescan_model
       #trainingName:
       #  valueFrom: complete
