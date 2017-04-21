@@ -6,7 +6,6 @@ requirements:
  - class: StepInputExpressionRequirement
  - class: InlineJavascriptRequirement
  - class: SubworkflowFeatureRequirement
- - $import: ../tools/FragGeneScan1_20-types.yaml
  - $import: ../tools/InterProScan5.21-60-types.yaml
 
 inputs:
@@ -23,10 +22,7 @@ inputs:
      - .i1i
      - .i1m
      - .i1p
-  FgsTrainDir: Directory
-  FgsTrainingName: string
-  IpsApps: ../tools/InterProScan5.21-60-types.yaml#apps[]?
-  IpsType: ../tools/InterProScan5.21-60-types.yaml#protein_formats
+  fraggenescan_models: Directory
 
 outputs:
   SSUs:
@@ -101,15 +97,15 @@ steps:
         valueFrom: $(true)
       trainingName:
         valueFrom: complete
-      trainDir: FgsTrainDir
+      trainDir: fraggenescan_models
     out: [predictedCDS]
 
   interproscan:
     run: ../tools/InterProScan5.21-60.cwl
     in:
       proteinFile: fraggenescan/predictedCDS
-      applications: IpsApps
-      outputFileType: IpsType
+      outputFileType:
+        valueFrom: TSV
     out: [i5Annotations]
 
 $namespaces: { edam: "http://edamontology.org/" }
