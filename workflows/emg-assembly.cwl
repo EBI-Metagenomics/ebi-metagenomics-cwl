@@ -64,6 +64,6 @@ steps:
       names_contain_subseq_coords: { valueFrom: $(true) }
     out: [ sequences ]
 
-$namespaces: { edam: http://edamontology.org/ }
-$schemas: [ http://edamontology.org/EDAM_1.16.owl ]
+$namespaces: { edam: "http://edamontology.org/" }
+$schemas: [ "http://edamontology.org/EDAM_1.16.owl" ]
 
