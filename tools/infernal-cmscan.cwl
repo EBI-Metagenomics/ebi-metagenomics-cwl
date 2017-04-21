@@ -1,7 +1,7 @@
 cwlVersion: v1.0
 class: CommandLineTool
 label: search sequence(s) against a covariance model database
-doc: http://eddylab.org/infernal/Userguide.pdf
+doc: "http://eddylab.org/infernal/Userguide.pdf"
 hints:
   - $import: infernal-docker.yml
   - class: SoftwareRequirement

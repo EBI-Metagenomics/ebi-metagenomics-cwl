@@ -3,9 +3,11 @@ class: Workflow
 label: EMG assembly for paired end Illumina
 
 requirements:
-  StepInputExpressionRequirement: {}
-  InlineJavascriptRequirement: {}
-  SubworkflowFeatureRequirement: {}
+ - class: StepInputExpressionRequirement
+ - class: InlineJavascriptRequirement
+ - class: SubworkflowFeatureRequirement
+ - $import: ../tools/FragGeneScan1_20-types.yaml
+ - $import: ../tools/InterProScan5.21-60-types.yaml
 
 inputs:
   forward_reads:
@@ -21,6 +23,10 @@ inputs:
      - .i1i
      - .i1m
      - .i1p
+  FgsTrainDir: Directory
+  FgsTrainingName: string
+  IpsApps: ../tools/InterProScan5.21-60-types.yaml#apps[]?
+  IpsType: ../tools/InterProScan5.21-60-types.yaml#protein_formats
 
 outputs:
   SSUs:
@@ -35,7 +41,14 @@ outputs:
     type: File
     outputSource: assembly/scaffolds
 
-# todo: pCDS from FragGeneScan, IPS output
+  pCDS:
+    type: File
+    outputSource: fraggenescan/predictedCDS
+
+  annotations:
+    type: File
+    outputSource: interproscan/i5Annotations
+
 
 steps:
   assembly:
@@ -79,6 +92,25 @@ steps:
     in:
       sequences: extract_SSUs/sequences
     out: [ classifications ]
+
+  fraggenescan:
+    run: ../tools/FragGeneScan1_20.cwl
+    in:
+      sequence: assembly/scaffolds
+      completeSeq:
+        valueFrom: $(true)
+      trainingName:
+        valueFrom: complete
+      trainDir: FgsTrainDir
+    out: [predictedCDS]
+
+  interproscan:
+    run: ../tools/InterProScan5.21-60.cwl
+    in:
+      proteinFile: fraggenescan/predictedCDS
+      applications: IpsApps
+      outputFileType: IpsType
+    out: [i5Annotations]
 
 $namespaces: { edam: "http://edamontology.org/" }
 $schemas: [ "http://edamontology.org/EDAM_1.16.owl" ]
