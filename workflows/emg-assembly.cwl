@@ -27,6 +27,16 @@ outputs:
     type: File
     outputSource: extract_SSUs/sequences
 
+  classifications:
+    type: File
+    outputSource: classify_SSUs/classifications
+
+  scaffolds:
+    type: File
+    outputSource: assembly/scaffolds
+
+# todo: pCDS from FragGeneScan, IPS output
+
 steps:
   assembly:
     run: ../tools/metaspades.cwl
@@ -63,6 +73,12 @@ steps:
       names: get_SSU_coords/SSU_coordinates
       names_contain_subseq_coords: { valueFrom: $(true) }
     out: [ sequences ]
+
+  classify_SSUs:
+    run: ../tools/mapseq.cwl
+    in:
+      sequences: extract_SSUs/sequences
+    out: [ classifications ]
 
 $namespaces: { edam: "http://edamontology.org/" }
 $schemas: [ "http://edamontology.org/EDAM_1.16.owl" ]
