@@ -1,7 +1,7 @@
 cwlVersion: v1.0
 class: CommandLineTool
 label: index a sequence file for use by esl-sfetch
-doc: https://github.com/EddyRivasLab/easel
+doc: "https://github.com/EddyRivasLab/easel"
 
 # hints:
 #   - class: SoftwareRequirement
