@@ -9,7 +9,12 @@ doc: |
   https://arxiv.org/abs/1604.03071
   http://cab.spbu.ru/files/release3.10.1/manual.html#meta
 
+requirements:
+  InlineJavascriptRequirement: {}
+
 hints:
+  ResourceRequirement:
+    ramMin: $(inputs.memory_limit * 1024^2)
   SoftwareRequirement:
     packages:
       spades:
