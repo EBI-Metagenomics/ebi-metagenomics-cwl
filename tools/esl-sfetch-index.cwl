@@ -19,7 +19,7 @@ inputs:
   sequences:
     type: File
     inputBinding:
-      position: 1
+      position: 10
       valueFrom: $(self.basename)
     format:
       - edam:format_1929  # FASTA
@@ -34,7 +34,9 @@ baseCommand: [ ]
 arguments:
  - cp
  - $(inputs.sequences)
- - $(runtime.outdir);
+ - $(runtime.outdir)
+ - valueFrom: ";"
+   shellQuote: false
  - esl-sfetch
  - --index
 

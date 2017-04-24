@@ -3,12 +3,12 @@ class: CommandLineTool
 label: search sequence(s) against a covariance model database
 doc: "http://eddylab.org/infernal/Userguide.pdf"
 hints:
-  - $import: infernal-docker.yml
   - class: SoftwareRequirement
     packages:
       spades:
         specs: [ "https://identifiers.org/rrid/RRID:SCR_011809" ]
         version: [ "1.1.2" ]
+  #- $import: infernal-docker.yml
 
 inputs:
   covariance_model_database:
