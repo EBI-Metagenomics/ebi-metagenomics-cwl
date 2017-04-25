@@ -27,9 +27,9 @@ baseCommand: seqprep
 
 arguments:
  - "-1"
- - forward_unmerged.fastq
+ - forward_unmerged.fastq.gz
  - "-2"
- - reverse_unmerged.fastq
+ - reverse_unmerged.fastq.gz
  - -s
  - merged.fastq
  # - "-3"
@@ -48,12 +48,12 @@ outputs:
     type: File
     format: edam:format_1930  # FASTQ
     outputBinding:
-      glob: forward_unpaired.fastq.gz
+      glob: forward_unmerged.fastq.gz
   reverse_unmerged_reads:
     type: File
     format: edam:format_1930  # FASTQ
     outputBinding:
-      glob: reverse_unpaired.fastq.gz
+      glob: reverse_unmerged.fastq.gz
 
 $namespaces: { edam: "http://edamontology.org/" }
 $schemas: [ "http://edamontology.org/EDAM_1.16.owl" ]
