@@ -103,9 +103,49 @@ steps:
   find_16S_matches:
     run: ../tools/rRNA_selection.cwl
     in:
-      index_sequences: index_reads/sequences_with_index
+      indexed_sequences: index_reads/sequences_with_index
       model: 16S_model
-    out: [ matching_sequences ]
+    out: [ matching_sequences, hmmer_search_results ]
+
+  find_23S_matches:
+    run: ../tools/rRNA_selection.cwl
+    in:
+      indexed_sequences: index_reads/sequences_with_index
+      model: 23S_model
+    out: [ matching_sequences, hmmer_search_results ]
+
+  find_5S_matches:
+    run: ../tools/rRNA_selection.cwl
+    in:
+      indexed_sequences: index_reads/sequences_with_index
+      model: 5S_model
+    out: [ matching_sequences, hmmer_search_results ]
+
+  find_tRNA_matches:
+    run: ../tools/tRNA_selection.cwl
+    in:
+      indexed_sequences: index_reads/sequences_with_index
+    out: [ matching_sequences, hmmer_search_results ]
+
+  collate_unique_rRNA_hmmer_hits:
+    run: ../tools/collate_unique_rRNA_headers.cwl
+    in:
+      hits:
+        - find_16S_matches/hmmer_search_results
+        - find_23S_matches/hmmer_search_results
+        - find_5S_matches/hmmer_search_results
+    out: [ unique_hits ]
+
+  mask_rRNA_and_tRNA:
+    run: ../tools/mask_RNA.cwl
+    in:
+      unique_rRNA_hits: collate_uniqe_rRNA_hmmer_hits/unique_hits
+      16s_rRNA_hmmer_hits: find_16S_matches/hmmer_search_results
+      23s_rRNA_hmmer_hits: find_23S_matches/matching_sequences
+      5s_rRNA_hmmer_hits: find_5S_matches/matching_sequences
+      tRNA_matches: find_tRNA_matches/matching_sequences
+      sequences: index_reads/sequences_with_index
+    out: [ masked_sequences ]
 
   fraggenescan:
     run: ../tools/FragGeneScan1_20.cwl

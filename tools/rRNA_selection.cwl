@@ -27,15 +27,7 @@ steps:
     out: [ per_domain_summary ]
 
   extract_coord_lines:
-    run:
-      class: CommandLineTool
-      inputs:
-        summary:
-          type: File
-          inputBinding: { position: 1 }
-      baseCommand: [ grep, -v, "^#" ]
-      outputs:
-        coord_lines: { type: stdout }
+    run: extract_coord_lines.cwl
     in: { summary: hmmsearch/per_domain_summary }
     out: [ coord_lines ]
 
