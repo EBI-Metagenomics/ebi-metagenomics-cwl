@@ -5,7 +5,7 @@ doc: "http://eddylab.org/infernal/Userguide.pdf"
 hints:
   - class: SoftwareRequirement
     packages:
-      spades:
+      infernal:
         specs: [ "https://identifiers.org/rrid/RRID:SCR_011809" ]
         version: [ "1.1.2" ]
   #- $import: infernal-docker.yml
