@@ -22,6 +22,14 @@ inputs:
      - .i1m
      - .i1p
   fraggenescan_model: File
+  fraggenescan_prob_forward: File
+  fraggenescan_prob_backward: File
+  fraggenescan_prob_noncoding: File
+  fraggenescan_prob_start: File
+  fraggenescan_prob_stop: File
+  fraggenescan_prob_start1: File
+  fraggenescan_prob_stop1: File
+  fraggenescan_pwm_dist: File
   assembly_mem_limit:
     type: int
     doc: in Gb
@@ -98,9 +106,14 @@ steps:
       sequence: assembly/scaffolds
       completeSeq: { default: true }
       model: fraggenescan_model
-      #trainingName:
-      #  valueFrom: complete
-      #trainDir: fraggenescan_models
+      prob_forward: fraggenescan_prob_forward
+      prob_backward: fraggenescan_prob_backward
+      prob_noncoding: fraggenescan_prob_noncoding
+      prob_start: fraggenescan_prob_start
+      prob_stop: fraggenescan_prob_stop
+      prob_start1: fraggenescan_prob_start1
+      prob_stop1: fraggenescan_prob_stop1
+      pwm_dist: fraggenescan_pwm_dist
     out: [predictedCDS]
 
   interproscan:
