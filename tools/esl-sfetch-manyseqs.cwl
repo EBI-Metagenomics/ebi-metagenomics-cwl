@@ -1,6 +1,6 @@
 cwlVersion: v1.0
 class: CommandLineTool
-label: index a sequence file for use by esl-sfetch
+label: extract by names from an indexed sequence file
 doc: "https://github.com/EddyRivasLab/easel"
 
 # hints:

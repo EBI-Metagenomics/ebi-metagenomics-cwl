@@ -1,11 +1,9 @@
 cwlVersion: v1.0
 class: CommandLineTool
 
-label: metaSPAdes
+label: "metaSPAdes: de novo metagenomics assembler"
 
 doc: |
-  metaSPAdes is a "versatile de novo metagenomics assembler"
-  
   https://arxiv.org/abs/1604.03071
   http://cab.spbu.ru/files/release3.10.1/manual.html#meta
 

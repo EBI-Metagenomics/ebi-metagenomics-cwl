@@ -1,11 +1,9 @@
 cwlVersion: v1.0
 class: CommandLineTool
 
-label: InterProScan 5.21-60
+label: "InterProScan: protein sequence classifier"
 
 doc: |
-      InterProScan is an application for classifying protein sequences.
-
       Version 5.21-60 can be downloaded here:
       https://github.com/ebi-pf-team/interproscan/wiki/HowToDownload
       
