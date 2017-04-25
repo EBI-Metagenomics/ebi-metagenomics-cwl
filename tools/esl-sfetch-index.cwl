@@ -11,14 +11,15 @@ doc: "https://github.com/EddyRivasLab/easel"
 #         version: [ "???" ]
 
 requirements:
-  InitialWorkDirRequirement:
-    listing: [ $(inputs.sequences) ]
+  ShellCommandRequirement: {}
+#  InitialWorkDirRequirement:
+#    listing: [ $(inputs.sequences) ]
 
 inputs:
   sequences:
     type: File
     inputBinding:
-      position: 1
+      position: 10
       valueFrom: $(self.basename)
     format:
       - edam:format_1929  # FASTA
@@ -28,7 +29,16 @@ inputs:
       - edam:format_1963  # UniProt
       # ddbj ?
 
-baseCommand: [ esl-sfetch, --index ]
+baseCommand: [ ]
+
+arguments:
+ - cp
+ - $(inputs.sequences.path)
+ - $(runtime.outdir)
+ - valueFrom: ";"
+   shellQuote: false
+ - esl-sfetch
+ - --index
 
 outputs:
   sequences_with_index:

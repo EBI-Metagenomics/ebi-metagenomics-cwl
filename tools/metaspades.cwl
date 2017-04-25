@@ -1,15 +1,19 @@
 cwlVersion: v1.0
 class: CommandLineTool
 
-label: metaSPAdes
+label: "metaSPAdes: de novo metagenomics assembler"
 
 doc: |
-  metaSPAdes is a "versatile de novo metagenomics assembler"
-  
   https://arxiv.org/abs/1604.03071
   http://cab.spbu.ru/files/release3.10.1/manual.html#meta
 
+requirements:
+  InlineJavascriptRequirement: {}
+
 hints:
+  ResourceRequirement:
+    #ramMin: $(inputs.memory_limit * 1024^2)
+    ramMin: 102400  # known issue: https://github.com/BD2KGenomics/toil/issues/1540
   SoftwareRequirement:
     packages:
       spades:
@@ -17,12 +21,12 @@ hints:
         version: [ "3.10.1" ]
 
 inputs:
-  forwardReads:
+  forward_reads:
     type: File
     format: edam:format_1930  # FASTQ
     inputBinding:
       prefix: "-1"
-  reverseReads:
+  reverse_reads:
     type: File
     format: edam:format_1930  # FASTQ
     inputBinding:
@@ -41,19 +45,19 @@ inputs:
       the given machine. SPAdes uses the limit value to automatically determine
       the sizes of various buffers, etc.
     type: int
-    default: $(runtime.ram)
+    #default: $(runtime.ram)
     inputBinding:
       prefix: --memory
-  tmp_dir:
-    label: directory for temporary files from read error correction
-    type: string
-    default: $(runtime.tmpdir)
-    inputBinding:
-      prefix: --tmp-dir
+  # tmp_dir:
+  #   label: directory for temporary files from read error correction
+  #   type: string
+  #   # default: $(runtime.tmpdir)
+  #   inputBinding:
+  #     prefix: --tmp-dir
 
 baseCommand: [ metaspades.py ]
 
-arguments: [ -o, $(runtime.outdir) ]
+arguments: [ -o, $(runtime.outdir), --tmp-dir, $(runtime.tmpdir) ]
 
 outputs:
   contigs:

@@ -4,9 +4,7 @@ label: EMG assembly for paired end Illumina
 
 requirements:
  - class: StepInputExpressionRequirement
- - class: InlineJavascriptRequirement
  - class: SubworkflowFeatureRequirement
- - $import: ../tools/FragGeneScan1_20-types.yaml
  - $import: ../tools/InterProScan5.21-60-types.yaml
 
 inputs:
@@ -23,10 +21,18 @@ inputs:
      - .i1i
      - .i1m
      - .i1p
-  FgsTrainDir: Directory
-  FgsTrainingName: string
-  IpsApps: ../tools/InterProScan5.21-60-types.yaml#apps[]?
-  IpsType: ../tools/InterProScan5.21-60-types.yaml#protein_formats
+  fraggenescan_model: File
+  fraggenescan_prob_forward: File
+  fraggenescan_prob_backward: File
+  fraggenescan_prob_noncoding: File
+  fraggenescan_prob_start: File
+  fraggenescan_prob_stop: File
+  fraggenescan_prob_start1: File
+  fraggenescan_prob_stop1: File
+  fraggenescan_pwm_dist: File
+  assembly_mem_limit:
+    type: int
+    doc: in Gb
 
 outputs:
   SSUs:
@@ -56,6 +62,7 @@ steps:
     in:
       forward_reads: forward_reads
       reverse_reads: reverse_reads
+      memory_limit: assembly_mem_limit
     out: [ scaffolds ]
 
   cmscan:
@@ -63,8 +70,8 @@ steps:
     in: 
       query_sequences: assembly/scaffolds
       covariance_model_database: covariance_model_database
-      only_hmm: { valueFrom: $(true) }
-      omit_alignment_section: { valueFrom: $(true) }
+      only_hmm: { default: true }
+      omit_alignment_section: { default: true }
     out: [ matches ]
   
   get_SSU_coords:
@@ -84,7 +91,7 @@ steps:
     in:
       indexed_sequences: index_scaffolds/sequences_with_index
       names: get_SSU_coords/SSU_coordinates
-      names_contain_subseq_coords: { valueFrom: $(true) }
+      names_contain_subseq_coords: { default: true }
     out: [ sequences ]
 
   classify_SSUs:
@@ -97,19 +104,24 @@ steps:
     run: ../tools/FragGeneScan1_20.cwl
     in:
       sequence: assembly/scaffolds
-      completeSeq:
-        valueFrom: $(true)
-      trainingName:
-        valueFrom: complete
-      trainDir: FgsTrainDir
+      completeSeq: { default: true }
+      model: fraggenescan_model
+      prob_forward: fraggenescan_prob_forward
+      prob_backward: fraggenescan_prob_backward
+      prob_noncoding: fraggenescan_prob_noncoding
+      prob_start: fraggenescan_prob_start
+      prob_stop: fraggenescan_prob_stop
+      prob_start1: fraggenescan_prob_start1
+      prob_stop1: fraggenescan_prob_stop1
+      pwm_dist: fraggenescan_pwm_dist
     out: [predictedCDS]
 
   interproscan:
     run: ../tools/InterProScan5.21-60.cwl
     in:
       proteinFile: fraggenescan/predictedCDS
-      applications: IpsApps
-      outputFileType: IpsType
+      outputFileType:
+        valueFrom: TSV
     out: [i5Annotations]
 
 $namespaces: { edam: "http://edamontology.org/" }

@@ -44,5 +44,5 @@ outputs:
     type: stdout
     format: text/tab-separated-values
 
-$namespaces: { "edam: http://edamontology.org/" }
+$namespaces: { edam: "http://edamontology.org/" }
 $schemas: [ "http://edamontology.org/EDAM_1.16.owl" ]
