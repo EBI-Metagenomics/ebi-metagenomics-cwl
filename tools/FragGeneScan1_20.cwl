@@ -31,7 +31,7 @@ hints:
 arguments:
  - mkdir train;
  - cp
- - valueFrom: $(input.model)
+ - valueFrom: $(input.model.path)
  - train/
  - ;
  - FragGeneScan
