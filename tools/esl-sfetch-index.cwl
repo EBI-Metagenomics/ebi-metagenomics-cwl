@@ -33,7 +33,7 @@ baseCommand: [ ]
 
 arguments:
  - cp
- - $(inputs.sequences)
+ - $(inputs.sequences.path)
  - $(runtime.outdir)
  - valueFrom: ";"
    shellQuote: false
