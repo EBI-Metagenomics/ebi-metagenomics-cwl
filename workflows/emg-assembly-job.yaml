@@ -1,0 +1,39 @@
+forward_reads:
+  path: /hps/nobackup/production/metagenomics/CWL/data/ERP009703/raw/ERR770958_1.fastq.gz
+  class: File
+  format: edam:format_1930  # FASTQ
+reverse_reads:
+  path: /hps/nobackup/production/metagenomics/CWL/data/ERP009703/raw/ERR770958_2.fastq.gz
+  class: File
+  format: edam:format_1930  # FASTQ
+covariance_model_database:
+  class: File
+  path: /hps/nobackup/production/metagenomics/CWL/data/libraries/Rfam/ribo.cm
+fraggenescan_model:
+  class: File
+  path: /hps/nobackup/production/metagenomics/pipeline/tools/FragGeneScan1.20/train/complete
+fraggenescan_prob_forward:
+  class: File
+  path: /hps/nobackup/production/metagenomics/pipeline/tools/FragGeneScan1.20/train/gene
+fraggenescan_prob_backward:
+  class: File
+  path: /hps/nobackup/production/metagenomics/pipeline/tools/FragGeneScan1.20/train/rgene
+fraggenescan_prob_noncoding:
+  class: File
+  path: /hps/nobackup/production/metagenomics/pipeline/tools/FragGeneScan1.20/train/noncoding
+fraggenescan_prob_start:
+  class: File
+  path: /hps/nobackup/production/metagenomics/pipeline/tools/FragGeneScan1.20/train/start
+fraggenescan_prob_stop:
+  class: File
+  path: /hps/nobackup/production/metagenomics/pipeline/tools/FragGeneScan1.20/train/stop
+fraggenescan_prob_start1:
+  class: File
+  path: /hps/nobackup/production/metagenomics/pipeline/tools/FragGeneScan1.20/train/start1
+fraggenescan_prob_stop1:
+  class: File
+  path: /hps/nobackup/production/metagenomics/pipeline/tools/FragGeneScan1.20/train/stop1
+fraggenescan_pwm_dist:
+  class: File
+  path: /hps/nobackup/production/metagenomics/pipeline/tools/FragGeneScan1.20/train/pwm
+assembly_mem_limit: 10
