@@ -32,6 +32,9 @@ inputs:
       position: 2
 
   names_contain_subseq_coords:
+    doc: |
+        GDF format: <newname> <from> <to> <source seqname>
+        space/tabdelimited
     type: boolean
     default: false
     inputBinding:

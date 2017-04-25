@@ -16,13 +16,6 @@ inputs:
   reverse_reads:
     type: File
     format: edam:format_1930  # FASTQ
-  covariance_model_database:
-    type: File
-    secondaryFiles:
-     - .i1f
-     - .i1i
-     - .i1m
-     - .i1p
   fraggenescan_model: File
   fraggenescan_prob_forward: File
   fraggenescan_prob_backward: File
@@ -32,6 +25,15 @@ inputs:
   fraggenescan_prob_start1: File
   fraggenescan_prob_stop1: File
   fraggenescan_pwm_dist: File
+  16S_model:
+    type: File
+    format: edam:format_1370  # HMMER
+  5S_model:
+    type: File
+    format: edam:format_1370  # HMMER
+  23S_model:
+    type: File
+    format: edam:format_1370  # HMMER
 
 outputs:
   SSUs:
@@ -63,10 +65,18 @@ steps:
       reverse_reads: reverse_reads
     out: [ merged_reads, forward_unmerged_reads, reverse_unmerged_reads ]
 
+  combine_seqprep:
+    run: ../tools/seqprep-merge.cwl
+    in: 
+      merged_reads: overlap_reads/merged_reads
+      forward_unmerged_reads: forward_unmerged_reads
+      reverse_unmerged_reads: reverse_unmerged_reads
+    out: [ merged_with_unmerged_reads ]
+
   trim_quality_control:
     run: ../tools/trimmomatic.cwl
     in:
-      reads1: [ merged_reads, forward_unmerged_reads, reverse_unmerged_reads ]
+      reads1: combine_seqprep/merged_with_unmerged_reads
       phred: { default: '33' }
       leading: { default: '3' }
       trailing: { default: '3' }
@@ -76,45 +86,26 @@ steps:
           class: ../trimmomatic-types.yml#slidingWindow
           windowSize: 4
           requiredQuality: 15
-    scatter: reads1
     out: [reads1_trimmed]
 
-  #rnaMasking
-
-  cmscan:
-    run: ../tools/infernal-cmscan.cwl
-    in: 
-      query_sequences: assembly/scaffolds
-      covariance_model_database: covariance_model_database
-      only_hmm: { default: true }
-      omit_alignment_section: { default: true }
-    out: [ matches ]
-  
-  get_SSU_coords:
-    run: ../tools/SSU-from-tablehits.cwl
+  normalize_reads:
+    run: ../tools/seq-normalize.cwl
     in:
-      table_hits: cmscan/matches
-    out: [ SSU_coordinates ]
+      sequences: trim_quality_control/reads1_trimmed
+    out: [ reformatted_sequences ]
 
-  index_scaffolds:
+  index_reads:
     run: ../tools/esl-sfetch-index.cwl
     in:
-      sequences: assembly/scaffolds
+      sequences: normalize_reads/reformatted_sequences
     out: [ sequences_with_index ]
 
-  extract_SSUs:
-    run: ../tools/esl-sfetch-manyseqs.cwl
+  find_16S_matches:
+    run: ../tools/rRNA_selection.cwl
     in:
-      indexed_sequences: index_scaffolds/sequences_with_index
-      names: get_SSU_coords/SSU_coordinates
-      names_contain_subseq_coords: { default: true }
-    out: [ sequences ]
-
-  classify_SSUs:
-    run: ../tools/mapseq.cwl
-    in:
-      sequences: extract_SSUs/sequences
-    out: [ classifications ]
+      index_sequences: index_reads/sequences_with_index
+      model: 16S_model
+    out: [ matching_sequences ]
 
   fraggenescan:
     run: ../tools/FragGeneScan1_20.cwl
