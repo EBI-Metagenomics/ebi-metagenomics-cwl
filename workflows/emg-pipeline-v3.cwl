@@ -1,46 +1,145 @@
 cwlVersion: v1.0
 class: Workflow
-label: EMG pipeline description in CWL
-doc: |
-     Current steps include FragGeneScan (Fgs) and InterProScan (Ips).
+label: EMG pipeline v3.0 (draft CWL version)
 
 requirements:
- - $import: ../tools/FragGeneScan1_20-types.yaml
+ - class: StepInputExpressionRequirement
+ - class: SubworkflowFeatureRequirement
+ - class: MultipleInputFeatureRequirement
  - $import: ../tools/InterProScan5.21-60-types.yaml
+ - $import: ../trimmomatic-types.yml
 
 inputs:
-  FgsInputFile:
+  forward_reads:
     type: File
-    doc: FragGeneScan input file
-  FgsTrainDir: Directory
-  FgsTrainingName: string
-  FgsThreads:
-    type: int?
-    doc: FragGeneScan number of threads
-  IpsApps: ../tools/InterProScan5.21-60-types.yaml#apps[]?
-  IpsType: ../tools/InterProScan5.21-60-types.yaml#protein_formats
-  FgsLength: boolean
+    format: edam:format_1930  # FASTQ
+  reverse_reads:
+    type: File
+    format: edam:format_1930  # FASTQ
+  covariance_model_database:
+    type: File
+    secondaryFiles:
+     - .i1f
+     - .i1i
+     - .i1m
+     - .i1p
+  fraggenescan_model: File
+  fraggenescan_prob_forward: File
+  fraggenescan_prob_backward: File
+  fraggenescan_prob_noncoding: File
+  fraggenescan_prob_start: File
+  fraggenescan_prob_stop: File
+  fraggenescan_prob_start1: File
+  fraggenescan_prob_stop1: File
+  fraggenescan_pwm_dist: File
 
 outputs:
+  SSUs:
+    type: File
+    outputSource: extract_SSUs/sequences
+
+  classifications:
+    type: File
+    outputSource: classify_SSUs/classifications
+
+  scaffolds:
+    type: File
+    outputSource: assembly/scaffolds
+
+  pCDS:
+    type: File
+    outputSource: fraggenescan/predictedCDS
+
   annotations:
     type: File
     outputSource: interproscan/i5Annotations
 
+
 steps:
+  overlap_reads:
+    run: ../tools/seqprep.cwl
+    in:
+      forward_reads: forward_reads
+      reverse_reads: reverse_reads
+    out: [ merged_reads, forward_unmerged_reads, reverse_unmerged_reads ]
+
+  trim_quality_control:
+    run: ../tools/trimmomatic.cwl
+    in:
+      reads1: [ merged_reads, forward_unmerged_reads, reverse_unmerged_reads ]
+      phred: { default: '33' }
+      leading: { default: '3' }
+      trailing: { default: '3' }
+      end_mode: { default: 'SE' }
+      slidingwindow:
+        default:
+          class: ../trimmomatic-types.yml#slidingWindow
+          windowSize: 4
+          requiredQuality: 15
+    scatter: reads1
+    out: [reads1_trimmed]
+
+  #rnaMasking
+
+  cmscan:
+    run: ../tools/infernal-cmscan.cwl
+    in: 
+      query_sequences: assembly/scaffolds
+      covariance_model_database: covariance_model_database
+      only_hmm: { default: true }
+      omit_alignment_section: { default: true }
+    out: [ matches ]
+  
+  get_SSU_coords:
+    run: ../tools/SSU-from-tablehits.cwl
+    in:
+      table_hits: cmscan/matches
+    out: [ SSU_coordinates ]
+
+  index_scaffolds:
+    run: ../tools/esl-sfetch-index.cwl
+    in:
+      sequences: assembly/scaffolds
+    out: [ sequences_with_index ]
+
+  extract_SSUs:
+    run: ../tools/esl-sfetch-manyseqs.cwl
+    in:
+      indexed_sequences: index_scaffolds/sequences_with_index
+      names: get_SSU_coords/SSU_coordinates
+      names_contain_subseq_coords: { default: true }
+    out: [ sequences ]
+
+  classify_SSUs:
+    run: ../tools/mapseq.cwl
+    in:
+      sequences: extract_SSUs/sequences
+    out: [ classifications ]
+
   fraggenescan:
     run: ../tools/FragGeneScan1_20.cwl
     in:
-      sequence: FgsInputFile
-      completeSeq: FgsLength
-      trainingName: FgsTrainingName
-      threadNumber: FgsThreads
-      trainDir: FgsTrainDir
+      sequence: assembly/scaffolds
+      completeSeq: { default: true }
+      model: fraggenescan_model
+      prob_forward: fraggenescan_prob_forward
+      prob_backward: fraggenescan_prob_backward
+      prob_noncoding: fraggenescan_prob_noncoding
+      prob_start: fraggenescan_prob_start
+      prob_stop: fraggenescan_prob_stop
+      prob_start1: fraggenescan_prob_start1
+      prob_stop1: fraggenescan_prob_stop1
+      pwm_dist: fraggenescan_pwm_dist
     out: [predictedCDS]
 
   interproscan:
     run: ../tools/InterProScan5.21-60.cwl
     in:
       proteinFile: fraggenescan/predictedCDS
-      applications: IpsApps
-      outputFileType: IpsType
+      outputFileType:
+        valueFrom: TSV
     out: [i5Annotations]
+
+$namespaces: { edam: "http://edamontology.org/" }
+$schemas: [ "http://edamontology.org/EDAM_1.16.owl" ]
+
