@@ -33,6 +33,8 @@ inputs:
 
 baseCommand: [ esl-sfetch ]
 
+stdout: sequence  # helps with cwltool's --cache
+
 outputs:
   sequence:
     type: stdout

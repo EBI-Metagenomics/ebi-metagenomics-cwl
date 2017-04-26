@@ -22,6 +22,8 @@ inputs:
 
 baseCommand: [ gunzip, -c ]
 
+stdout: merged_with_unmerged_reads  # helps with cwltool's --cache
+
 outputs:
   merged_with_unmerged_reads:
     type: stdout

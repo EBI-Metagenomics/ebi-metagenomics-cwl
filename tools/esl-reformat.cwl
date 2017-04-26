@@ -34,6 +34,8 @@ inputs:
 
 baseCommand: [ esl-reformat, fasta ]
 
+stdout: reformatted_sequences  # helps with cwltool's --cache
+
 outputs:
   reformatted_sequences:
     type: stdout

@@ -39,6 +39,8 @@ inputs:
 
 baseCommand: mapseq
 
+stdout: classifications  # helps with cwltool's --cache
+
 outputs:
   classifications:
     type: stdout
