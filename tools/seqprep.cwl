@@ -6,7 +6,7 @@ hints:
  SoftwareRequirement:
    packages:
      seqprep:
-       specs: [ https://identifiers.org/rrid/RRID:SCR_013004 ]
+       specs: [ "https://identifiers.org/rrid/RRID:SCR_013004" ]
        version: [ "1.1" ]
 
 inputs:

@@ -166,7 +166,7 @@ steps:
     run: ../tools/InterProScan5.21-60.cwl
     in:
       proteinFile: fraggenescan/predictedCDS
-      outputFileType: { valueFrom: "TSV" }
+      # outputFileType: { valueFrom: "TSV" }
     out: [i5Annotations]
 
 $namespaces: { edam: "http://edamontology.org/" }

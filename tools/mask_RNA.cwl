@@ -57,3 +57,6 @@ outputs:
     type: File
     format: edam:format_1929  # FASTA
     outputBinding: { glob: masked_sequences.fasta }
+
+$namespaces: { edam: "http://edamontology.org/" }
+$schemas: [ "http://edamontology.org/EDAM_1.16.owl" ]

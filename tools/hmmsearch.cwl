@@ -6,7 +6,7 @@ hints:
   - class: SoftwareRequirement
     packages:
       hmmer:
-        specs: [ https://identifiers.org/rrid/RRID:SCR_005305 ]
+        specs: [ "https://identifiers.org/rrid/RRID:SCR_005305" ]
         version: [ "3.1b2" ]
 
 inputs:

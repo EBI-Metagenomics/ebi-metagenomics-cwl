@@ -10,7 +10,7 @@ hints:
   SoftwareRequirement:
     packages:
       trimmomatic:
-        specs: [ https://identifiers.org/rrid/RRID:SCR_011848 ]
+        specs: [ "https://identifiers.org/rrid/RRID:SCR_011848" ]
         version: [ "0.32", "0.35", "0.36" ]
 
 requirements:
@@ -280,5 +280,5 @@ doc: |
   Trimmomatic works with FASTQ files (using phred + 33 or phred + 64 quality scores,
   depending on the Illumina pipeline used).
 
-$namespaces: { edam: http://edamontology.org/ }
-$schemas: [ http://edamontology.org/EDAM_1.16.owl ]
+$namespaces: { edam: "http://edamontology.org/" }
+$schemas: [ "http://edamontology.org/EDAM_1.16.owl" ]

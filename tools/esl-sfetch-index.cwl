@@ -49,8 +49,8 @@ outputs:
       glob: $(inputs.sequences.basename)
 
 $namespaces:
- edam: http://edamontology.org/
- s: http://schema.org/
+  edam: http://edamontology.org/
+  s: http://schema.org/
 $schemas:
  - http://edamontology.org/EDAM_1.16.owl
  - https://schema.org/docs/schema_org_rdfa.html
