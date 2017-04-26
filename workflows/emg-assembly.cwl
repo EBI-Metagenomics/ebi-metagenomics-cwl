@@ -117,12 +117,19 @@ steps:
       prob_start1: fraggenescan_prob_start1
       prob_stop1: fraggenescan_prob_stop1
       pwm_dist: fraggenescan_pwm_dist
-    out: [predictedCDS]
+    out: [ predictedCDS ]
+
+  remove_non-protein_IUPAC:
+    run: ../tools/esl-reformat.cwl
+    in:
+      sequences: fraggenescan/predictedCDS
+      protein_IUPAC_only: { default: true }
+    out: [ reformatted_sequences ]
 
   interproscan:
     run: ../tools/InterProScan5.21-60.cwl
     in:
-      proteinFile: fraggenescan/predictedCDS
+      proteinFile: remove_non-protein_IUPAC/reformatted_sequences
       applications:
         default:
           - Pfam

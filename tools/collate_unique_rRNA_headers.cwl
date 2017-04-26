@@ -32,6 +32,7 @@ steps:
             The required columns are as follows:
             (1) target name: The name of the target sequence or profile.
       baseCommand: [ awk, '{print $1}' ]
+      stdout: names  # helps with cwltool's --cache
       outputs: { names: { type: stdout } }
     in: { coordinate_lines: extract_coord_lines/coord_lines }
     scatter: coordinate_lines
@@ -46,6 +47,7 @@ steps:
           type: File[]
           inputBinding: { position: 1 }
       baseCommand: [ sort, --unique ]
+      stdout: sorted_uniq_names  # helps with cwltool's --cache
       outputs: { sorted_uniq_names: stdout }
     in: { names: extract_names/names }
     out: [ sorted_uniq_names ]

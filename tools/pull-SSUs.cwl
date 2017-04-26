@@ -7,6 +7,8 @@ inputs:
 
 baseCommand: [ grep, SSU ]
 
+stdout: SSUs  # helps with cwltool's --cache
+
 arguments: [ $(inputs.hits.path) ]
 
 outputs: { SSUs: { type: stdout } }

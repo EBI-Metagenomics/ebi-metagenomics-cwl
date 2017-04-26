@@ -11,5 +11,7 @@ inputs:
 
 baseCommand: [ grep, -v, "^#" ]
 
+stdout: coord_lines  # helps with cwltool's --cache
+
 outputs:
   coord_lines: stdout

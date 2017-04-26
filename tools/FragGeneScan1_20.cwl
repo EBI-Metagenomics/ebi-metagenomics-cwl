@@ -88,6 +88,7 @@ arguments:
 inputs:
   sequence:
     type: File
+    format: edam:format_1929  # FASTA
     inputBinding:
       prefix: -s
   completeSeq:
@@ -154,5 +155,6 @@ inputs:
 outputs:
   predictedCDS:
     type: File
+    format: edam:format_1929  # FASTA
     outputBinding:
       glob: predicted_cds.faa

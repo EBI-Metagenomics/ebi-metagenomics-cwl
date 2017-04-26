@@ -11,6 +11,8 @@ inputs:
 
 baseCommand: awk
 
+stdout: matched_seqs_with_coords  # helps with cwltool's --cache
+
 arguments:
   - '{print $4"-"$3"/"$10"-"$11" "$10" "$11" "$4}'
   - $(inputs.infernal_matches.path)
