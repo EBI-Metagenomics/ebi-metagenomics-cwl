@@ -63,7 +63,7 @@ steps:
       forward_reads: forward_reads
       reverse_reads: reverse_reads
       memory_limit: assembly_mem_limit
-    out: [ scaffolds ]
+    out: [ scaffolds, contigs ]
 
   cmscan:
     run: ../tools/infernal-cmscan.cwl
@@ -103,7 +103,7 @@ steps:
   fraggenescan:
     run: ../tools/FragGeneScan1_20.cwl
     in:
-      sequence: assembly/scaffolds
+      sequence: assembly/contigs
       completeSeq: { default: true }
       model: fraggenescan_model
       prob_forward: fraggenescan_prob_forward
@@ -120,6 +120,13 @@ steps:
     run: ../tools/InterProScan5.21-60.cwl
     in:
       proteinFile: fraggenescan/predictedCDS
+      applications:
+        default:
+          - Pfam
+          - TIGRFAM
+          - PRINTS
+          - PrositePatterns
+          - Gene3d
       # outputFileType:
       #   valueFrom: TSV
     out: [i5Annotations]

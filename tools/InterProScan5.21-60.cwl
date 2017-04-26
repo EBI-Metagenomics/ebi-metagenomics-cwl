@@ -30,13 +30,27 @@ inputs:
   #   inputBinding:
   #     prefix: --formats
   applications:
-    type: InterProScan5.21-60-types.yaml#apps[]?
+    type: 
+      - "null"
+      - type: array
+        items: InterProScan5.21-60-types.yaml#apps
+        inputBinding:
+          itemSeparator: ','
+          separate: false
     inputBinding:
       prefix: --applications
 
 baseCommand: interproscan.sh
 
-arguments: [ --outfile, i5_annotations, --formats, TSV ]
+arguments:
+ - --outfile
+ - i5_annotations
+ - --formats
+ - TSV
+ - --disable-precalc
+ - --goterms
+ - --pathways
+
 
 outputs:
   i5Annotations:

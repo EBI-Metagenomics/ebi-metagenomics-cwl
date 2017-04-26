@@ -166,6 +166,13 @@ steps:
     run: ../tools/InterProScan5.21-60.cwl
     in:
       proteinFile: fraggenescan/predictedCDS
+      applications:
+        default:
+          - Pfam
+          - TIGRFAM
+          - PRINTS
+          - PrositePatterns
+          - Gene3d
       # outputFileType: { valueFrom: "TSV" }
     out: [i5Annotations]
 
