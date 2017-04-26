@@ -22,6 +22,7 @@ steps:
 
   extract_names:
     run:
+      id: extract_names  # TODO, remove when toil upgrade to a newer cwltool
       class: CommandLineTool
       inputs:
         coordinate_lines:
@@ -38,6 +39,7 @@ steps:
 
   sort_uniq_names:
     run:
+      id: sort_uniq_names  # TODO, remove when toil upgrades to a newer cwltool
       class: CommandLineTool
       inputs:
         names:

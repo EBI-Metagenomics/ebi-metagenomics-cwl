@@ -37,6 +37,7 @@ steps:
 
   extract_coordinates:
     run:
+      id: extract_coordinates  # TODO, remove when toil upgrade to a newer cwltool
       class: CommandLineTool
       inputs:
         coordinate_lines:
