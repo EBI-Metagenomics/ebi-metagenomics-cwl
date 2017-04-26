@@ -44,10 +44,10 @@ inputs:
 baseCommand: interproscan.sh
 
 arguments:
- - --outfile
- - i5_annotations
- - --formats
- - TSV
+ - valueFrom: i5_annotations
+   prefix: --outfile
+ - valueFrom: TSV
+   prefix: --formats
  - --disable-precalc
  - --goterms
  - --pathways
