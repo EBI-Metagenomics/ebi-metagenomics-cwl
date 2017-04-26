@@ -64,6 +64,3 @@ types:
   - type: enum
     name: end_mode
     symbols: [ SE, PE ]
-
-$namespaces: { edam: http://edamontology.org/ }
-$schemas: [ http://edamontology.org/EDAM_1.16.owl ]
