@@ -89,7 +89,7 @@ steps:
     out: [reads1_trimmed]
 
   normalize_reads:
-    run: ../tools/seq-normalize.cwl
+    run: ../tools/esl-reformat.cwl
     in:
       sequences: trim_quality_control/reads1_trimmed
     out: [ reformatted_sequences ]
