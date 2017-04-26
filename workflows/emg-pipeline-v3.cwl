@@ -34,6 +34,9 @@ inputs:
   23S_model:
     type: File
     format: edam:format_1370  # HMMER
+  tRNA_model:
+    type: File
+    format: edam:format_1370  # HMMER
 
 outputs:
   processed_sequences:
@@ -117,6 +120,7 @@ steps:
     run: ../tools/tRNA_selection.cwl
     in:
       indexed_sequences: index_reads/sequences_with_index
+      model: tRNA_model
     out: [ matching_sequences, hmmer_search_results ]
 
   collate_unique_rRNA_hmmer_hits:
