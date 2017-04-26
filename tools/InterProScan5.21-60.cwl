@@ -33,13 +33,10 @@ inputs:
   #   inputBinding:
   #     prefix: --formats
   applications:
-    type: 
-      - "null"
-      - type: array
-        items: InterProScan-apps.yaml#apps
-        inputBinding:
-          itemSeparator: ','
-          prefix: --applications
+    type: InterProScan-apps.yaml#apps[]?
+    inputBinding:
+      itemSeparator: ','
+      prefix: --applications
 
 baseCommand: interproscan.sh
 
