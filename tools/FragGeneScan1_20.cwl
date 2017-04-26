@@ -1,6 +1,6 @@
 cwlVersion: v1.0
 class: CommandLineTool
-label: FragGeneScan: find (fragmented) genes in short reads
+label: "FragGeneScan: find (fragmented) genes in short reads"
 doc: |
       FragGeneScan is an application for finding (fragmented) genes in short
       reads. It can also be applied to predict prokaryotic genes in incomplete
