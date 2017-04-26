@@ -50,10 +50,6 @@ outputs:
     type: File
     outputSource: assembly/scaffolds
 
-  contigs:
-    type: File
-    outputSource: assembly/scaffolds
-
   pCDS:
     type: File
     outputSource: fraggenescan/predictedCDS
@@ -70,7 +66,7 @@ steps:
       forward_reads: forward_reads
       reverse_reads: reverse_reads
       memory_limit: assembly_mem_limit
-    out: [ scaffolds, contigs ]
+    out: [ scaffolds ]
 
   cmscan:
     run: ../tools/infernal-cmscan.cwl
@@ -110,7 +106,7 @@ steps:
   fraggenescan:
     run: ../tools/FragGeneScan1_20.cwl
     in:
-      sequence: assembly/contigs
+      sequence: assembly/scaffolds
       completeSeq: { default: true }
       model: fraggenescan_model
       prob_forward: fraggenescan_prob_forward
@@ -133,7 +129,7 @@ steps:
           - TIGRFAM
           - PRINTS
           - ProSitePatterns
-          - Gene3d
+          - Gene3D
       # outputFileType:
       #   valueFrom: TSV
     out: [i5Annotations]
