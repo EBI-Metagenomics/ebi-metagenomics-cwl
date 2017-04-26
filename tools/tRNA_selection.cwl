@@ -10,7 +10,7 @@ inputs:
   model:
     type: File
     format: edam:format_1370  # HMMER
-    label: rRNA protein model to search with
+    label: tRNA model to search with
 
 outputs:
    matching_sequences:
@@ -19,20 +19,20 @@ outputs:
      outputSource: fetch_aligned_sequences/sequences
    hmmer_search_results:
      type: File
-     outputSource: hmmsearch/per_domain_summary
-     
+     outputSource: nhmmer/per_target_summary
+
 steps:
-  hmmsearch:
-    run: hmmsearch.cwl
+  nhmmer:
+    run: nhmmer.cwl
     in:
-      hmm_profiles: model
-      sequence_query: indexed_sequences
-      e_threshold: { default: "1.0E-5" }
-    out: [ per_domain_summary ]
+      query: model
+      sequences: indexed_sequences
+      bitscore_threshold: { default: 40 }
+    out: [ per_target_summary ]
 
   extract_coord_lines:
     run: extract_coord_lines.cwl
-    in: { summary: hmmsearch/per_domain_summary }
+    in: { summary: hmmsearch/per_target_summary }
     out: [ coord_lines ]
 
   extract_coordinates:
@@ -46,13 +46,11 @@ steps:
           doc: |
             The required columns are as follows:
             (1) target name: The name of the target sequence or profile.
-            (18) from (ali coord): The start of the MEA alignment of this
-                 domain with respect to the sequence, numbered 1..L for a
-                 sequence of L residues.
-            (19) to (ali coord): The end of the MEA alignment of this domain
-                 with respect to the sequence, numbered 1..L for a sequence of
-                 L residues.
-      baseCommand: [ awk, '{print $1, $18, $19, $1}' ]
+            (7) alifrom: The position in the target sequence at which the hit
+                         starts
+            (8) ali to: The position in the target sequence at which the hit
+                        ends.
+      baseCommand: [ awk, '{print $1, $7, $8, $1}' ]
       outputs: { formatted_names_and_coords: { type: stdout } }
     in: { coordinate_lines: extract_coord_lines/coord_lines }
     out: [ formatted_names_and_coords ]

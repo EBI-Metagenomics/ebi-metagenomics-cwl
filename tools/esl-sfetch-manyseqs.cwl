@@ -28,6 +28,7 @@ inputs:
   names:
     type: File
     label: sequence names to retrieve, one per line
+    streamable: true
     inputBinding:
       position: 2
 

@@ -7,7 +7,7 @@ requirements:
  - class: SubworkflowFeatureRequirement
  - class: MultipleInputFeatureRequirement
  - $import: ../tools/InterProScan5.21-60-types.yaml
- - $import: ../trimmomatic-types.yml
+ - $import: ../tools/trimmomatic-types.yml
 
 inputs:
   forward_reads:
@@ -35,26 +35,26 @@ inputs:
     type: File
     format: edam:format_1370  # HMMER
 
-outputs:
-  SSUs:
-    type: File
-    outputSource: extract_SSUs/sequences
+outputs: []
+  # SSUs:
+  #   type: File
+  #   outputSource: extract_SSUs/sequences
 
-  classifications:
-    type: File
-    outputSource: classify_SSUs/classifications
+  # classifications:
+  #   type: File
+  #   outputSource: classify_SSUs/classifications
 
-  scaffolds:
-    type: File
-    outputSource: assembly/scaffolds
+  # scaffolds:
+  #   type: File
+  #   outputSource: assembly/scaffolds
 
-  pCDS:
-    type: File
-    outputSource: fraggenescan/predictedCDS
+  # pCDS:
+  #   type: File
+  #   outputSource: fraggenescan/predictedCDS
 
-  annotations:
-    type: File
-    outputSource: interproscan/i5Annotations
+  # annotations:
+  #   type: File
+  #   outputSource: interproscan/i5Annotations
 
 
 steps:
@@ -69,8 +69,8 @@ steps:
     run: ../tools/seqprep-merge.cwl
     in: 
       merged_reads: overlap_reads/merged_reads
-      forward_unmerged_reads: forward_unmerged_reads
-      reverse_unmerged_reads: reverse_unmerged_reads
+      forward_unmerged_reads: overlap_reads/forward_unmerged_reads
+      reverse_unmerged_reads: overlap_reads/reverse_unmerged_reads
     out: [ merged_with_unmerged_reads ]
 
   trim_quality_control:
@@ -78,12 +78,12 @@ steps:
     in:
       reads1: combine_seqprep/merged_with_unmerged_reads
       phred: { default: '33' }
-      leading: { default: '3' }
-      trailing: { default: '3' }
-      end_mode: { default: 'SE' }
+      leading: { default: 3 }
+      trailing: { default: 3 }
+      end_mode: { default: SE }
       slidingwindow:
         default:
-          class: ../trimmomatic-types.yml#slidingWindow
+          class: ../tools/trimmomatic-types.yml#slidingWindow
           windowSize: 4
           requiredQuality: 15
     out: [reads1_trimmed]
@@ -136,13 +136,20 @@ steps:
         - find_5S_matches/hmmer_search_results
     out: [ unique_hits ]
 
+  collate_unique_tRNA_hmmer_hits:
+    run: ../tools/collate_unique_rRNA_headers.cwl
+    in:
+      hits: [ find_tRNA_matches/hmmer_search_results ]
+    out: [ unique_hits ]
+
   mask_rRNA_and_tRNA:
     run: ../tools/mask_RNA.cwl
     in:
-      unique_rRNA_hits: collate_uniqe_rRNA_hmmer_hits/unique_hits
-      16s_rRNA_hmmer_hits: find_16S_matches/hmmer_search_results
-      23s_rRNA_hmmer_hits: find_23S_matches/matching_sequences
-      5s_rRNA_hmmer_hits: find_5S_matches/matching_sequences
+      unique_rRNA_hits: collate_unique_rRNA_hmmer_hits/unique_hits
+      16s_rRNA_hmmer_matches: find_16S_matches/matching_sequences
+      23s_rRNA_hmmer_matches: find_23S_matches/matching_sequences
+      5s_rRNA_hmmer_matches: find_5S_matches/matching_sequences
+      unique_tRNA_hits: collate_unique_tRNA_hmmer_hits/unique_hits
       tRNA_matches: find_tRNA_matches/matching_sequences
       sequences: index_reads/sequences_with_index
     out: [ masked_sequences ]
