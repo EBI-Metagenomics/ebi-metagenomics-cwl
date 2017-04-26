@@ -25,6 +25,12 @@ inputs:
       - edam:format_1961  # Stockholm
       - edam:format_1963  # UniProt
       # ddbj ?
+  protein_IUPAC_only:
+    type: boolean?
+    default: false
+    doc: remove DNA IUPAC codes; convert ambig chars to N
+    inputBinding:
+      prefix: -n
 
 baseCommand: [ esl-reformat, fasta ]
 
