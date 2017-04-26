@@ -14,16 +14,22 @@ hints:
         version: [ "0.32", "0.35", "0.36" ]
 
 requirements:
- - $import: trimmomatic-types.yml
- - class: InlineJavascriptRequirement
- - class: ShellCommandRequirement
+ SchemaDefRequirement:
+   types:
+    - $import: trimmomatic-end_mode.yaml
+    - $import: trimmomatic-sliding_window.yaml
+    - $import: trimmomatic-phred.yaml
+    - $import: trimmomatic-illumina_clipping.yaml
+    - $import: trimmomatic-max_info.yaml
+ InlineJavascriptRequirement: {}
+ ShellCommandRequirement: {}
 
 # hints:
 #  - $import: trimmomatic-docker.yml
 
 inputs:
   phred:
-    type: trimmomatic-types.yml#phred
+    type: trimmomatic-phred.yaml#phred
     default: '64'
     inputBinding:
       prefix: -phred
@@ -101,7 +107,7 @@ inputs:
       investigated.
 
   slidingwindow:
-    type: trimmomatic-types.yml#slidingWindow?
+    type: trimmomatic-sliding_window.yaml#slidingWindow?
     inputBinding:
       position: 15
       valueFrom: |
@@ -115,7 +121,7 @@ inputs:
       <requiredQuality> specifies the average quality required
 
   illuminaClip:
-    type: trimmomatic-types.yml#illuminaClipping?
+    type: trimmomatic-illumina_clipping.yaml#illuminaClipping?
     inputBinding:
       valueFrom: |
         "ILLUMINACLIP:"$(self.adapters_file.path)":"$(self.seedMismatches):$(self.palindromeClipThreshold):$(self.simpleClipThreshold):$(self.minAdapterLength):$(self.keepBothReads)
@@ -173,7 +179,7 @@ inputs:
       MaxInfo instead
 
   maxinfo:
-    type: trimmomatic-types.yml#maxinfo?
+    type: trimmomatic-max_info.yaml#maxinfo?
     inputBinding:
       position: 15
       valueFrom: |
@@ -189,7 +195,7 @@ inputs:
       longer reads, while a high value (>0.8) favours read correctness.
 
   end_mode:
-    type: trimmomatic-types.yml#end_mode
+    type: trimmomatic-end_mode.yaml#end_mode
     inputBinding:
       position: 3
     doc: |

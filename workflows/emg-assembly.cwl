@@ -5,7 +5,10 @@ label: EMG assembly for paired end Illumina
 requirements:
  - class: StepInputExpressionRequirement
  - class: SubworkflowFeatureRequirement
- - $import: ../tools/InterProScan5.21-60-types.yaml
+ - class: SchemaDefRequirement
+   types: 
+     - $import: ../tools/InterProScan-apps.yaml
+     - $import: ../tools/InterProScan-protein_formats.yaml
 
 inputs:
   forward_reads:
@@ -44,6 +47,10 @@ outputs:
     outputSource: classify_SSUs/classifications
 
   scaffolds:
+    type: File
+    outputSource: assembly/scaffolds
+
+  contigs:
     type: File
     outputSource: assembly/scaffolds
 
@@ -125,7 +132,7 @@ steps:
           - Pfam
           - TIGRFAM
           - PRINTS
-          - PrositePatterns
+          - ProSitePatterns
           - Gene3d
       # outputFileType:
       #   valueFrom: TSV

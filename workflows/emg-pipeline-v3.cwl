@@ -6,8 +6,13 @@ requirements:
  - class: StepInputExpressionRequirement
  - class: SubworkflowFeatureRequirement
  - class: MultipleInputFeatureRequirement
- - $import: ../tools/InterProScan5.21-60-types.yaml
- - $import: ../tools/trimmomatic-types.yml
+ - class: SchemaDefRequirement
+   types: 
+    - $import: ../tools/InterProScan-apps.yaml
+    - $import: ../tools/InterProScan-protein_formats.yaml
+    - $import: ../tools/trimmomatic-sliding_window.yaml
+    - $import: ../tools/trimmomatic-end_mode.yaml
+    - $import: ../tools/trimmomatic-phred.yaml
 
 inputs:
   forward_reads:
@@ -78,7 +83,7 @@ steps:
       end_mode: { default: SE }
       slidingwindow:
         default:
-          class: ../tools/trimmomatic-types.yml#slidingWindow
+          class: ../tools/trimmomatic-sliding_window.yaml#slidingWindow
           windowSize: 4
           requiredQuality: 15
     out: [reads1_trimmed]
@@ -175,7 +180,7 @@ steps:
           - Pfam
           - TIGRFAM
           - PRINTS
-          - PrositePatterns
+          - ProSitePatterns
           - Gene3d
       # outputFileType: { valueFrom: "TSV" }
     out: [i5Annotations]

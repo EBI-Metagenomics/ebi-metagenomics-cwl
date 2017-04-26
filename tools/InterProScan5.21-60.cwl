@@ -11,7 +11,10 @@ doc: |
       https://github.com/ebi-pf-team/interproscan/wiki/HowToRun
 
 requirements:
- - $import: InterProScan5.21-60-types.yaml
+ - class: SchemaDefRequirement
+   types: 
+     - $import: InterProScan-apps.yaml
+     - $import: InterProScan-protein_formats.yaml
 
 hints:
   SoftwareRequirement:
@@ -26,14 +29,14 @@ inputs:
     inputBinding:
       prefix: --input
   # outputFileType:
-  #   type: InterProScan5.21-60-types.yaml#protein_formats
+  #   type: InterProScan-protein_formats.yaml#protein_formats
   #   inputBinding:
   #     prefix: --formats
   applications:
     type: 
       - "null"
       - type: array
-        items: InterProScan5.21-60-types.yaml#apps
+        items: InterProScan-apps.yaml#apps
         inputBinding:
           itemSeparator: ','
           separate: false
