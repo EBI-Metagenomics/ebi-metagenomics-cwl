@@ -39,9 +39,7 @@ inputs:
         items: InterProScan-apps.yaml#apps
         inputBinding:
           itemSeparator: ','
-          separate: false
-    inputBinding:
-      prefix: --applications
+          prefix: --applications
 
 baseCommand: interproscan.sh
 
