@@ -1,27 +1,24 @@
 cwlVersion: v1.0
 class: CommandLineTool
-label: index a sequence file for use by esl-sfetch
-doc: "https://github.com/EddyRivasLab/easel"
+label: normalize to fasta
+doc: |
+  normalizes input sequeces to FASTA with fixed number of sequence characters
+  per line using esl-reformat from https://github.com/EddyRivasLab/easel
 
 # hints:
 #   - class: SoftwareRequirement
 #     packages:
-#       spades:
+#       easel:
 #         specs: [ https://identifiers.org/rrid/RRID:TBD ]
 #         version: [ "???" ]
-
-requirements:
-  ShellCommandRequirement: {}
-#  InitialWorkDirRequirement:
-#    listing: [ $(inputs.sequences) ]
 
 inputs:
   sequences:
     type: File
     inputBinding:
-      position: 10
-      valueFrom: $(self.basename)
+      position: 1
     format:
+      - edam:format_1930  # FASTQ
       - edam:format_1929  # FASTA
       - edam:format_1927  # EMBL
       - edam:format_1936  # Genbank entry format
@@ -29,28 +26,16 @@ inputs:
       - edam:format_1963  # UniProt
       # ddbj ?
 
-baseCommand: [ ]
-
-arguments:
- - cp
- - $(inputs.sequences.path)
- - $(runtime.outdir)
- - valueFrom: ";"
-   shellQuote: false
- - esl-sfetch
- - --index
+baseCommand: [ esl-reformat, fasta ]
 
 outputs:
-  sequences_with_index:
-    type: File
-    secondaryFiles: .ssi
-    format: $(inputs.sequences.format)
-    outputBinding:
-      glob: $(inputs.sequences.basename)
+  reformatted_sequences:
+    type: stdout
+    format: edam:format_1929
 
 $namespaces:
-  edam: http://edamontology.org/
-  s: http://schema.org/
+ edam: http://edamontology.org/
+ s: http://schema.org/
 $schemas:
  - http://edamontology.org/EDAM_1.16.owl
  - https://schema.org/docs/schema_org_rdfa.html

@@ -28,10 +28,14 @@ inputs:
   names:
     type: File
     label: sequence names to retrieve, one per line
+    streamable: true
     inputBinding:
       position: 2
 
   names_contain_subseq_coords:
+    doc: |
+        GDF format: <newname> <from> <to> <source seqname>
+        space/tabdelimited
     type: boolean
     default: false
     inputBinding:

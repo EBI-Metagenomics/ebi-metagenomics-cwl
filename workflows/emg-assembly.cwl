@@ -5,7 +5,10 @@ label: EMG assembly for paired end Illumina
 requirements:
  - class: StepInputExpressionRequirement
  - class: SubworkflowFeatureRequirement
- - $import: ../tools/InterProScan5.21-60-types.yaml
+ - class: SchemaDefRequirement
+   types: 
+     - $import: ../tools/InterProScan-apps.yaml
+     - $import: ../tools/InterProScan-protein_formats.yaml
 
 inputs:
   forward_reads:
@@ -120,8 +123,15 @@ steps:
     run: ../tools/InterProScan5.21-60.cwl
     in:
       proteinFile: fraggenescan/predictedCDS
-      outputFileType:
-        valueFrom: TSV
+      applications:
+        default:
+          - Pfam
+          - TIGRFAM
+          - PRINTS
+          - ProSitePatterns
+          - Gene3D
+      # outputFileType:
+      #   valueFrom: TSV
     out: [i5Annotations]
 
 $namespaces: { edam: "http://edamontology.org/" }

@@ -6,39 +6,54 @@ hints:
  SoftwareRequirement:
    packages:
      seqprep:
-       specs: [ https://identifiers.org/rrid/RRID:SCR_013004 ]
+       specs: [ "https://identifiers.org/rrid/RRID:SCR_013004" ]
        version: [ "1.1" ]
 
 inputs:
- forward:
+ forward_reads:
    type: File
    format: edam:format_1930  # FASTQ
    label: first read input fastq
    inputBinding:
      prefix: -f
- reverse:
+ reverse_reads:
    type: File
    format: edam:format_1930  # FASTQ
    label: second read input fastq
    inputBinding:
      prefix: -r
 
+baseCommand: seqprep
+
 arguments:
  - "-1"
- - forward.fastq
+ - forward_unmerged.fastq.gz
  - "-2"
- - reverse.fastq
+ - reverse_unmerged.fastq.gz
  - -s
  - merged.fastq
+ # - "-3"
+ # - forward_discarded.fastq.gz
+ # - "-4"
+ # - reverse_discarded.fastq.gz
 
-baseCommand: seqprep
 
 outputs:
   merged_reads:
     type: File
     format: edam:format_1930  # FASTQ
     outputBinding:
-      glob: merged.fastq
+      glob: merged.fastq.gz
+  forward_unmerged_reads:
+    type: File
+    format: edam:format_1930  # FASTQ
+    outputBinding:
+      glob: forward_unmerged.fastq.gz
+  reverse_unmerged_reads:
+    type: File
+    format: edam:format_1930  # FASTQ
+    outputBinding:
+      glob: reverse_unmerged.fastq.gz
 
 $namespaces: { edam: "http://edamontology.org/" }
 $schemas: [ "http://edamontology.org/EDAM_1.16.owl" ]
