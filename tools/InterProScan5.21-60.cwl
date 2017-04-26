@@ -25,10 +25,10 @@ inputs:
     type: File
     inputBinding:
       prefix: --input
-  outputFileType:
-    type: InterProScan5.21-60-types.yaml#protein_formats
-    inputBinding:
-      prefix: --formats
+  # outputFileType:
+  #   type: InterProScan5.21-60-types.yaml#protein_formats
+  #   inputBinding:
+  #     prefix: --formats
   applications:
     type: InterProScan5.21-60-types.yaml#apps[]?
     inputBinding:
@@ -36,7 +36,7 @@ inputs:
 
 baseCommand: interproscan.sh
 
-arguments: [ --outfile, i5_annotations ]
+arguments: [ --outfile, i5_annotations, --formats, TSV ]
 
 outputs:
   i5Annotations:

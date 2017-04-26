@@ -2,6 +2,9 @@
 cwlVersion: v1.0
 class: Workflow
 
+requirements:
+  ScatterFeatureRequirement: {}
+
 inputs:
   hits: File[]
 
@@ -39,7 +42,7 @@ steps:
       inputs:
         names:
           type: File[]
-          inputBinding: { position: 1 
+          inputBinding: { position: 1 }
       baseCommand: [ sort, --unique ]
       outputs: { sorted_uniq_names: stdout }
     in: { names: extract_names/names }

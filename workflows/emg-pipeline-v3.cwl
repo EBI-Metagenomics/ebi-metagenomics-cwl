@@ -35,26 +35,18 @@ inputs:
     type: File
     format: edam:format_1370  # HMMER
 
-outputs: []
-  # SSUs:
-  #   type: File
-  #   outputSource: extract_SSUs/sequences
+outputs:
+  processed_sequences:
+    type: File
+    outputSource: mask_rRNA_and_tRNA/masked_sequences
 
-  # classifications:
-  #   type: File
-  #   outputSource: classify_SSUs/classifications
+  pCDS:
+    type: File
+    outputSource: fraggenescan/predictedCDS
 
-  # scaffolds:
-  #   type: File
-  #   outputSource: assembly/scaffolds
-
-  # pCDS:
-  #   type: File
-  #   outputSource: fraggenescan/predictedCDS
-
-  # annotations:
-  #   type: File
-  #   outputSource: interproscan/i5Annotations
+  annotations:
+    type: File
+    outputSource: interproscan/i5Annotations
 
 
 steps:
@@ -157,7 +149,7 @@ steps:
   fraggenescan:
     run: ../tools/FragGeneScan1_20.cwl
     in:
-      sequence: assembly/scaffolds
+      sequence: mask_rRNA_and_tRNA/masked_sequences
       completeSeq: { default: true }
       model: fraggenescan_model
       prob_forward: fraggenescan_prob_forward
@@ -174,8 +166,7 @@ steps:
     run: ../tools/InterProScan5.21-60.cwl
     in:
       proteinFile: fraggenescan/predictedCDS
-      outputFileType:
-        valueFrom: TSV
+      outputFileType: { valueFrom: "TSV" }
     out: [i5Annotations]
 
 $namespaces: { edam: "http://edamontology.org/" }

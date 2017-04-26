@@ -32,7 +32,7 @@ steps:
 
   extract_coord_lines:
     run: extract_coord_lines.cwl
-    in: { summary: hmmsearch/per_target_summary }
+    in: { summary: nhmmer/per_target_summary }
     out: [ coord_lines ]
 
   extract_coordinates:
