@@ -81,16 +81,15 @@ inputs:
     inputBinding:
       prefix: --oskip
  
-  threads:
-    label: number of parallel worker threads
-    type: int?
-    default: 1
-    inputBinding:
-      prefix: --cpu
-
 baseCommand: cmscan
 
-arguments: [ --fmt, '2', --tblout, matches.tbl ]
+arguments:
+  - valueFrom: '2'
+    prefix: --fmt
+  - valueFrom: matches.tbl
+    prefix: --tblout
+  - valueFrom: $(runtime.cores)
+    prefix: --cpu
 
 outputs:
   matches:
