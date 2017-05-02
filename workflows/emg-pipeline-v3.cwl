@@ -140,7 +140,7 @@ steps:
   collate_unique_tRNA_hmmer_hits:
     run: ../tools/collate_unique_rRNA_headers.cwl
     in:
-      hits: [ find_tRNA_matches/hmmer_search_results ]
+      hits: { default: [ $(find_tRNA_matches/hmmer_search_results) ] }
     out: [ unique_hits ]
 
   mask_rRNA_and_tRNA:

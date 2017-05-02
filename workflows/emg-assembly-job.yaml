@@ -37,3 +37,7 @@ fraggenescan_pwm_dist:
   class: File
   path: /hps/nobackup/production/metagenomics/pipeline/tools/FragGeneScan1.20/train/pwm
 assembly_mem_limit: 10
+mapseq_ref:
+  format: edam:format_1929
+  class: File
+  path: /hps/nobackup/production/metagenomics/CWL/code/thirdparty/mapseq-1.0/data/mapseqref.fasta

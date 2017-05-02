@@ -9,6 +9,7 @@ requirements:
    types: 
      - $import: ../tools/InterProScan-apps.yaml
      - $import: ../tools/InterProScan-protein_formats.yaml
+     - $import: ../tools/esl-reformat-replace.yaml
 
 inputs:
   forward_reads:
@@ -36,6 +37,9 @@ inputs:
   assembly_mem_limit:
     type: int
     doc: in Gb
+  mapseq_ref:
+    type: File
+    format: edam:format_1929  # FASTA
 
 outputs:
   SSUs:
@@ -101,6 +105,7 @@ steps:
     run: ../tools/mapseq.cwl
     in:
       sequences: extract_SSUs/sequences
+      database: mapseq_ref
     out: [ classifications ]
 
   fraggenescan:
@@ -119,17 +124,17 @@ steps:
       pwm_dist: fraggenescan_pwm_dist
     out: [ predictedCDS ]
 
-  remove_non-protein_IUPAC:
+  remove_asterisks_and_reformat:
     run: ../tools/esl-reformat.cwl
     in:
       sequences: fraggenescan/predictedCDS
-      protein_IUPAC_only: { default: true }
+      replace: { default: { find: '*', replace: X } }
     out: [ reformatted_sequences ]
 
   interproscan:
     run: ../tools/InterProScan5.21-60.cwl
     in:
-      proteinFile: remove_non-protein_IUPAC/reformatted_sequences
+      proteinFile: remove_asterisks_and_reformat/reformatted_sequences
       applications:
         default:
           - Pfam

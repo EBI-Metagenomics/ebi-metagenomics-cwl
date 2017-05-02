@@ -5,6 +5,10 @@ doc: |
   normalizes input sequeces to FASTA with fixed number of sequence characters
   per line using esl-reformat from https://github.com/EddyRivasLab/easel
 
+requirements:
+  SchemaDefRequirement:
+    types:
+      - $import: esl-reformat-replace.yaml
 # hints:
 #   - class: SoftwareRequirement
 #     packages:
@@ -16,7 +20,7 @@ inputs:
   sequences:
     type: File
     inputBinding:
-      position: 1
+      position: 3
     format:
       - edam:format_1930  # FASTQ
       - edam:format_1929  # FASTA
@@ -25,14 +29,19 @@ inputs:
       - edam:format_1961  # Stockholm
       - edam:format_1963  # UniProt
       # ddbj ?
-  protein_IUPAC_only:
-    type: boolean?
-    default: false
-    doc: remove DNA IUPAC codes; convert ambig chars to N
-    inputBinding:
-      prefix: -n
 
-baseCommand: [ esl-reformat, fasta ]
+  replace:
+    type: esl-reformat-replace.yaml#replace?
+    inputBinding:
+      position: 1
+      prefix: --replace
+      valueFrom: "$(self.find):$(self.replace)"
+
+baseCommand: [ esl-reformat ]
+
+arguments:
+  - valueFrom: fasta
+    position: 2
 
 stdout: reformatted_sequences  # helps with cwltool's --cache
 

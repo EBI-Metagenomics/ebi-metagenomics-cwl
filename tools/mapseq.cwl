@@ -21,7 +21,7 @@ inputs:
     format: edam:format_1929  # FASTA
 
   database:
-    type: File?
+    type: File
     inputBinding:
       position: 2
     format: edam:format_1929  # FASTA
@@ -31,13 +31,11 @@ inputs:
     inputBinding:
       position: 3
 
-  threads:
-    type: int?
-    default: 4
-    inputBinding:
-      prefix: -nthreads
-
 baseCommand: mapseq
+
+arguments:
+ - valueFrom: "4"  # $(runtime.cores)
+   prefix: -nthreads
 
 stdout: classifications  # helps with cwltool's --cache
 
