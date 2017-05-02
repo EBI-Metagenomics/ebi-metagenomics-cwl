@@ -158,3 +158,6 @@ outputs:
     format: edam:format_1929  # FASTA
     outputBinding:
       glob: predicted_cds.faa
+
+$namespaces: { edam: "http://edamontology.org/" }
+$schemas: [ "http://edamontology.org/EDAM_1.16.owl" ]
