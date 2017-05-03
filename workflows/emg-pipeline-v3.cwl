@@ -149,11 +149,11 @@ steps:
     run: ../tools/mask_RNA.cwl
     in:
       unique_rRNA_hits: collate_unique_rRNA_hmmer_hits/unique_hits
-      16s_rRNA_hmmer_matches: find_16S_matches/matching_sequences
-      23s_rRNA_hmmer_matches: find_23S_matches/matching_sequences
-      5s_rRNA_hmmer_matches: find_5S_matches/matching_sequences
+      16s_rRNA_hmmer_matches: find_16S_matches/hmmer_search_results
+      23s_rRNA_hmmer_matches: find_23S_matches/hmmer_search_results
+      5s_rRNA_hmmer_matches: find_5S_matches/hmmer_search_results
       unique_tRNA_hits: collate_unique_tRNA_hmmer_hits/unique_hits
-      tRNA_matches: find_tRNA_matches/matching_sequences
+      tRNA_matches: find_tRNA_matches/hmmer_search_results
       sequences: index_reads/sequences_with_index
     out: [ masked_sequences ]
 
