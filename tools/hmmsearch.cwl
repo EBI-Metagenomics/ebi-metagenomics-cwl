@@ -27,7 +27,7 @@ inputs:
     inputBinding:
       prefix: -E
 
-baseCommand: [ hmmersearch ]
+baseCommand: [ hmmsearch ]
 
 arguments:
  - --domtblout
