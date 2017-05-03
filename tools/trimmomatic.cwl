@@ -206,7 +206,7 @@ outputs:
     type: File
     format: edam:format_1930  # fastq
     outputBinding:
-      glob: $(inputs.input_read1_fastq_file.nameroot).trimmed.fastq
+      glob: $(inputs.reads1.nameroot).trimmed.fastq
 
   output_log:
     type: File
@@ -225,19 +225,19 @@ outputs:
     type: File?
     format: edam:format_1930  # fastq
     outputBinding:
-      glob: $(inputs.input_read1_fastq_file.nameroot).unpaired.trimmed.fastq
+      glob: $(inputs.reads1.nameroot).unpaired.trimmed.fastq
 
   reads2_trimmed_paired:
     type: File?
     format: edam:format_1930  # fastq
     outputBinding:
-      glob: $(inputs.input_read2_fastq_file.path.nameroot).trimmed.fastq
+      glob: $(inputs.reads2.nameroot).trimmed.fastq
 
   reads2_trimmed_unpaired:
     type: File?
     format: edam:format_1930  # fastq
     outputBinding:
-      glob: $(inputs.input_read2_fastq_file.path.nameroot).unpaired.trimmed.fastq
+      glob: $(inputs.reads2.nameroot).unpaired.trimmed.fastq
 
 baseCommand: [ java, org.usadellab.trimmomatic.Trimmomatic ]
 
@@ -245,12 +245,12 @@ arguments:
 - valueFrom: trim.log
   prefix: -trimlog 
   position: 4
-- valueFrom: $(inputs.input_read1_fastq_file.nameroot).trimmed.fastq
+- valueFrom: $(inputs.reads1.nameroot).trimmed.fastq
   position: 7
 - valueFrom: |
     ${
-      if (inputs.end_mode == "PE" && inputs.input_read2_fastq_file) {
-        return inputs.input_read1_fastq_file.nameroot + '.trimmed.unpaired.fastq';
+      if (inputs.end_mode == "PE" && inputs.reads2) {
+        return inputs.reads1.nameroot + '.trimmed.unpaired.fastq';
       } else {
         return null;
       }
@@ -258,8 +258,8 @@ arguments:
   position: 8
 - valueFrom: |
     ${
-      if (inputs.end_mode == "PE" && inputs.input_read2_fastq_file) {
-        return inputs.input_read2_fastq_file.nameroot + '.trimmed.fastq';
+      if (inputs.end_mode == "PE" && inputs.reads2) {
+        return inputs.reads2.nameroot + '.trimmed.fastq';
       } else {
         return null;
       }
@@ -267,8 +267,8 @@ arguments:
   position: 9
 - valueFrom: |
     ${
-      if (inputs.end_mode == "PE" && inputs.input_read2_fastq_file) {
-        return inputs.input_read2_fastq_file.nameroot + '.trimmed.unpaired.fastq';
+      if (inputs.end_mode == "PE" && inputs.reads2) {
+        return inputs.reads2.nameroot + '.trimmed.unpaired.fastq';
       } else {
         return null;
       }

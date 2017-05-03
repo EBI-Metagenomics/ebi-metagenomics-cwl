@@ -84,7 +84,6 @@ steps:
       end_mode: { default: SE }
       slidingwindow:
         default:
-          class: ../tools/trimmomatic-sliding_window.yaml#slidingWindow
           windowSize: 4
           requiredQuality: 15
     out: [reads1_trimmed]
