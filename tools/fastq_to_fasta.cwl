@@ -6,7 +6,7 @@ hints:
     packages:
       biopython:
         specs: [ "https://identifiers.org/rrid/RRID:SCR_007173" ]
-        #version: [ "???" ]
+        version: [ "1.65", "1.66", "1.69" ]
 
 inputs:
   fastq:
@@ -17,7 +17,7 @@ baseCommand: [ python ]
 
 arguments:
   - valueFrom: |
-      from Bio import SeqIO; SeqIO.convert($(inputs.fastq), "fastq", "$(inputs.fastq.basename).fasta", "fasta");
+      from Bio import SeqIO; SeqIO.convert($(inputs.fastq.path), "fastq", "$(inputs.fastq.basename).fasta", "fasta");
     prefix: -c
 
 outputs:
