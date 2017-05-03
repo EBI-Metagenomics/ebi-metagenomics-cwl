@@ -129,7 +129,7 @@ steps:
     out: [ matching_sequences, hmmer_search_results ]
 
   collate_unique_rRNA_hmmer_hits:
-    run: ../tools/collate_unique_rRNA_headers.cwl
+    run: ../tools/collate_unique_SSU_headers.cwl
     in:
       hits:
         - find_16S_matches/hmmer_search_results
@@ -138,7 +138,7 @@ steps:
     out: [ unique_hits ]
 
   collate_unique_tRNA_hmmer_hits:
-    run: ../tools/collate_unique_rRNA_headers.cwl
+    run: ../tools/collate_unique_SSU_headers.cwl
     in:
       hits: { default: [ $(find_tRNA_matches/hmmer_search_results) ] }
     out: [ unique_hits ]
