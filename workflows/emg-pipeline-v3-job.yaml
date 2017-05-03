@@ -6,9 +6,6 @@ reverse_reads:
   path: /hps/nobackup/production/metagenomics/CWL/data/ERP009703/raw/ERR770958_2.fastq.gz
   class: File
   format: edam:format_1930  # FASTQ
-covariance_model_database:
-  class: File
-  path: /hps/nobackup/production/metagenomics/CWL/data/libraries/Rfam/ribo.cm
 fraggenescan_model:
   class: File
   path: /hps/nobackup/production/metagenomics/pipeline/tools/FragGeneScan1.20/train/complete
@@ -36,7 +33,6 @@ fraggenescan_prob_stop1:
 fraggenescan_pwm_dist:
   class: File
   path: /hps/nobackup/production/metagenomics/pipeline/tools/FragGeneScan1.20/train/pwm
-assembly_mem_limit: 10
 16S_model:
   class: File
   path: /hps/nobackup/production/metagenomics/production-scripts/current/mgportal/analysis-pipeline/python/tools/RNASelector-1.0/model-data/lib-hmmer31b1/16s_all.hmm

@@ -3,6 +3,7 @@ class: Workflow
 label: EMG pipeline v3.0 (draft CWL version)
 
 requirements:
+ - class: InlineJavascriptRequirement
  - class: StepInputExpressionRequirement
  - class: SubworkflowFeatureRequirement
  - class: MultipleInputFeatureRequirement
@@ -140,7 +141,9 @@ steps:
   collate_unique_tRNA_hmmer_hits:
     run: ../tools/collate_unique_SSU_headers.cwl
     in:
-      hits: { default: [ $(find_tRNA_matches/hmmer_search_results) ] }
+      hits:
+        source: find_tRNA_matches/hmmer_search_results
+        valueFrom: ${ return [ self ]; }
     out: [ unique_hits ]
 
   mask_rRNA_and_tRNA:
