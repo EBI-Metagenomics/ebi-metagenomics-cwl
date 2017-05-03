@@ -11,6 +11,8 @@ inputs:
 
 baseCommand: [ grep, -v, "^#" ]
 
+successCodes: [ 0, 1 ]  # allow empty matches
+
 stdout: coord_lines  # helps with cwltool's --cache
 
 outputs:
