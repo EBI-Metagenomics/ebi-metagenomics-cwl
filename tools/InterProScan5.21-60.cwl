@@ -48,6 +48,8 @@ arguments:
  - --disable-precalc
  - --goterms
  - --pathways
+ - valueFrom: $(runtime.tmpdir)
+   prefix: --tempdir
 
 
 outputs:

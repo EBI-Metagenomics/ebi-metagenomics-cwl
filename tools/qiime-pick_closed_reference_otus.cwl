@@ -23,7 +23,22 @@ arguments:
    prefix: --output_dir
  - --force
 
-outputs: []
+outputs:
+  otus_tree:
+    type: File
+    outputBinding: { glob: 97_otus.tree }
+  otu_table:
+    type: File
+    outputBinding: { glob: otu_table.biom }
+  log:
+    type: File
+    outputBinding: { glob: log_*.txt }
+  uclust_ref_picked_otus:
+    type: Directory
+    outputBinding: { glob: uclust_ref_picked_otus }
+
+
+
 
 $namespaces: { edam: "http://edamontology.org/" }
 $schemas: [ "http://edamontology.org/EDAM_1.16.owl" ]

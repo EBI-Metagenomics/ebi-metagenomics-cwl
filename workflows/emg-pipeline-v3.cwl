@@ -14,6 +14,8 @@ requirements:
     - $import: ../tools/trimmomatic-sliding_window.yaml
     - $import: ../tools/trimmomatic-end_mode.yaml
     - $import: ../tools/trimmomatic-phred.yaml
+    - $import: ../tools/esl-reformat-replace.yaml
+    - $import: ../tools/qiime-biom-convert-table.yaml
 
 inputs:
   forward_reads:
@@ -48,15 +50,18 @@ outputs:
   processed_sequences:
     type: File
     outputSource: mask_rRNA_and_tRNA/masked_sequences
-
   pCDS:
     type: File
     outputSource: fraggenescan/predictedCDS
-
   annotations:
     type: File
     outputSource: interproscan/i5Annotations
-
+  otu_table_summary:
+    type: File
+    outputSource: create_otu_text_summary/otu_table_summary
+  tree:
+    type: File
+    outputSource: prune_tree/pruned_tree 
 
 steps:
   overlap_reads:
@@ -173,10 +178,17 @@ steps:
       pwm_dist: fraggenescan_pwm_dist
     out: [predictedCDS]
 
+  remove_asterisks_and_reformat:
+    run: ../tools/esl-reformat.cwl
+    in:
+      sequences: fraggenescan/predictedCDS
+      replace: { default: { find: '*', replace: X } }
+    out: [ reformatted_sequences ]
+
   interproscan:
     run: ../tools/InterProScan5.21-60.cwl
     in:
-      proteinFile: fraggenescan/predictedCDS
+      proteinFile: remove_asterisks_and_reformat/reformatted_sequences
       applications:
         default:
           - Pfam
@@ -186,6 +198,53 @@ steps:
           - Gene3D
       # outputFileType: { valueFrom: "TSV" }
     out: [i5Annotations]
+
+  pick_closed_reference_otus:
+    run: ../tools/qiime-pick_closed_reference_otus.cwl
+    in:
+      sequences: find_16S_matches/matching_sequences
+    out: [ otu_table, otus_tree ]
+
+  convert_new_biom_to_old_biom:
+    run: ../tools/qiime-biom-convert.cwl
+    in:
+      biom: pick_closed_reference_otus/otu_table
+      table_type: { default: OTU Table }
+      json: { default: true }
+    out: [ result ]
+
+  convert_new_biom_to_classic:
+    run: ../tools/qiime-biom-convert.cwl
+    in:
+      biom: pick_closed_reference_otus/otu_table
+      header_key: { default: taxonomy }
+      table_type: { default: OTU Table }
+      tsv: { default: true }
+    out: [ result ]
+
+  create_otu_text_summary:
+    run: ../tools/qiime-biom-summarize_table.cwl
+    in:
+      biom: pick_closed_reference_otus/otu_table
+    out: [ otu_table_summary ]
+
+  extract_observations:
+    run:
+      class: CommandLineTool
+      inputs: { tsv_otu_table: File }
+      baseCommand: [ awk, '/#/ {next};{print $1}' ]
+      stdin: $(inputs.tsv_otu_table.path)
+      stdout: observations  # helps cwltool's cache
+      outputs: { observations: stdout }
+    in: { tsv_otu_table: convert_new_biom_to_classic/result }
+    out: [ observations ]
+
+  prune_tree:
+    run: ../tools/qiime-filter_tree.cwl
+    in:
+      tree: pick_closed_reference_otus/otus_tree
+      tips_or_seqids_to_retain: extract_observations/observations
+    out: [ pruned_tree ]
 
 $namespaces: { edam: "http://edamontology.org/" }
 $schemas: [ "http://edamontology.org/EDAM_1.16.owl" ]
