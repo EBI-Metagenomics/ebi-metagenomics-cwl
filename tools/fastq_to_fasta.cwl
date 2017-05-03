@@ -17,7 +17,7 @@ baseCommand: [ python ]
 
 arguments:
   - valueFrom: |
-      from Bio import SeqIO; SeqIO.convert($(inputs.fastq.path), "fastq", "$(inputs.fastq.basename).fasta", "fasta");
+      from Bio import SeqIO; SeqIO.convert("$(inputs.fastq.path)", "fastq", "$(inputs.fastq.basename).fasta", "fasta");
     prefix: -c
 
 outputs:
