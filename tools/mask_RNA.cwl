@@ -39,7 +39,7 @@ arguments:
  - ;
  - rnaMaskingStep.py
  - --hmmer
- - hmmer.txt
+ - nhmmer.txt
  - --nhmmer
  - $(inputs.unique_tRNA_hits.path)
  - --seq_id
