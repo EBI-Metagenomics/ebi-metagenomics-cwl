@@ -23,7 +23,7 @@ inputs:
    inputBinding:
      prefix: -r
 
-baseCommand: seqprep
+baseCommand: SeqPrep
 
 arguments:
  - "-1"
@@ -31,7 +31,7 @@ arguments:
  - "-2"
  - reverse_unmerged.fastq.gz
  - -s
- - merged.fastq
+ - merged.fastq.gz
  # - "-3"
  # - forward_discarded.fastq.gz
  # - "-4"
