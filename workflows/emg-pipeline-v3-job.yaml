@@ -37,3 +37,20 @@ fraggenescan_pwm_dist:
   class: File
   path: /hps/nobackup/production/metagenomics/pipeline/tools/FragGeneScan1.20/train/pwm
 assembly_mem_limit: 10
+16S_model:
+  class: File
+  path: /hps/nobackup/production/metagenomics/production-scripts/current/mgportal/analysis-pipeline/python/tools/RNASelector-1.0/model-data/lib-hmmer31b1/16s_all.hmm
+  format: edam:format_1370
+5S_model:
+  class: File
+  path: /hps/nobackup/production/metagenomics/production-scripts/current/mgportal/analysis-pipeline/python/tools/RNASelector-1.0/model-data/lib-hmmer31b1/5s_all.hmm
+  format: edam:format_1370
+23S_model:
+  class: File
+  path: /hps/nobackup/production/metagenomics/production-scripts/current/mgportal/analysis-pipeline/python/tools/RNASelector-1.0/model-data/lib-hmmer31b1/23s_all.hmm
+  format: edam:format_1370
+tRNA_model:
+  class: File
+  path: /hps/nobackup/production/metagenomics/production-scripts/current/mgportal/analysis-pipeline/python/tools/RNASelector-1.0/model-data/tRNA/tRNA.hmm
+  format: edam:format_1370
+

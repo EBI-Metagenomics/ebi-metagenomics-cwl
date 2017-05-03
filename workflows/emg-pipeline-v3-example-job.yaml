@@ -1,9 +1,0 @@
-FgsInputFile:
- class: File
- path: ../tools//NC_000913.fna
-FgsTrainingName: complete
-FgsLength: true
-IpsType: TSV
-FgsTrainDir:
- class: Directory
- path: ../tools//train  # path to local copy of the FGS training directory
