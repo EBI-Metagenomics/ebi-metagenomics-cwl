@@ -37,7 +37,6 @@ inputs:
         GDF format: <newname> <from> <to> <source seqname>
         space/tabdelimited
     type: boolean
-    default: false
     inputBinding:
       prefix: -C
 

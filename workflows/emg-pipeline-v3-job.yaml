@@ -6,9 +6,6 @@ reverse_reads:
   path: /hps/nobackup/production/metagenomics/CWL/data/ERP009703/raw/ERR770958_2.fastq.gz
   class: File
   format: edam:format_1930  # FASTQ
-covariance_model_database:
-  class: File
-  path: /hps/nobackup/production/metagenomics/CWL/data/libraries/Rfam/ribo.cm
 fraggenescan_model:
   class: File
   path: /hps/nobackup/production/metagenomics/pipeline/tools/FragGeneScan1.20/train/complete
@@ -36,15 +33,20 @@ fraggenescan_prob_stop1:
 fraggenescan_pwm_dist:
   class: File
   path: /hps/nobackup/production/metagenomics/pipeline/tools/FragGeneScan1.20/train/pwm
-assembly_mem_limit: 10
-mapseq_ref:  # downloaded from https://www.arb-silva.de/fileadmin/silva_databases/qiime/Silva_128_release.tgz
-  format: edam:format_1929
+16S_model:
   class: File
-  path: /hps/nobackup/production/metagenomics/alex/silva/qiime_compat/work/99_otus.fasta
-  secondaryFiles:
-    - class: File
-      path: /hps/nobackup/production/metagenomics/alex/silva/qiime_compat/work/99_otus.fasta.mscluster
-mapseq_taxonomies:
-  - class: File
-    path: /hps/nobackup/production/metagenomics/alex/silva/qiime_compat/work/consensus_taxonomy_7_levels.txt
+  path: /hps/nobackup/production/metagenomics/production-scripts/current/mgportal/analysis-pipeline/python/tools/RNASelector-1.0/model-data/lib-hmmer31b1/16s_all.hmm
+  format: edam:format_1370
+5S_model:
+  class: File
+  path: /hps/nobackup/production/metagenomics/production-scripts/current/mgportal/analysis-pipeline/python/tools/RNASelector-1.0/model-data/lib-hmmer31b1/5s_all.hmm
+  format: edam:format_1370
+23S_model:
+  class: File
+  path: /hps/nobackup/production/metagenomics/production-scripts/current/mgportal/analysis-pipeline/python/tools/RNASelector-1.0/model-data/lib-hmmer31b1/23s_all.hmm
+  format: edam:format_1370
+tRNA_model:
+  class: File
+  path: /hps/nobackup/production/metagenomics/production-scripts/current/mgportal/analysis-pipeline/python/tools/RNASelector-1.0/model-data/tRNA/tRNA.hmm
+  format: edam:format_1370
 

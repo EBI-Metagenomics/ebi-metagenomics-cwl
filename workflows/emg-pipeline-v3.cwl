@@ -3,6 +3,7 @@ class: Workflow
 label: EMG pipeline v3.0 (draft CWL version)
 
 requirements:
+ - class: InlineJavascriptRequirement
  - class: StepInputExpressionRequirement
  - class: SubworkflowFeatureRequirement
  - class: MultipleInputFeatureRequirement
@@ -83,21 +84,20 @@ steps:
       end_mode: { default: SE }
       slidingwindow:
         default:
-          class: ../tools/trimmomatic-sliding_window.yaml#slidingWindow
           windowSize: 4
           requiredQuality: 15
     out: [reads1_trimmed]
 
-  normalize_reads:
-    run: ../tools/esl-reformat.cwl
+  convert_trimmed-reads_to_fasta:
+    run: ../tools/fastq_to_fasta.cwl
     in:
-      sequences: trim_quality_control/reads1_trimmed
-    out: [ reformatted_sequences ]
+      fastq: trim_quality_control/reads1_trimmed
+    out: [ fasta ]
 
   index_reads:
     run: ../tools/esl-sfetch-index.cwl
     in:
-      sequences: normalize_reads/reformatted_sequences
+      sequences: convert_trimmed-reads_to_fasta/fasta
     out: [ sequences_with_index ]
 
   find_16S_matches:
@@ -129,7 +129,7 @@ steps:
     out: [ matching_sequences, hmmer_search_results ]
 
   collate_unique_rRNA_hmmer_hits:
-    run: ../tools/collate_unique_rRNA_headers.cwl
+    run: ../tools/collate_unique_SSU_headers.cwl
     in:
       hits:
         - find_16S_matches/hmmer_search_results
@@ -138,9 +138,11 @@ steps:
     out: [ unique_hits ]
 
   collate_unique_tRNA_hmmer_hits:
-    run: ../tools/collate_unique_rRNA_headers.cwl
+    run: ../tools/collate_unique_SSU_headers.cwl
     in:
-      hits: [ find_tRNA_matches/hmmer_search_results ]
+      hits:
+        source: find_tRNA_matches/hmmer_search_results
+        valueFrom: ${ return [ self ]; }
     out: [ unique_hits ]
 
   mask_rRNA_and_tRNA:

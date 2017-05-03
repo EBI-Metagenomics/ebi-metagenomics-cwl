@@ -4,9 +4,6 @@ cwlVersion: v1.0
 class: CommandLineTool
 
 hints:
-  EnvVarRequirement:
-    envDef:
-      CLASSPATH: /usr/share/java/trimmomatic.jar
   SoftwareRequirement:
     packages:
       trimmomatic:
@@ -111,7 +108,7 @@ inputs:
     inputBinding:
       position: 15
       valueFrom: |
-        'SLIDINGWINDOW:'$(self.windowSize)':'$(self.requiredQuality)
+        SLIDINGWINDOW:$(self.windowSize):$(self.requiredQuality)
     doc: |
       Perform a sliding window trimming, cutting once the average quality
       within the window falls below a threshold. By considering multiple
@@ -124,7 +121,7 @@ inputs:
     type: trimmomatic-illumina_clipping.yaml#illuminaClipping?
     inputBinding:
       valueFrom: |
-        "ILLUMINACLIP:"$(self.adapters_file.path)":"$(self.seedMismatches):$(self.palindromeClipThreshold):$(self.simpleClipThreshold):$(self.minAdapterLength):$(self.keepBothReads)
+        ILLUMINACLIP:$(self.adapters_file.path):$(self.seedMismatches):$(self.palindromeClipThreshold):$(self.simpleClipThreshold):$(self.minAdapterLength):$(self.keepBothReads)
       position: 11
     doc: Cut adapter and other illumina-specific sequences from the read.
 
@@ -206,7 +203,7 @@ outputs:
     type: File
     format: edam:format_1930  # fastq
     outputBinding:
-      glob: $(inputs.input_read1_fastq_file.nameroot).trimmed.fastq
+      glob: $(inputs.reads1.nameroot).trimmed.fastq
 
   output_log:
     type: File
@@ -225,19 +222,31 @@ outputs:
     type: File?
     format: edam:format_1930  # fastq
     outputBinding:
-      glob: $(inputs.input_read1_fastq_file.nameroot).unpaired.trimmed.fastq
+      glob: $(inputs.reads1.nameroot).unpaired.trimmed.fastq
 
   reads2_trimmed_paired:
     type: File?
     format: edam:format_1930  # fastq
     outputBinding:
-      glob: $(inputs.input_read2_fastq_file.path.nameroot).trimmed.fastq
+      glob: |
+        ${ if (inputs.reads2 ) {
+             return inputs.reads2.nameroot + '.trimmed.fastq';
+           } else {
+             return null;
+           }
+         }
 
   reads2_trimmed_unpaired:
     type: File?
     format: edam:format_1930  # fastq
     outputBinding:
-      glob: $(inputs.input_read2_fastq_file.path.nameroot).unpaired.trimmed.fastq
+      glob: |
+        ${ if (inputs.reads2 ) {
+             return inputs.reads2.nameroot + '.unpaired.trimmed.fastq';
+           } else {
+             return null;
+           }
+         }
 
 baseCommand: [ java, org.usadellab.trimmomatic.Trimmomatic ]
 
@@ -245,12 +254,12 @@ arguments:
 - valueFrom: trim.log
   prefix: -trimlog 
   position: 4
-- valueFrom: $(inputs.input_read1_fastq_file.nameroot).trimmed.fastq
+- valueFrom: $(inputs.reads1.nameroot).trimmed.fastq
   position: 7
 - valueFrom: |
     ${
-      if (inputs.end_mode == "PE" && inputs.input_read2_fastq_file) {
-        return inputs.input_read1_fastq_file.nameroot + '.trimmed.unpaired.fastq';
+      if (inputs.end_mode == "PE" && inputs.reads2) {
+        return inputs.reads1.nameroot + '.trimmed.unpaired.fastq';
       } else {
         return null;
       }
@@ -258,8 +267,8 @@ arguments:
   position: 8
 - valueFrom: |
     ${
-      if (inputs.end_mode == "PE" && inputs.input_read2_fastq_file) {
-        return inputs.input_read2_fastq_file.nameroot + '.trimmed.fastq';
+      if (inputs.end_mode == "PE" && inputs.reads2) {
+        return inputs.reads2.nameroot + '.trimmed.fastq';
       } else {
         return null;
       }
@@ -267,8 +276,8 @@ arguments:
   position: 9
 - valueFrom: |
     ${
-      if (inputs.end_mode == "PE" && inputs.input_read2_fastq_file) {
-        return inputs.input_read2_fastq_file.nameroot + '.trimmed.unpaired.fastq';
+      if (inputs.end_mode == "PE" && inputs.reads2) {
+        return inputs.reads2.nameroot + '.trimmed.unpaired.fastq';
       } else {
         return null;
       }
