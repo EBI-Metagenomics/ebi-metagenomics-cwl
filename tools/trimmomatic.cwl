@@ -4,9 +4,6 @@ cwlVersion: v1.0
 class: CommandLineTool
 
 hints:
-  EnvVarRequirement:
-    envDef:
-      CLASSPATH: /usr/share/java/trimmomatic.jar
   SoftwareRequirement:
     packages:
       trimmomatic:
@@ -111,7 +108,7 @@ inputs:
     inputBinding:
       position: 15
       valueFrom: |
-        'SLIDINGWINDOW:'$(self.windowSize)':'$(self.requiredQuality)
+        SLIDINGWINDOW:$(self.windowSize):$(self.requiredQuality)
     doc: |
       Perform a sliding window trimming, cutting once the average quality
       within the window falls below a threshold. By considering multiple
@@ -124,7 +121,7 @@ inputs:
     type: trimmomatic-illumina_clipping.yaml#illuminaClipping?
     inputBinding:
       valueFrom: |
-        "ILLUMINACLIP:"$(self.adapters_file.path)":"$(self.seedMismatches):$(self.palindromeClipThreshold):$(self.simpleClipThreshold):$(self.minAdapterLength):$(self.keepBothReads)
+        ILLUMINACLIP:$(self.adapters_file.path):$(self.seedMismatches):$(self.palindromeClipThreshold):$(self.simpleClipThreshold):$(self.minAdapterLength):$(self.keepBothReads)
       position: 11
     doc: Cut adapter and other illumina-specific sequences from the read.
 
@@ -231,13 +228,25 @@ outputs:
     type: File?
     format: edam:format_1930  # fastq
     outputBinding:
-      glob: $(inputs.reads2.nameroot).trimmed.fastq
+      glob: |
+        ${ if (inputs.reads2 ) {
+             return inputs.reads2.nameroot + '.trimmed.fastq';
+           } else {
+             return null;
+           }
+         }
 
   reads2_trimmed_unpaired:
     type: File?
     format: edam:format_1930  # fastq
     outputBinding:
-      glob: $(inputs.reads2.nameroot).unpaired.trimmed.fastq
+      glob: |
+        ${ if (inputs.reads2 ) {
+             return inputs.reads2.nameroot + '.unpaired.trimmed.fastq';
+           } else {
+             return null;
+           }
+         }
 
 baseCommand: [ java, org.usadellab.trimmomatic.Trimmomatic ]
 

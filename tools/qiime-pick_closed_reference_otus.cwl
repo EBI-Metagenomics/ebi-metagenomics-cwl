@@ -21,6 +21,7 @@ baseCommand: pick_closed_reference_otus.py
 arguments:
  - valueFrom: $(runtime.outdir)
    prefix: --output_dir
+ - --force
 
 outputs: []
 
