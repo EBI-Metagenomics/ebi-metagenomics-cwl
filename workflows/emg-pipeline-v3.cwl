@@ -88,16 +88,16 @@ steps:
           requiredQuality: 15
     out: [reads1_trimmed]
 
-  normalize_reads:
-    run: ../tools/esl-reformat.cwl
+  convert_trimmed-reads_to_fasta:
+    run: ../tools/fastq_to_fasta.cwl
     in:
-      sequences: trim_quality_control/reads1_trimmed
-    out: [ reformatted_sequences ]
+      fastq: trim_quality_control/reads1_trimmed
+    out: [ fasta ]
 
   index_reads:
     run: ../tools/esl-sfetch-index.cwl
     in:
-      sequences: normalize_reads/reformatted_sequences
+      sequences: convert_trimmed-reads_to_fasta/fasta
     out: [ sequences_with_index ]
 
   find_16S_matches:
