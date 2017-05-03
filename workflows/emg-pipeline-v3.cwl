@@ -183,7 +183,7 @@ steps:
           - TIGRFAM
           - PRINTS
           - ProSitePatterns
-          - Gene3d
+          - Gene3D
       # outputFileType: { valueFrom: "TSV" }
     out: [i5Annotations]
 
