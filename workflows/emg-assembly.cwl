@@ -40,6 +40,8 @@ inputs:
   mapseq_ref:
     type: File
     format: edam:format_1929  # FASTA
+    secondaryFiles: .mscluster
+  mapseq_taxonomies: File[]
 
 outputs:
   SSUs:
@@ -106,6 +108,7 @@ steps:
     in:
       sequences: extract_SSUs/sequences
       database: mapseq_ref
+      taxonomies: mapseq_taxonomies
     out: [ classifications ]
 
   fraggenescan:

@@ -22,12 +22,13 @@ inputs:
 
   database:
     type: File
+    secondaryFiles: .mscluster 
     inputBinding:
       position: 2
     format: edam:format_1929  # FASTA
 
   taxonomies:
-    type: File[]?
+    type: File[]
     inputBinding:
       position: 3
 
