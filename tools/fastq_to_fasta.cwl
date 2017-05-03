@@ -4,24 +4,26 @@ class: CommandLineTool
 hints:
   - class: SoftwareRequirement
     packages:
-      fastx_toolkit:
-        specs: [ "https://identifiers.org/rrid/RRID:SCR_005534" ]
-        version: [ "0.0.13" ]
+      biopython:
+        specs: [ "https://identifiers.org/rrid/RRID:SCR_007173" ]
+        #version: [ "???" ]
 
 inputs:
   fastq:
     type: File
-    inputBinding:
-      prefix: -i
     format: edam:format_1930  # FASTQ
 
-baseCommand: [ fastq_to_fasta ]
+baseCommand: [ python ]
 
-stdout: fasta # helps with cwltool's --cache
+arguments:
+  - valueFrom: |
+      from Bio import SeqIO; SeqIO.convert($(inputs.fastq), "fastq", "$(inputs.fastq.basename).fasta", "fasta");
+    prefix: -c
 
 outputs:
   fasta:
-    type: stdout
+    type: File
+    outputBinding: { glob: $(inputs.fastq.basename).fasta }
     format: edam:format_1929  # FASTA
 
 $namespaces:
