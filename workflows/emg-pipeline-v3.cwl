@@ -46,13 +46,13 @@ outputs:
     outputSource: interproscan/i5Annotations
   otu_table_summary:
     type: File
-    outputSource: 16S_functional_analysis/otu_table_summary
+    outputSource: 16S_taxonomic_analysis/otu_table_summary
   tree:
     type: File
-    outputSource: 16S_functional_analysis/tree
+    outputSource: 16S_taxonomic_analysis/tree
   biom_json:
     type: File
-    outputSource: 16S_functional_analysis/biom_json
+    outputSource: 16S_taxonomic_analysis/biom_json
   go_summary:
     type: File
     outputSource: summarize_with_GO/go_summary
@@ -123,8 +123,8 @@ steps:
       config: go_summary_config
     out: [ go_summary ]
 
-  16S_functional_analysis:
-    run: 16S_functional_analysis.cwl
+  16S_taxonomic_analysis:
+    run: 16S_taxonomic_analysis.cwl
     in:
       16S_matches: find_SSUs_and_mask/16S_matches
     out: [ otu_table_summary, tree, biom_json ]
