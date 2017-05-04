@@ -62,6 +62,9 @@ outputs:
   tree:
     type: File
     outputSource: prune_tree/pruned_tree 
+  biom_json:
+    type: File
+    outputSource: convert_new_biom_to_old_biom/result
 
 steps:
   overlap_reads:
@@ -248,4 +251,3 @@ steps:
 
 $namespaces: { edam: "http://edamontology.org/" }
 $schemas: [ "http://edamontology.org/EDAM_1.16.owl" ]
-
