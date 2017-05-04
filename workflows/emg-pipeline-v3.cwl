@@ -40,7 +40,7 @@ inputs:
 outputs:
   processed_sequences:
     type: File
-    outputSource: mask_rRNA_and_tRNA/masked_sequences
+    outputSource: find_SSUs_and_mask/masked_sequences
   predicted_CDS:
     type: File
     outputSource: fraggenescan/predictedCDS
@@ -78,73 +78,20 @@ steps:
       fastq: trim_quality_control/reads1_trimmed
     out: [ fasta ]
 
-  index_reads:
-    run: ../tools/esl-sfetch-index.cwl
-    in:
-      sequences: convert_trimmed-reads_to_fasta/fasta
-    out: [ sequences_with_index ]
-
-  find_16S_matches:
-    run: ../tools/rRNA_selection.cwl
-    in:
-      indexed_sequences: index_reads/sequences_with_index
-      model: 16S_model
-    out: [ matching_sequences, hmmer_search_results ]
-
-  find_23S_matches:
-    run: ../tools/rRNA_selection.cwl
-    in:
-      indexed_sequences: index_reads/sequences_with_index
-      model: 23S_model
-    out: [ matching_sequences, hmmer_search_results ]
-
-  find_5S_matches:
-    run: ../tools/rRNA_selection.cwl
-    in:
-      indexed_sequences: index_reads/sequences_with_index
-      model: 5S_model
-    out: [ matching_sequences, hmmer_search_results ]
-
-  find_tRNA_matches:
-    run: ../tools/tRNA_selection.cwl
-    in:
-      indexed_sequences: index_reads/sequences_with_index
-      model: tRNA_model
-    out: [ matching_sequences, hmmer_search_results ]
-
-  collate_unique_rRNA_hmmer_hits:
-    run: ../tools/collate_unique_SSU_headers.cwl
-    in:
-      hits:
-        - find_16S_matches/hmmer_search_results
-        - find_23S_matches/hmmer_search_results
-        - find_5S_matches/hmmer_search_results
-    out: [ unique_hits ]
-
-  collate_unique_tRNA_hmmer_hits:
-    run: ../tools/collate_unique_SSU_headers.cwl
-    in:
-      hits:
-        source: find_tRNA_matches/hmmer_search_results
-        valueFrom: ${ return [ self ]; }
-    out: [ unique_hits ]
-
-  mask_rRNA_and_tRNA:
-    run: ../tools/mask_RNA.cwl
-    in:
-      unique_rRNA_hits: collate_unique_rRNA_hmmer_hits/unique_hits
-      16s_rRNA_hmmer_matches: find_16S_matches/hmmer_search_results
-      23s_rRNA_hmmer_matches: find_23S_matches/hmmer_search_results
-      5s_rRNA_hmmer_matches: find_5S_matches/hmmer_search_results
-      unique_tRNA_hits: collate_unique_tRNA_hmmer_hits/unique_hits
-      tRNA_matches: find_tRNA_matches/hmmer_search_results
-      sequences: index_reads/sequences_with_index
-    out: [ masked_sequences ]
+  find_SSUs_and_mask:
+    run: rna-selector.cwl
+    in: 
+      reads: convert_trimmed-reads_to_fasta/fasta
+      16S_model: 16S_model
+      5S_model: 5S_model
+      23S_model: 23S_model
+      tRNA_model: tRNA_model
+    out: [ 16S_matches, masked_sequences ]
 
   fraggenescan:
     run: ../tools/FragGeneScan1_20.cwl
     in:
-      sequence: mask_rRNA_and_tRNA/masked_sequences
+      sequence: find_SSUs_and_mask/masked_sequences
       completeSeq: { default: true }
       model: fraggenescan_model
     out: [predictedCDS]
@@ -180,7 +127,7 @@ steps:
   pick_closed_reference_otus:
     run: ../tools/qiime-pick_closed_reference_otus.cwl
     in:
-      sequences: find_16S_matches/matching_sequences
+      sequences: find_SSUs_and_mask/16S_matches
     out: [ otu_table, otus_tree ]
 
   convert_new_biom_to_old_biom:
