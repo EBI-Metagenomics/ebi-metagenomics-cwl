@@ -37,9 +37,9 @@ outputs:
   predicted_CDS:
     type: File
     outputSource: unified_processing/predicted_CDS
-  annotations:
+  functional_annotations:
     type: File
-    outputSource: unified_processing/annotations
+    outputSource: unified_processing/functional_annotations
   otu_table_summary:
     type: File
     outputSource: unified_processing/otu_table_summary
@@ -52,6 +52,7 @@ outputs:
 
 steps:
   overlap_reads:
+    label: Paired-end overlapping reads are merged
     run: ../tools/seqprep.cwl
     in:
       forward_reads: forward_reads
@@ -67,6 +68,7 @@ steps:
     out: [ merged_with_unmerged_reads ]
 
   unified_processing:
+    label: continue with the main workflow
     run: emg-pipeline-v3.cwl
     in:
       reads: combine_overlaped_and_unmerged_reads/merged_with_unmerged_reads
@@ -79,12 +81,10 @@ steps:
     out:
       - processed_sequences
       - predicted_CDS
-      - annotations
+      - functional_annotations
       - otu_table_summary
       - tree
       - biom_json
- 
-       
        
 $namespaces: { edam: "http://edamontology.org/" }
 $schemas: [ "http://edamontology.org/EDAM_1.16.owl" ]

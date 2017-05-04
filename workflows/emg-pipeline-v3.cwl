@@ -40,10 +40,10 @@ outputs:
     outputSource: find_SSUs_and_mask/masked_sequences
   predicted_CDS:
     type: File
-    outputSource: fraggenescan/predictedCDS
-  annotations:
+    outputSource: ORF_prediction/predictedCDS
+  functional_annotations:
     type: File
-    outputSource: interproscan/i5Annotations
+    outputSource: functional_analysis/i5Annotations
   otu_table_summary:
     type: File
     outputSource: 16S_taxonomic_analysis/otu_table_summary
@@ -59,6 +59,9 @@ outputs:
 
 steps:
   trim_quality_control:
+    doc: |
+      Low quality trimming (low quality ends and sequences with < quality scores
+      less than 15 over a 4 nucleotide wide window are removed)
     run: ../tools/trimmomatic.cwl
     in:
       reads1: reads
@@ -88,7 +91,7 @@ steps:
       tRNA_model: tRNA_model
     out: [ 16S_matches, masked_sequences ]
 
-  fraggenescan:
+  ORF_prediction:
     run: ../tools/FragGeneScan1_20.cwl
     in:
       sequence: find_SSUs_and_mask/masked_sequences
@@ -103,7 +106,10 @@ steps:
       replace: { default: { find: '*', replace: X } }
     out: [ reformatted_sequences ]
 
-  interproscan:
+  functional_analysis:
+    doc: |
+      Matches are generated against predicted CDS, using a sub set of databases
+      (Pfam, TIGRFAM, PRINTS, PROSITE patterns, Gene3d) from InterPro. 
     run: ../tools/InterProScan5.21-60.cwl
     in:
       proteinFile: remove_asterisks_and_reformat/reformatted_sequences
@@ -117,13 +123,21 @@ steps:
     out: [i5Annotations]
 
   summarize_with_GO:
+    doc: |
+      A summary of Gene Ontology (GO) terms derived from InterPro matches to
+      the sample. It is generated using a reduced list of GO terms called
+      GO slim (http://www.geneontology.org/ontology/subsets/goslim_metagenomics.obo)
     run: ../tools/go_summary.cwl
     in:
-      InterProScan_results: interproscan/i5Annotations
+      InterProScan_results: functional_analysis/i5Annotations
       config: go_summary_config
     out: [ go_summary ]
 
   16S_taxonomic_analysis:
+    doc: |
+      16s rRNA are annotated using the Greengenes reference database
+      (default closed-reference OTU picking protocol with Greengenes
+      13.8 reference with reverse strand matching enabled).
     run: 16S_taxonomic_analysis.cwl
     in:
       16S_matches: find_SSUs_and_mask/16S_matches
