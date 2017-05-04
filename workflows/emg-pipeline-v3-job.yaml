@@ -49,4 +49,6 @@ tRNA_model:
   class: File
   path: /hps/nobackup/production/metagenomics/production-scripts/current/mgportal/analysis-pipeline/python/tools/RNASelector-1.0/model-data/tRNA/tRNA.hmm
   format: edam:format_1370
-
+go_summary_config:
+  class: File
+  path: /hps/nobackup/production/metagenomics/production-scripts/current/mgportal/analysis-pipeline/python/tools/go_summary_generator/config/go_summary-config.json

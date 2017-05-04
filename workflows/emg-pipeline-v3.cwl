@@ -14,6 +14,8 @@ requirements:
     - $import: ../tools/trimmomatic-sliding_window.yaml
     - $import: ../tools/trimmomatic-end_mode.yaml
     - $import: ../tools/trimmomatic-phred.yaml
+    - $import: ../tools/esl-reformat-replace.yaml
+    - $import: ../tools/qiime-biom-convert-table.yaml
 
 inputs:
   forward_reads:
@@ -43,20 +45,27 @@ inputs:
   tRNA_model:
     type: File
     format: edam:format_1370  # HMMER
+  go_summary_config: File
 
 outputs:
   processed_sequences:
     type: File
     outputSource: mask_rRNA_and_tRNA/masked_sequences
-
   pCDS:
     type: File
     outputSource: fraggenescan/predictedCDS
-
   annotations:
     type: File
     outputSource: interproscan/i5Annotations
-
+  otu_table_summary:
+    type: File
+    outputSource: create_otu_text_summary/otu_table_summary
+  tree:
+    type: File
+    outputSource: prune_tree/pruned_tree 
+  biom_json:
+    type: File
+    outputSource: convert_new_biom_to_old_biom/result
 
 steps:
   overlap_reads:
@@ -149,11 +158,11 @@ steps:
     run: ../tools/mask_RNA.cwl
     in:
       unique_rRNA_hits: collate_unique_rRNA_hmmer_hits/unique_hits
-      16s_rRNA_hmmer_matches: find_16S_matches/matching_sequences
-      23s_rRNA_hmmer_matches: find_23S_matches/matching_sequences
-      5s_rRNA_hmmer_matches: find_5S_matches/matching_sequences
+      16s_rRNA_hmmer_matches: find_16S_matches/hmmer_search_results
+      23s_rRNA_hmmer_matches: find_23S_matches/hmmer_search_results
+      5s_rRNA_hmmer_matches: find_5S_matches/hmmer_search_results
       unique_tRNA_hits: collate_unique_tRNA_hmmer_hits/unique_hits
-      tRNA_matches: find_tRNA_matches/matching_sequences
+      tRNA_matches: find_tRNA_matches/hmmer_search_results
       sequences: index_reads/sequences_with_index
     out: [ masked_sequences ]
 
@@ -173,20 +182,80 @@ steps:
       pwm_dist: fraggenescan_pwm_dist
     out: [predictedCDS]
 
+  remove_asterisks_and_reformat:
+    run: ../tools/esl-reformat.cwl
+    in:
+      sequences: fraggenescan/predictedCDS
+      replace: { default: { find: '*', replace: X } }
+    out: [ reformatted_sequences ]
+
   interproscan:
     run: ../tools/InterProScan5.21-60.cwl
     in:
-      proteinFile: fraggenescan/predictedCDS
+      proteinFile: remove_asterisks_and_reformat/reformatted_sequences
       applications:
         default:
           - Pfam
           - TIGRFAM
           - PRINTS
           - ProSitePatterns
-          - Gene3d
+          - Gene3D
       # outputFileType: { valueFrom: "TSV" }
     out: [i5Annotations]
 
+  summarize_with_GO:
+    run: ../tools/go_summary.cwl
+    in:
+      InterProScan_results: interproscan/i5Annotations
+      config: go_summary_config
+    out: [ go_summary ]
+
+  pick_closed_reference_otus:
+    run: ../tools/qiime-pick_closed_reference_otus.cwl
+    in:
+      sequences: find_16S_matches/matching_sequences
+    out: [ otu_table, otus_tree ]
+
+  convert_new_biom_to_old_biom:
+    run: ../tools/qiime-biom-convert.cwl
+    in:
+      biom: pick_closed_reference_otus/otu_table
+      table_type: { default: OTU Table }
+      json: { default: true }
+    out: [ result ]
+
+  convert_new_biom_to_classic:
+    run: ../tools/qiime-biom-convert.cwl
+    in:
+      biom: pick_closed_reference_otus/otu_table
+      header_key: { default: taxonomy }
+      table_type: { default: OTU Table }
+      tsv: { default: true }
+    out: [ result ]
+
+  create_otu_text_summary:
+    run: ../tools/qiime-biom-summarize_table.cwl
+    in:
+      biom: pick_closed_reference_otus/otu_table
+    out: [ otu_table_summary ]
+
+  extract_observations:
+    run:
+      class: CommandLineTool
+      inputs: { tsv_otu_table: File }
+      baseCommand: [ awk, '/#/ {next};{print $1}' ]
+      stdin: $(inputs.tsv_otu_table.path)
+      stdout: observations  # helps cwltool's cache
+      outputs: { observations: stdout }
+    in: { tsv_otu_table: convert_new_biom_to_classic/result }
+    out: [ observations ]
+
+  prune_tree:
+    run: ../tools/qiime-filter_tree.cwl
+    in:
+      tree: pick_closed_reference_otus/otus_tree
+      tips_or_seqids_to_retain: extract_observations/observations
+    out: [ pruned_tree ]
+
 $namespaces: { edam: "http://edamontology.org/" }
 $schemas: [ "http://edamontology.org/EDAM_1.16.owl" ]
-
