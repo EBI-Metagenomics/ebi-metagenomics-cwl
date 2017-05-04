@@ -92,6 +92,9 @@ steps:
     out: [ 16S_matches, masked_sequences ]
 
   ORF_prediction:
+    doc: |
+      Find reads with predicted coding sequences (pCDS) above 60 nucleotides in
+      length.
     run: ../tools/FragGeneScan1_20.cwl
     in:
       sequence: find_SSUs_and_mask/masked_sequences
@@ -102,7 +105,7 @@ steps:
   remove_asterisks_and_reformat:
     run: ../tools/esl-reformat.cwl
     in:
-      sequences: fraggenescan/predictedCDS
+      sequences: ORF_prediction/predictedCDS
       replace: { default: { find: '*', replace: X } }
     out: [ reformatted_sequences ]
 

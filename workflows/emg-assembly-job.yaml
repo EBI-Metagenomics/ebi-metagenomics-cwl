@@ -1,3 +1,5 @@
+#!/usr/bin/env cwl-runner
+cwl:tool: emg-assembly.cwl
 forward_reads:
   path: /hps/nobackup/production/metagenomics/CWL/data/ERP009703/raw/ERR770958_1.fastq.gz
   class: File
@@ -10,32 +12,33 @@ covariance_model_database:
   class: File
   path: /hps/nobackup/production/metagenomics/CWL/data/libraries/Rfam/ribo.cm
 fraggenescan_model:
-  class: File
-  path: /hps/nobackup/production/metagenomics/pipeline/tools/FragGeneScan1.20/train/complete
-fraggenescan_prob_forward:
-  class: File
-  path: /hps/nobackup/production/metagenomics/pipeline/tools/FragGeneScan1.20/train/gene
-fraggenescan_prob_backward:
-  class: File
-  path: /hps/nobackup/production/metagenomics/pipeline/tools/FragGeneScan1.20/train/rgene
-fraggenescan_prob_noncoding:
-  class: File
-  path: /hps/nobackup/production/metagenomics/pipeline/tools/FragGeneScan1.20/train/noncoding
-fraggenescan_prob_start:
-  class: File
-  path: /hps/nobackup/production/metagenomics/pipeline/tools/FragGeneScan1.20/train/start
-fraggenescan_prob_stop:
-  class: File
-  path: /hps/nobackup/production/metagenomics/pipeline/tools/FragGeneScan1.20/train/stop
-fraggenescan_prob_start1:
-  class: File
-  path: /hps/nobackup/production/metagenomics/pipeline/tools/FragGeneScan1.20/train/start1
-fraggenescan_prob_stop1:
-  class: File
-  path: /hps/nobackup/production/metagenomics/pipeline/tools/FragGeneScan1.20/train/stop1
-fraggenescan_pwm_dist:
-  class: File
-  path: /hps/nobackup/production/metagenomics/pipeline/tools/FragGeneScan1.20/train/pwm
+  main:
+    class: File
+    path: /hps/nobackup/production/metagenomics/pipeline/tools/FragGeneScan1.20/train/complete
+  prob_forward:
+    class: File
+    path: /hps/nobackup/production/metagenomics/pipeline/tools/FragGeneScan1.20/train/gene
+  prob_backward:
+    class: File
+    path: /hps/nobackup/production/metagenomics/pipeline/tools/FragGeneScan1.20/train/rgene
+  prob_noncoding:
+    class: File
+    path: /hps/nobackup/production/metagenomics/pipeline/tools/FragGeneScan1.20/train/noncoding
+  prob_start:
+    class: File
+    path: /hps/nobackup/production/metagenomics/pipeline/tools/FragGeneScan1.20/train/start
+  prob_stop:
+    class: File
+    path: /hps/nobackup/production/metagenomics/pipeline/tools/FragGeneScan1.20/train/stop
+  prob_start1:
+    class: File
+    path: /hps/nobackup/production/metagenomics/pipeline/tools/FragGeneScan1.20/train/start1
+  prob_stop1:
+    class: File
+    path: /hps/nobackup/production/metagenomics/pipeline/tools/FragGeneScan1.20/train/stop1
+  pwm_dist:
+    class: File
+    path: /hps/nobackup/production/metagenomics/pipeline/tools/FragGeneScan1.20/train/pwm
 assembly_mem_limit: 10
 mapseq_ref:  # downloaded from https://www.arb-silva.de/fileadmin/silva_databases/qiime/Silva_128_release.tgz
   format: edam:format_1929
