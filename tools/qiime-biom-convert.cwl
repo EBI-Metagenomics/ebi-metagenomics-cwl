@@ -17,6 +17,7 @@ hints:
 inputs:
   biom:
     type: File
+    format: edam:format_3746
     inputBinding:
       prefix: --input_fp
 

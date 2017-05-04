@@ -29,6 +29,7 @@ outputs:
     outputBinding: { glob: 97_otus.tree }
   otu_table:
     type: File
+    format: edam:format_3746  # BIOM
     outputBinding: { glob: otu_table.biom }
   log:
     type: File

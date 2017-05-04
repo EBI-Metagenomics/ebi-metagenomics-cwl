@@ -45,6 +45,7 @@ inputs:
   tRNA_model:
     type: File
     format: edam:format_1370  # HMMER
+  go_summary_config: File
 
 outputs:
   processed_sequences:
@@ -201,6 +202,13 @@ steps:
           - Gene3D
       # outputFileType: { valueFrom: "TSV" }
     out: [i5Annotations]
+
+  summarize_with_GO:
+    run: ../tools/go_summary.cwl
+    in:
+      InterProScan_results: interproscan/i5Annotations
+      config: go_summary_config
+    out: [ go_summary ]
 
   pick_closed_reference_otus:
     run: ../tools/qiime-pick_closed_reference_otus.cwl
