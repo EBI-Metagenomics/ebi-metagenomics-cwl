@@ -1,6 +1,6 @@
 cwlVersion: v1.0
 class: Workflow
-label: EMG pipeline v3.0 (draft CWL version)
+label: EMG pipeline v3.0 (single end version)
 
 requirements:
  - class: InlineJavascriptRequirement
@@ -9,6 +9,7 @@ requirements:
  - class: MultipleInputFeatureRequirement
  - class: SchemaDefRequirement
    types: 
+    - $import: ../tools/FragGeneScan-model.yaml
     - $import: ../tools/InterProScan-apps.yaml
     - $import: ../tools/InterProScan-protein_formats.yaml
     - $import: ../tools/trimmomatic-sliding_window.yaml
@@ -18,21 +19,10 @@ requirements:
     - $import: ../tools/qiime-biom-convert-table.yaml
 
 inputs:
-  forward_reads:
+  reads:
     type: File
     format: edam:format_1930  # FASTQ
-  reverse_reads:
-    type: File
-    format: edam:format_1930  # FASTQ
-  fraggenescan_model: File
-  fraggenescan_prob_forward: File
-  fraggenescan_prob_backward: File
-  fraggenescan_prob_noncoding: File
-  fraggenescan_prob_start: File
-  fraggenescan_prob_stop: File
-  fraggenescan_prob_start1: File
-  fraggenescan_prob_stop1: File
-  fraggenescan_pwm_dist: File
+  fraggenescan_model: ../tools/FragGeneScan-model.yaml#model
   16S_model:
     type: File
     format: edam:format_1370  # HMMER
@@ -51,7 +41,7 @@ outputs:
   processed_sequences:
     type: File
     outputSource: mask_rRNA_and_tRNA/masked_sequences
-  pCDS:
+  predicted_CDS:
     type: File
     outputSource: fraggenescan/predictedCDS
   annotations:
@@ -68,25 +58,10 @@ outputs:
     outputSource: convert_new_biom_to_old_biom/result
 
 steps:
-  overlap_reads:
-    run: ../tools/seqprep.cwl
-    in:
-      forward_reads: forward_reads
-      reverse_reads: reverse_reads
-    out: [ merged_reads, forward_unmerged_reads, reverse_unmerged_reads ]
-
-  combine_seqprep:
-    run: ../tools/seqprep-merge.cwl
-    in: 
-      merged_reads: overlap_reads/merged_reads
-      forward_unmerged_reads: overlap_reads/forward_unmerged_reads
-      reverse_unmerged_reads: overlap_reads/reverse_unmerged_reads
-    out: [ merged_with_unmerged_reads ]
-
   trim_quality_control:
     run: ../tools/trimmomatic.cwl
     in:
-      reads1: combine_seqprep/merged_with_unmerged_reads
+      reads1: reads
       phred: { default: '33' }
       leading: { default: 3 }
       trailing: { default: 3 }
@@ -172,14 +147,6 @@ steps:
       sequence: mask_rRNA_and_tRNA/masked_sequences
       completeSeq: { default: true }
       model: fraggenescan_model
-      prob_forward: fraggenescan_prob_forward
-      prob_backward: fraggenescan_prob_backward
-      prob_noncoding: fraggenescan_prob_noncoding
-      prob_start: fraggenescan_prob_start
-      prob_stop: fraggenescan_prob_stop
-      prob_start1: fraggenescan_prob_start1
-      prob_stop1: fraggenescan_prob_stop1
-      pwm_dist: fraggenescan_pwm_dist
     out: [predictedCDS]
 
   remove_asterisks_and_reformat:

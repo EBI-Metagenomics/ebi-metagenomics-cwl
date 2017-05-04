@@ -1,0 +1,30 @@
+type: record
+name: model
+fields:
+  - name: main
+    type: File
+  - name: prob_forward
+    type: File
+    label: Forward probability model
+  - name: prob_backward
+    type: File
+    label: Backward probability model
+  - name: prob_noncoding
+    type: File
+    label: Noncoding probability model
+  - name: prob_start
+    type: File
+    label: Start probability model
+  - name: prob_stop
+    type: File
+    label: Stop probability model
+  - name: prob_start1
+    type: File
+    label: Start1 probability model
+  - name: prob_stop1
+    type: File
+    label: Stop1 probability model
+  - name: pwm_dist
+    type: File
+    label: pwm distribution
+
