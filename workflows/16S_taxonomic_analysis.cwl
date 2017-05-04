@@ -53,14 +53,9 @@ steps:
     out: [ otu_table_summary ]
 
   extract_observations:
-    run:
-      class: CommandLineTool
-      inputs: { tsv_otu_table: File }
-      baseCommand: [ awk, '/#/ {next};{print $1}' ]
-      stdin: $(inputs.tsv_otu_table.path)
-      stdout: observations  # helps cwltool's cache
-      outputs: { observations: stdout }
-    in: { tsv_otu_table: convert_new_biom_to_classic/result }
+    run: ../tools/extract_observations.cwl
+    in:
+      tsv_otu_table: convert_new_biom_to_classic/result
     out: [ observations ]
 
   prune_tree:
