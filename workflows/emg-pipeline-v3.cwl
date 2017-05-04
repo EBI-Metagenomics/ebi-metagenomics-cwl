@@ -7,13 +7,9 @@ requirements:
  - class: SchemaDefRequirement
    types: 
     - $import: ../tools/FragGeneScan-model.yaml
-    - $import: ../tools/InterProScan-apps.yaml
-    - $import: ../tools/InterProScan-protein_formats.yaml
     - $import: ../tools/trimmomatic-sliding_window.yaml
     - $import: ../tools/trimmomatic-end_mode.yaml
     - $import: ../tools/trimmomatic-phred.yaml
-    - $import: ../tools/esl-reformat-replace.yaml
-    - $import: ../tools/qiime-biom-convert-table.yaml
 
 inputs:
   reads:
@@ -43,7 +39,10 @@ outputs:
     outputSource: ORF_prediction/predictedCDS
   functional_annotations:
     type: File
-    outputSource: functional_analysis/i5Annotations
+    outputSource: functional_analysis/functional_annotations
+  go_summary:
+    type: File
+    outputSource: functional_analysis/go_summary
   otu_table_summary:
     type: File
     outputSource: 16S_taxonomic_analysis/otu_table_summary
@@ -53,9 +52,6 @@ outputs:
   biom_json:
     type: File
     outputSource: 16S_taxonomic_analysis/biom_json
-  go_summary:
-    type: File
-    outputSource: summarize_with_GO/go_summary
 
 steps:
   trim_quality_control:
@@ -102,39 +98,15 @@ steps:
       model: fraggenescan_model
     out: [predictedCDS]
 
-  remove_asterisks_and_reformat:
-    run: ../tools/esl-reformat.cwl
-    in:
-      sequences: ORF_prediction/predictedCDS
-      replace: { default: { find: '*', replace: X } }
-    out: [ reformatted_sequences ]
-
   functional_analysis:
     doc: |
       Matches are generated against predicted CDS, using a sub set of databases
       (Pfam, TIGRFAM, PRINTS, PROSITE patterns, Gene3d) from InterPro. 
-    run: ../tools/InterProScan5.21-60.cwl
+    run: functional_analysis.cwl
     in:
-      proteinFile: remove_asterisks_and_reformat/reformatted_sequences
-      applications:
-        default:
-          - Pfam
-          - TIGRFAM
-          - PRINTS
-          - ProSitePatterns
-          - Gene3D
-    out: [i5Annotations]
-
-  summarize_with_GO:
-    doc: |
-      A summary of Gene Ontology (GO) terms derived from InterPro matches to
-      the sample. It is generated using a reduced list of GO terms called
-      GO slim (http://www.geneontology.org/ontology/subsets/goslim_metagenomics.obo)
-    run: ../tools/go_summary.cwl
-    in:
-      InterProScan_results: functional_analysis/i5Annotations
-      config: go_summary_config
-    out: [ go_summary ]
+      predicted_CDS: ORF_prediction/predictedCDS
+      go_summary_config: go_summary_config
+    out: [ functional_annotations, go_summary]
 
   16S_taxonomic_analysis:
     doc: |
