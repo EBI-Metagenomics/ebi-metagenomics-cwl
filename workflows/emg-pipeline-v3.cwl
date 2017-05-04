@@ -3,10 +3,7 @@ class: Workflow
 label: EMG pipeline v3.0 (single end version)
 
 requirements:
- - class: InlineJavascriptRequirement
- - class: StepInputExpressionRequirement
  - class: SubworkflowFeatureRequirement
- - class: MultipleInputFeatureRequirement
  - class: SchemaDefRequirement
    types: 
     - $import: ../tools/FragGeneScan-model.yaml
@@ -49,13 +46,16 @@ outputs:
     outputSource: interproscan/i5Annotations
   otu_table_summary:
     type: File
-    outputSource: create_otu_text_summary/otu_table_summary
+    outputSource: 16S_functional_analysis/otu_table_summary
   tree:
     type: File
-    outputSource: prune_tree/pruned_tree 
+    outputSource: 16S_functional_analysis/tree
   biom_json:
     type: File
-    outputSource: convert_new_biom_to_old_biom/result
+    outputSource: 16S_functional_analysis/biom_json
+  go_summary:
+    type: File
+    outputSource: summarize_with_GO/go_summary
 
 steps:
   trim_quality_control:
@@ -114,7 +114,6 @@ steps:
           - PRINTS
           - ProSitePatterns
           - Gene3D
-      # outputFileType: { valueFrom: "TSV" }
     out: [i5Annotations]
 
   summarize_with_GO:
@@ -124,52 +123,11 @@ steps:
       config: go_summary_config
     out: [ go_summary ]
 
-  pick_closed_reference_otus:
-    run: ../tools/qiime-pick_closed_reference_otus.cwl
+  16S_functional_analysis:
+    run: 16S_functional_analysis.cwl
     in:
-      sequences: find_SSUs_and_mask/16S_matches
-    out: [ otu_table, otus_tree ]
-
-  convert_new_biom_to_old_biom:
-    run: ../tools/qiime-biom-convert.cwl
-    in:
-      biom: pick_closed_reference_otus/otu_table
-      table_type: { default: OTU Table }
-      json: { default: true }
-    out: [ result ]
-
-  convert_new_biom_to_classic:
-    run: ../tools/qiime-biom-convert.cwl
-    in:
-      biom: pick_closed_reference_otus/otu_table
-      header_key: { default: taxonomy }
-      table_type: { default: OTU Table }
-      tsv: { default: true }
-    out: [ result ]
-
-  create_otu_text_summary:
-    run: ../tools/qiime-biom-summarize_table.cwl
-    in:
-      biom: pick_closed_reference_otus/otu_table
-    out: [ otu_table_summary ]
-
-  extract_observations:
-    run:
-      class: CommandLineTool
-      inputs: { tsv_otu_table: File }
-      baseCommand: [ awk, '/#/ {next};{print $1}' ]
-      stdin: $(inputs.tsv_otu_table.path)
-      stdout: observations  # helps cwltool's cache
-      outputs: { observations: stdout }
-    in: { tsv_otu_table: convert_new_biom_to_classic/result }
-    out: [ observations ]
-
-  prune_tree:
-    run: ../tools/qiime-filter_tree.cwl
-    in:
-      tree: pick_closed_reference_otus/otus_tree
-      tips_or_seqids_to_retain: extract_observations/observations
-    out: [ pruned_tree ]
+      16S_matches: find_SSUs_and_mask/16S_matches
+    out: [ otu_table_summary, tree, biom_json ]
 
 $namespaces: { edam: "http://edamontology.org/" }
 $schemas: [ "http://edamontology.org/EDAM_1.16.owl" ]
