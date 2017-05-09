@@ -32,3 +32,10 @@ outputs:
     type: File
     outputBinding: { glob: go-summary }
 
+$namespaces:
+ s: http://schema.org/
+$schemas:
+ - https://schema.org/docs/schema_org_rdfa.html
+
+s:license: "https://www.apache.org/licenses/LICENSE-2.0"
+s:copyrightHolder: "EMBL - European Bioinformatics Institute"
