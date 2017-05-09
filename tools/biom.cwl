@@ -52,3 +52,10 @@ outputs:
 #biom convert -i ../../test/other_otus.txt -o otus_table.biom --table-type="OTU table" --to-json
 #biom convert -i ../../test/other_otus.txt -o otus_table.biom --table-type="OTU table" --to-json
 
+$namespaces:
+ s: http://schema.org/
+$schemas:
+ - https://schema.org/docs/schema_org_rdfa.html
+
+s:license: "https://www.apache.org/licenses/LICENSE-2.0"
+s:copyrightHolder: "EMBL - European Bioinformatics Institute"
