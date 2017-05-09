@@ -57,7 +57,11 @@ inputs:
 
 baseCommand: [ metaspades.py ]
 
-arguments: [ -o, $(runtime.outdir), --tmp-dir, $(runtime.tmpdir) ]
+arguments:
+  - valueFrom: $(runtime.outdir)
+    prefix: -o
+  - valueFrom: $(runtime.tmpdir)
+    prefix: --tmp-dir
 
 outputs:
   contigs:
