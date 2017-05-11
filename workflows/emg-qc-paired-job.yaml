@@ -1,0 +1,10 @@
+#!/usr/bin/env cwl-runner
+cwl:tool: emg-qc-paired.cwl
+forward_reads:
+  path: /hps/nobackup/production/metagenomics/CWL/data/ERP009703/raw/ERR770958_1.fastq.gz
+  class: File
+  format: edam:format_1930  # FASTQ
+reverse_reads:
+  path: /hps/nobackup/production/metagenomics/CWL/data/ERP009703/raw/ERR770958_2.fastq.gz
+  class: File
+  format: edam:format_1930  # FASTQ
