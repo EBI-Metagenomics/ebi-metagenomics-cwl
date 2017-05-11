@@ -4,9 +4,6 @@ label: EMG QC workflow, (paired end version). Benchmarking with MG-RAST expt.
 
 requirements:
  - class: SubworkflowFeatureRequirement
- - class: SchemaDefRequirement
-   types: 
-    - $import: ../tools/FragGeneScan-model.yaml
 
 inputs:
   forward_reads:
