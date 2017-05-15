@@ -43,11 +43,11 @@ assembly_mem_limit: 10
 mapseq_ref:  # downloaded from https://www.arb-silva.de/fileadmin/silva_databases/qiime/Silva_128_release.tgz
   format: edam:format_1929
   class: File
-  path: /hps/nobackup/production/metagenomics/alex/silva/qiime_compat/work/99_otus.fasta
+  path: /hps/nobackup/production/metagenomics/CWL/data/libraries/SILVA/99_otus.fasta
   secondaryFiles:
     - class: File
-      path: /hps/nobackup/production/metagenomics/alex/silva/qiime_compat/work/99_otus.fasta.mscluster
+      path: /hps/nobackup/production/metagenomics/CWL/data/libraries/SILVA/99_otus.fasta.mscluster
 mapseq_taxonomies:
   - class: File
-    path: /hps/nobackup/production/metagenomics/alex/silva/qiime_compat/work/consensus_taxonomy_7_levels.txt
+    path: /hps/nobackup/production/metagenomics/CWL/data/libraries/SILVA/consensus_taxonomy_7_levels.txt
 
