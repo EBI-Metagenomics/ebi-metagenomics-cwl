@@ -9,9 +9,32 @@ reverse_reads:
   path: /hps/nobackup/production/metagenomics/CWL/data/ERP009703/raw/ERR770958_2.fastq.gz
   class: File
   format: edam:format_1930  # FASTQ
-covariance_model_database:
-  class: File
-  path: /hps/nobackup/production/metagenomics/CWL/data/libraries/Rfam/ribo.cm
+ncRNA_models:
+  - class: File
+    path: /hps/nobackup/production/metagenomics/CWL/data/libraries/Rfam/RF00002.cm
+  - class: File
+    path: /hps/nobackup/production/metagenomics/CWL/data/libraries/Rfam/RF00177.cm
+  - class: File
+    path: /hps/nobackup/production/metagenomics/CWL/data/libraries/Rfam/RF01959.cm
+  - class: File
+    path: /hps/nobackup/production/metagenomics/CWL/data/libraries/Rfam/RF01960.cm
+  - class: File
+    path: /hps/nobackup/production/metagenomics/CWL/data/libraries/Rfam/RF02540.cm
+  - class: File
+    path: /hps/nobackup/production/metagenomics/CWL/data/libraries/Rfam/RF02541.cm
+  - class: File
+    path: /hps/nobackup/production/metagenomics/CWL/data/libraries/Rfam/RF02542.cm
+  - class: File
+    path: /hps/nobackup/production/metagenomics/CWL/data/libraries/Rfam/RF02543.cm
+  - class: File
+    path: /hps/nobackup/production/metagenomics/CWL/data/libraries/Rfam/RF02546.cm
+  - class: File
+    path: /hps/nobackup/production/metagenomics/CWL/data/libraries/Rfam/RF02547.cm
+  - class: File
+    path: /hps/nobackup/production/metagenomics/CWL/data/libraries/Rfam/RF02542.cm
+ncRNA_model_clans:
+    class: File
+    path: /hps/nobackup/production/metagenomics/CWL/data/libraries/Rfam/ribo.claninfo
 fraggenescan_model:
   main:
     class: File

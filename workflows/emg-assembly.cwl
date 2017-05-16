@@ -21,13 +21,8 @@ inputs:
   reverse_reads:
     type: File
     format: edam:format_1930  # FASTQ
-  covariance_model_database:
-    type: File
-    secondaryFiles:
-     - .i1f
-     - .i1i
-     - .i1m
-     - .i1p
+  ncRNA_models: File[]
+  ncRNA_model_clans: File
   fraggenescan_model: ../tools/FragGeneScan-model.yaml#model
   assembly_mem_limit:
     type: int
@@ -87,19 +82,18 @@ steps:
       minimum_length: { default: 100 }
     out: [ filtered_sequences ]
 
-  cmscan:
-    run: ../tools/infernal-cmscan.cwl
+  find_ncRNAs:
+    run:  cmsearch-multimodel.cwl 
     in: 
       query_sequences: discard_short_scaffolds/filtered_sequences
-      covariance_model_database: covariance_model_database
-      only_hmm: { default: true }
-      omit_alignment_section: { default: true }
+      covariance_models: ncRNA_models
+      clan_info: ncRNA_model_clans
     out: [ matches ]
   
   get_SSU_coords:
     run: ../tools/SSU-from-tablehits.cwl
     in:
-      table_hits: cmscan/matches
+      table_hits: find_ncRNAs/matches
     out: [ SSU_coordinates ]
 
   index_scaffolds:
