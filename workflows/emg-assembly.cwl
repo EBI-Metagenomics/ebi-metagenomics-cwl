@@ -14,6 +14,7 @@ requirements:
      - $import: ../tools/biom-convert-table.yaml
 
 inputs:
+  sequencing_run_id: string
   forward_reads:
     type: File
     format: edam:format_1930  # FASTQ
@@ -120,27 +121,27 @@ steps:
     in:
       sequences: extract_SSUs/sequences
       database: mapseq_ref
-      taxonomies: mapseq_taxonomy
+      taxonomy: mapseq_taxonomy
     out: [ classifications ]
 
-  convert_taxonomies_to_otu_counts:
+  convert_classifications_to_otu_counts:
     run: ../tools/mapseq2biom.cwl
     in:
        otu_table: mapseq_taxonomy
-       label: { default: label_missing" }
+       label: sequencing_run_id
        query: classify_SSUs/classifications
     out: [ otu_counts, krona_otu_counts ]
 
   visualize_otu_counts:
     run: ../tools/krona.cwl
     in:
-      otu_counts: convert_taxonomies_to_otu_counts/krona_otu_counts
+      otu_counts: convert_classifications_to_otu_counts/krona_otu_counts
     out: [ otu_visualization ]
 
   convert_otu_counts_to_hdf5:
     run: ../tools/biom-convert.cwl
     in:
-       biom: convert_taxonomies_to_otu_counts/otu_counts
+       biom: convert_classifications_to_otu_counts/otu_counts
        hdf5: { default: true }
        table_type: { default: OTU Table }
     out: [ result ]
@@ -148,7 +149,7 @@ steps:
   convert_otu_counts_to_json:
     run: ../tools/biom-convert.cwl
     in:
-       biom: convert_taxonomies_to_otu_counts/otu_counts
+       biom: convert_classifications_to_otu_counts/otu_counts
        json: { default: true }
        table_type: { default: OTU Table }
     out: [ result ]
