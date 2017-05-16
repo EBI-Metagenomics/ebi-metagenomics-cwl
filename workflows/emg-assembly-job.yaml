@@ -9,7 +9,7 @@ reverse_reads:
   path: /hps/nobackup/production/metagenomics/CWL/data/ERP009703/raw/ERR770958_2.fastq.gz
   class: File
   format: edam:format_1930  # FASTQ
-ncRNA_models:
+ncRNA_ribosomal_models:
   - class: File
     path: /hps/nobackup/production/metagenomics/CWL/data/libraries/Rfam/ribosomal/RF00002.cm
   - class: File
@@ -20,7 +20,7 @@ ncRNA_models:
     path: /hps/nobackup/production/metagenomics/CWL/data/libraries/Rfam/ribosomal/RF01960.cm
   - class: File
     path: /hps/nobackup/production/metagenomics/CWL/data/libraries/Rfam/ribosomal/RF02540.cm
-  - class: Fiile
+  - class: File
     path: /hps/nobackup/production/metagenomics/CWL/data/libraries/Rfam/ribosomal/RF02541.cm
   - class: File
     path: /hps/nobackup/production/metagenomics/CWL/data/libraries/Rfam/ribosomal/RF02542.cm
@@ -32,7 +32,7 @@ ncRNA_models:
     path: /hps/nobackup/production/metagenomics/CWL/data/libraries/Rfam/ribosomal/RF02547.cm
   - class: File
     path: /hps/nobackup/production/metagenomics/CWL/data/libraries/Rfam/ribosomal/RF02542.cm
-ncRNA_model_clans:
+ncRNA_ribosomal_model_clans:
     class: File
     path: /hps/nobackup/production/metagenomics/CWL/data/libraries/Rfam/ribosomal/ribo.claninfo
 fraggenescan_model:
@@ -74,4 +74,47 @@ mapseq_ref:  # downloaded from https://www.arb-silva.de/fileadmin/silva_database
 mapseq_taxonomy:
   class: File
   path: /hps/nobackup/production/metagenomics/CWL/data/libraries/SILVA/consensus_taxonomy_7_levels.txt
-
+ncRNA_other_models:
+  - class: File
+    path: /hps/nobackup/production/metagenomics/CWL/data/libraries/Rfam/other/alpha_tmRNA.cm    
+  - class: File
+    path: /hps/nobackup/production/metagenomics/CWL/data/libraries/Rfam/other/Plant_SRP.cm
+  - class: File
+    path: /hps/nobackup/production/metagenomics/CWL/data/libraries/Rfam/other/Archaea_SRP.cm     
+  - class: File
+    path: /hps/nobackup/production/metagenomics/CWL/data/libraries/Rfam/other/Protozoa_SRP.cm
+  - class: File
+    path: /hps/nobackup/production/metagenomics/CWL/data/libraries/Rfam/other/Bacteria_large_SRP.cm  
+  - class: File
+    path: /hps/nobackup/production/metagenomics/CWL/data/libraries/Rfam/other/RNase_MRP.cm
+  - class: File
+    path: /hps/nobackup/production/metagenomics/CWL/data/libraries/Rfam/other/Bacteria_small_SRP.cm  
+  - class: File
+    path: /hps/nobackup/production/metagenomics/CWL/data/libraries/Rfam/other/RNaseP_arch.cm
+  - class: File
+    path: /hps/nobackup/production/metagenomics/CWL/data/libraries/Rfam/other/beta_tmRNA.cm    
+  - class: File
+    path: /hps/nobackup/production/metagenomics/CWL/data/libraries/Rfam/other/RNaseP_bact_a.cm
+  - class: File
+    path: /hps/nobackup/production/metagenomics/CWL/data/libraries/Rfam/other/cyano_tmRNA.cm     
+  - class: File
+    path: /hps/nobackup/production/metagenomics/CWL/data/libraries/Rfam/other/RNaseP_bact_b.cm
+  - class: File
+    path: /hps/nobackup/production/metagenomics/CWL/data/libraries/Rfam/other/Dictyostelium_SRP.cm   
+  - class: File
+    path: /hps/nobackup/production/metagenomics/CWL/data/libraries/Rfam/other/RNase_P.cm
+  - class: File
+    path: /hps/nobackup/production/metagenomics/CWL/data/libraries/Rfam/other/Fungi_SRP.cm     
+  - class: File
+    path: /hps/nobackup/production/metagenomics/CWL/data/libraries/Rfam/other/RNaseP_nuc.cm
+  - class: File
+    path: /hps/nobackup/production/metagenomics/CWL/data/libraries/Rfam/other/Metazoa_SRP.cm     
+  - class: File
+    path: /hps/nobackup/production/metagenomics/CWL/data/libraries/Rfam/other/tmRNA.cm
+  - class: File
+    path: /hps/nobackup/production/metagenomics/CWL/data/libraries/Rfam/other/mt-tmRNA.cm      
+  - class: File
+    path: /hps/nobackup/production/metagenomics/CWL/data/libraries/Rfam/other/tRNA.cm
+ncRNA_other_model_clans:
+    class: File
+    path: /hps/nobackup/production/metagenomics/CWL/data/libraries/Rfam/other/other.claninfo

@@ -71,6 +71,10 @@ outputs:
     type: File
     outputSource: convert_otu_counts_to_json/result 
 
+  other_ncRNAs:
+    type: File
+    outputSource: find_other_ncRNAs/matches
+
 steps:
   assembly:
     run: ../tools/metaspades.cwl
@@ -123,7 +127,6 @@ steps:
       database: mapseq_ref
       taxonomy: mapseq_taxonomy
     out: [ classifications ]
-
   convert_classifications_to_otu_counts:
     run: ../tools/mapseq2biom.cwl
     in:
@@ -159,8 +162,8 @@ steps:
     run:  cmsearch-multimodel.cwl 
     in: 
       query_sequences: discard_short_scaffolds/filtered_sequences
-      covariance_models: ncRNA_ribosomal_models
-      clan_info: ncRNA_ribosomal_model_clans
+      covariance_models: ncRNA_other_models
+      clan_info: ncRNA_other_model_clans
     out: [ matches ]
 
   fraggenescan:
