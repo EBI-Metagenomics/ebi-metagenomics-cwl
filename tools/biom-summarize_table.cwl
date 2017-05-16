@@ -5,14 +5,14 @@ class: CommandLineTool
 requirements:
   SchemaDefRequirement:
     types:
-      - $import: qiime-biom-convert-table.yaml
+      - $import: biom-convert-table.yaml
 
 hints:
   SoftwareRequirement:
     packages:
-      qiime:
-        specs: [ "https://identifiers.org/rrid/RRID:SCR_008249" ]
-        version: [ "1.9.1" ]
+      biom-format:
+        specs: [ "https://doi.org/10.1186/2047-217X-1-7" ]
+        version: [ "2.1.6" ]
 
 inputs:
   biom:
