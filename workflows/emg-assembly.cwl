@@ -21,13 +21,8 @@ inputs:
   reverse_reads:
     type: File
     format: edam:format_1930  # FASTQ
-  covariance_model_database:
-    type: File
-    secondaryFiles:
-     - .i1f
-     - .i1i
-     - .i1m
-     - .i1p
+  covariance_models: File[]
+  covariance_model_clans: File
   fraggenescan_model: ../tools/FragGeneScan-model.yaml#model
   assembly_mem_limit:
     type: int
@@ -88,12 +83,11 @@ steps:
     out: [ filtered_sequences ]
 
   cmscan:
-    run: ../tools/infernal-cmscan.cwl
+    run:  cmsearch-multimodel.cwl 
     in: 
       query_sequences: discard_short_scaffolds/filtered_sequences
-      covariance_model_database: covariance_model_database
-      only_hmm: { default: true }
-      omit_alignment_section: { default: true }
+      covariance_models: covariance_models
+      clan_info: covariance_model_clans
     out: [ matches ]
   
   get_SSU_coords:
