@@ -78,10 +78,16 @@ steps:
       fastq: trim_quality_control/reads1_trimmed
     out: [ fasta ]
 
+  clean_fasta_headers:
+    run: ../tools/clean_fasta_headers.cwl
+    in:
+      sequences: convert_trimmed-reads_to_fasta/fasta
+    out: [ sequences_with_cleaned_headers ]
+
   find_SSUs_and_mask:
     run: rna-selector.cwl
     in: 
-      reads: convert_trimmed-reads_to_fasta/fasta
+      reads: clean_fasta_headers/sequences_with_cleaned_headers
       16S_model: 16S_model
       5S_model: 5S_model
       23S_model: 23S_model
