@@ -28,7 +28,7 @@ inputs:
     format: edam:format_1929  # FASTA
 
   taxonomies:
-    type: File[]
+    type: File
     inputBinding:
       position: 3
 

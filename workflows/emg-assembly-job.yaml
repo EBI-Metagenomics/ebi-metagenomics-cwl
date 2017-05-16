@@ -48,6 +48,6 @@ mapseq_ref:  # downloaded from https://www.arb-silva.de/fileadmin/silva_database
     - class: File
       path: /hps/nobackup/production/metagenomics/CWL/data/libraries/SILVA/99_otus.fasta.mscluster
 mapseq_taxonomies:
-  - class: File
-    path: /hps/nobackup/production/metagenomics/CWL/data/libraries/SILVA/consensus_taxonomy_7_levels.txt
+  class: File
+  path: /hps/nobackup/production/metagenomics/CWL/data/libraries/SILVA/consensus_taxonomy_7_levels.txt
 
