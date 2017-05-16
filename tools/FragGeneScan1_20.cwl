@@ -108,7 +108,7 @@ arguments:
  - -o
  - $(runtime.outdir)/predicted_cds
  - -t
- - train/model
+ - model
 
 # TODO: when Toil supports the InitialWorkDirRequirement, use that instead of
 # this ShellCommandRequirement hack/workaround
