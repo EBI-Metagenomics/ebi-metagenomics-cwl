@@ -11,8 +11,10 @@ requirements:
      - $import: ../tools/InterProScan-apps.yaml
      - $import: ../tools/InterProScan-protein_formats.yaml
      - $import: ../tools/esl-reformat-replace.yaml
+     - $import: ../tools/biom-convert-table.yaml
 
 inputs:
+  sequencing_run_id: string
   forward_reads:
     type: File
     format: edam:format_1930  # FASTQ
@@ -34,7 +36,7 @@ inputs:
     type: File
     format: edam:format_1929  # FASTA
     secondaryFiles: .mscluster
-  mapseq_taxonomies: File[]
+  mapseq_taxonomy: File
 
 outputs:
   SSUs:
@@ -57,6 +59,17 @@ outputs:
     type: File
     outputSource: interproscan/i5Annotations
 
+  otu_visualization:
+    type: File
+    outputSource: visualize_otu_counts/otu_visualization 
+
+  otu_counts_hdf5:
+    type: File
+    outputSource: convert_otu_counts_to_hdf5/result 
+  
+  otu_counts_json:
+    type: File
+    outputSource: convert_otu_counts_to_json/result 
 
 steps:
   assembly:
@@ -108,8 +121,39 @@ steps:
     in:
       sequences: extract_SSUs/sequences
       database: mapseq_ref
-      taxonomies: mapseq_taxonomies
+      taxonomy: mapseq_taxonomy
     out: [ classifications ]
+
+  convert_classifications_to_otu_counts:
+    run: ../tools/mapseq2biom.cwl
+    in:
+       otu_table: mapseq_taxonomy
+       label: sequencing_run_id
+       query: classify_SSUs/classifications
+    out: [ otu_counts, krona_otu_counts ]
+
+  visualize_otu_counts:
+    run: ../tools/krona.cwl
+    in:
+      otu_counts: convert_classifications_to_otu_counts/krona_otu_counts
+    out: [ otu_visualization ]
+
+  convert_otu_counts_to_hdf5:
+    run: ../tools/biom-convert.cwl
+    in:
+       biom: convert_classifications_to_otu_counts/otu_counts
+       hdf5: { default: true }
+       table_type: { default: OTU Table }
+    out: [ result ]
+
+  convert_otu_counts_to_json:
+    run: ../tools/biom-convert.cwl
+    in:
+       biom: convert_classifications_to_otu_counts/otu_counts
+       json: { default: true }
+       table_type: { default: OTU Table }
+    out: [ result ]
+
 
   fraggenescan:
     run: ../tools/FragGeneScan1_20.cwl

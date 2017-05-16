@@ -5,7 +5,7 @@ label: Functional analyis of sequences that match the 16S SSU
 requirements:
  - class: SchemaDefRequirement
    types: 
-    - $import: ../tools/qiime-biom-convert-table.yaml
+    - $import: ../tools/biom-convert-table.yaml
 
 inputs:
   16S_matches:
@@ -30,7 +30,7 @@ steps:
     out: [ otu_table, otus_tree ]
 
   convert_new_biom_to_old_biom:
-    run: ../tools/qiime-biom-convert.cwl
+    run: ../tools/biom-convert.cwl
     in:
       biom: pick_closed_reference_otus/otu_table
       table_type: { default: OTU Table }
@@ -38,7 +38,7 @@ steps:
     out: [ result ]
 
   convert_new_biom_to_classic:
-    run: ../tools/qiime-biom-convert.cwl
+    run: ../tools/biom-convert.cwl
     in:
       biom: pick_closed_reference_otus/otu_table
       header_key: { default: taxonomy }
@@ -47,7 +47,7 @@ steps:
     out: [ result ]
 
   create_otu_text_summary:
-    run: ../tools/qiime-biom-summarize_table.cwl
+    run: ../tools/biom-summarize_table.cwl
     in:
       biom: pick_closed_reference_otus/otu_table
     out: [ otu_table_summary ]

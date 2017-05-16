@@ -1,5 +1,6 @@
 #!/usr/bin/env cwl-runner
 cwl:tool: emg-assembly.cwl
+sequencing_run_id: ERR770958
 forward_reads:
   path: /hps/nobackup/production/metagenomics/CWL/data/ERP009703/raw/ERR770958_1.fastq.gz
   class: File
@@ -47,7 +48,7 @@ mapseq_ref:  # downloaded from https://www.arb-silva.de/fileadmin/silva_database
   secondaryFiles:
     - class: File
       path: /hps/nobackup/production/metagenomics/CWL/data/libraries/SILVA/99_otus.fasta.mscluster
-mapseq_taxonomies:
-  - class: File
-    path: /hps/nobackup/production/metagenomics/CWL/data/libraries/SILVA/consensus_taxonomy_7_levels.txt
+mapseq_taxonomy:
+  class: File
+  path: /hps/nobackup/production/metagenomics/CWL/data/libraries/SILVA/consensus_taxonomy_7_levels.txt
 
