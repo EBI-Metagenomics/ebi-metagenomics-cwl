@@ -6,6 +6,7 @@ doc: "https://doi.org/10.1007/s12275-011-1213-z"
 requirements:
  - class: StepInputExpressionRequirement
  - class: SubworkflowFeatureRequirement
+ - class: InlineJavascriptRequirement
  - class: MultipleInputFeatureRequirement
  - class: SchemaDefRequirement
    types: 
