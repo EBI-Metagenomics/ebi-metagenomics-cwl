@@ -9,7 +9,7 @@ reverse_reads:
   path: /hps/nobackup/production/metagenomics/CWL/data/ERP009703/raw/ERR770958_2.fastq.gz
   class: File
   format: edam:format_1930  # FASTQ
-covariance_models:
+ncRNA_models:
   - class: File
     path: /hps/nobackup/production/metagenomics/CWL/data/libraries/Rfam/RF00002.cm
   - class: File
@@ -32,7 +32,7 @@ covariance_models:
     path: /hps/nobackup/production/metagenomics/CWL/data/libraries/Rfam/RF02547.cm
   - class: File
     path: /hps/nobackup/production/metagenomics/CWL/data/libraries/Rfam/RF02542.cm
-covariance_model_clans:
+ncRNA_model_clans:
     class: File
     path: /hps/nobackup/production/metagenomics/CWL/data/libraries/Rfam/ribo.claninfo
 fraggenescan_model:

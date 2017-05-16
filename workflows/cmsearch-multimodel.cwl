@@ -16,7 +16,7 @@ outputs:
     outputSource: remove_overlaps/deoverlapped_matches
 
 steps:
-  cmscan:
+  cmsearch:
     run: ../tools/infernal-cmsearch.cwl
     in: 
       query_sequences: query_sequences
@@ -30,7 +30,7 @@ steps:
   concatenate_matches:
     run: ../tools/concatenate.cwl
     in:
-      files: cmscan/matches
+      files: cmsearch/matches
     out: [ result ]
 
   remove_overlaps:
