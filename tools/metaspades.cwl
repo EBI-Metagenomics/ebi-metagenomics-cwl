@@ -22,15 +22,20 @@ hints:
 
 inputs:
   forward_reads:
-    type: File
+    type: File?
     format: edam:format_1930  # FASTQ
     inputBinding:
       prefix: "-1"
   reverse_reads:
-    type: File
+    type: File?
     format: edam:format_1930  # FASTQ
     inputBinding:
       prefix: "-2"
+  unpaired_reads:
+    type: File?
+    format: edam:format_1930  # FASTQ
+    inputBinding:
+      prefix: -s
   threads:
     label: Number of threads
     type: int?

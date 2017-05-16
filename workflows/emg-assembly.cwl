@@ -16,10 +16,13 @@ requirements:
 inputs:
   sequencing_run_id: string
   forward_reads:
-    type: File
+    type: File?
     format: edam:format_1930  # FASTQ
   reverse_reads:
-    type: File
+    type: File?
+    format: edam:format_1930  # FASTQ
+  unpaired_reads:
+    type: File?
     format: edam:format_1930  # FASTQ
   ncRNA_models: File[]
   ncRNA_model_clans: File
@@ -72,6 +75,7 @@ steps:
     in:
       forward_reads: forward_reads
       reverse_reads: reverse_reads
+      unpaired_reads: unpaired_reads
       memory_limit: assembly_mem_limit
     out: [ scaffolds ]
 
