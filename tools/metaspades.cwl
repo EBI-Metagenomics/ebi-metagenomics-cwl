@@ -23,17 +23,20 @@ hints:
 inputs:
   forward_reads:
     type: File?
-    format: edam:format_1930  # FASTQ
+    # format: edam:format_1930  # FASTQ
+    # bug in cwltool
     inputBinding:
       prefix: "-1"
   reverse_reads:
     type: File?
-    format: edam:format_1930  # FASTQ
+    # format: edam:format_1930  # FASTQ
+    # bug in cwltool
     inputBinding:
       prefix: "-2"
   unpaired_reads:
     type: File?
-    format: edam:format_1930  # FASTQ
+    # format: edam:format_1930  # FASTQ
+    # bug in cwltool
     inputBinding:
       prefix: -s
   threads:
