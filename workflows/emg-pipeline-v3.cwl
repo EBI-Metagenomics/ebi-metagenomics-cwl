@@ -95,7 +95,7 @@ steps:
     run: ../tools/FragGeneScan1_20.cwl
     in:
       sequence: find_SSUs_and_mask/masked_sequences
-      completeSeq: { default: true }
+      completeSeq: { default: false }
       model: fraggenescan_model
     out: [predictedCDS]
 
