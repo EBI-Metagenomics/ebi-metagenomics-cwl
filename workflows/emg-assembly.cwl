@@ -47,7 +47,7 @@ outputs:
 
   scaffolds:
     type: File
-    outputSource: assembly/scaffolds
+    outputSource: discard_short_scaffolds/filtered_sequences
 
   pCDS:
     type: File
@@ -67,10 +67,17 @@ steps:
       memory_limit: assembly_mem_limit
     out: [ scaffolds ]
 
+  discard_short_scaffolds:
+    run: ../tools/discard_short_seqs.cwl
+    in:
+      sequences: assembly/scaffolds
+      minimum_length: { default: 100 }
+    out: [ filtered_sequences ]
+
   cmscan:
     run: ../tools/infernal-cmscan.cwl
     in: 
-      query_sequences: assembly/scaffolds
+      query_sequences: discard_short_scaffolds/filtered_sequences
       covariance_model_database: covariance_model_database
       only_hmm: { default: true }
       omit_alignment_section: { default: true }
@@ -85,7 +92,7 @@ steps:
   index_scaffolds:
     run: ../tools/esl-sfetch-index.cwl
     in:
-      sequences: assembly/scaffolds
+      sequences: discard_short_scaffolds/filtered_sequences
     out: [ sequences_with_index ]
 
   extract_SSUs:
@@ -107,7 +114,7 @@ steps:
   fraggenescan:
     run: ../tools/FragGeneScan1_20.cwl
     in:
-      sequence: assembly/scaffolds
+      sequence: discard_short_scaffolds/filtered_sequences
       completeSeq: { default: true }
       model: fraggenescan_model
     out: [ predictedCDS ]

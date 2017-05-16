@@ -65,6 +65,7 @@ steps:
       leading: { default: 3 }
       trailing: { default: 3 }
       end_mode: { default: SE }
+      minlen: { default: 100 }
       slidingwindow:
         default:
           windowSize: 4

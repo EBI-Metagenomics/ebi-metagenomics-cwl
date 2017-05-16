@@ -26,8 +26,7 @@ requirements:
 
 inputs:
   phred:
-    type: trimmomatic-phred.yaml#phred
-    default: '64'
+    type: trimmomatic-phred.yaml#phred?
     inputBinding:
       prefix: -phred
       separate: false
