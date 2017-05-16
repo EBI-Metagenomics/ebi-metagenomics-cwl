@@ -24,8 +24,10 @@ inputs:
   unpaired_reads:
     type: File?
     format: edam:format_1930  # FASTQ
-  ncRNA_models: File[]
-  ncRNA_model_clans: File
+  ncRNA_ribosomal_models: File[]
+  ncRNA_ribosomal_model_clans: File
+  ncRNA_other_models: File[]
+  ncRNA_other_model_clans: File
   fraggenescan_model: ../tools/FragGeneScan-model.yaml#model
   assembly_mem_limit:
     type: int
@@ -86,18 +88,18 @@ steps:
       minimum_length: { default: 100 }
     out: [ filtered_sequences ]
 
-  find_ncRNAs:
+  find_ribosomal_ncRNAs:
     run:  cmsearch-multimodel.cwl 
     in: 
       query_sequences: discard_short_scaffolds/filtered_sequences
-      covariance_models: ncRNA_models
-      clan_info: ncRNA_model_clans
+      covariance_models: ncRNA_ribosomal_models
+      clan_info: ncRNA_ribosomal_model_clans
     out: [ matches ]
   
   get_SSU_coords:
     run: ../tools/SSU-from-tablehits.cwl
     in:
-      table_hits: find_ncRNAs/matches
+      table_hits: find_ribosomal_ncRNAs/matches
     out: [ SSU_coordinates ]
 
   index_scaffolds:
@@ -152,6 +154,14 @@ steps:
        table_type: { default: OTU Table }
     out: [ result ]
 
+
+  find_other_ncRNAs:
+    run:  cmsearch-multimodel.cwl 
+    in: 
+      query_sequences: discard_short_scaffolds/filtered_sequences
+      covariance_models: ncRNA_ribosomal_models
+      clan_info: ncRNA_ribosomal_model_clans
+    out: [ matches ]
 
   fraggenescan:
     run: ../tools/FragGeneScan1_20.cwl
