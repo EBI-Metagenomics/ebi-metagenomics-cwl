@@ -11,30 +11,30 @@ reverse_reads:
   format: edam:format_1930  # FASTQ
 ncRNA_models:
   - class: File
-    path: /hps/nobackup/production/metagenomics/CWL/data/libraries/Rfam/RF00002.cm
+    path: /hps/nobackup/production/metagenomics/CWL/data/libraries/Rfam/ribosomal/RF00002.cm
   - class: File
-    path: /hps/nobackup/production/metagenomics/CWL/data/libraries/Rfam/RF00177.cm
+    path: /hps/nobackup/production/metagenomics/CWL/data/libraries/Rfam/ribosomal/RF00177.cm
   - class: File
-    path: /hps/nobackup/production/metagenomics/CWL/data/libraries/Rfam/RF01959.cm
+    path: /hps/nobackup/production/metagenomics/CWL/data/libraries/Rfam/ribosomal/RF01959.cm
   - class: File
-    path: /hps/nobackup/production/metagenomics/CWL/data/libraries/Rfam/RF01960.cm
+    path: /hps/nobackup/production/metagenomics/CWL/data/libraries/Rfam/ribosomal/RF01960.cm
   - class: File
-    path: /hps/nobackup/production/metagenomics/CWL/data/libraries/Rfam/RF02540.cm
+    path: /hps/nobackup/production/metagenomics/CWL/data/libraries/Rfam/ribosomal/RF02540.cm
+  - class: Fiile
+    path: /hps/nobackup/production/metagenomics/CWL/data/libraries/Rfam/ribosomal/RF02541.cm
   - class: File
-    path: /hps/nobackup/production/metagenomics/CWL/data/libraries/Rfam/RF02541.cm
+    path: /hps/nobackup/production/metagenomics/CWL/data/libraries/Rfam/ribosomal/RF02542.cm
   - class: File
-    path: /hps/nobackup/production/metagenomics/CWL/data/libraries/Rfam/RF02542.cm
+    path: /hps/nobackup/production/metagenomics/CWL/data/libraries/Rfam/ribosomal/RF02543.cm
   - class: File
-    path: /hps/nobackup/production/metagenomics/CWL/data/libraries/Rfam/RF02543.cm
+    path: /hps/nobackup/production/metagenomics/CWL/data/libraries/Rfam/ribosomal/RF02546.cm
   - class: File
-    path: /hps/nobackup/production/metagenomics/CWL/data/libraries/Rfam/RF02546.cm
+    path: /hps/nobackup/production/metagenomics/CWL/data/libraries/Rfam/ribosomal/RF02547.cm
   - class: File
-    path: /hps/nobackup/production/metagenomics/CWL/data/libraries/Rfam/RF02547.cm
-  - class: File
-    path: /hps/nobackup/production/metagenomics/CWL/data/libraries/Rfam/RF02542.cm
+    path: /hps/nobackup/production/metagenomics/CWL/data/libraries/Rfam/ribosomal/RF02542.cm
 ncRNA_model_clans:
     class: File
-    path: /hps/nobackup/production/metagenomics/CWL/data/libraries/Rfam/ribo.claninfo
+    path: /hps/nobackup/production/metagenomics/CWL/data/libraries/Rfam/ribosomal/ribo.claninfo
 fraggenescan_model:
   main:
     class: File
