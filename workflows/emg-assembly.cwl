@@ -57,6 +57,9 @@ outputs:
     type: File
     outputSource: interproscan/i5Annotations
 
+  otu_visualization:
+    type: File
+    outputSource: visualize_otu_counts/otu_visualization 
 
 steps:
   assembly:
@@ -110,6 +113,20 @@ steps:
       database: mapseq_ref
       taxonomies: mapseq_taxonomies
     out: [ classifications ]
+
+  convert_taxonomies_to_otu-counts:
+    run: ../tools/mapseq2biom.cwl
+    in:
+       otu_table: mapseq_taxonomies
+       label: { default: label_missing" }
+       query: classify_SSUs/classifications
+    out: [ otu_counts, krona_otu_counts ]
+
+  visualize_otu_counts:
+    run: ../tools/krona.cwl
+    in:
+      otu_counts: convert_taxonomies_to_otu-counts/krona_otu_counts
+    out: [ otu_visualization ]
 
   fraggenescan:
     run: ../tools/FragGeneScan1_20.cwl
