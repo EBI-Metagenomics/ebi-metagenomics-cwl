@@ -52,6 +52,24 @@ outputs:
   biom_json:
     type: File
     outputSource: 16S_taxonomic_analysis/biom_json
+  qc_stats:
+    type: File
+    outputSource: sequence_stats/summary_out
+    type: File
+    outputSource: sequence_stats/eq_length_pcbin
+    type: File
+    outputSource: sequence_stats/seq_length_bin
+    type: File
+    outputSource: sequence_stats/seq_length_out 
+    type: File
+    outputSource: sequence_stats/nucleotide_distribution_out
+    type: File
+    outputSource: sequence_stats/gc_sum_pcbin
+    type: File
+    outputSource: sequence_stats/gc_sum_bin
+    type: File
+    outputSource: sequence_stats/gc_sum_out
+
 
 steps:
   trim_quality_control:
