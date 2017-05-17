@@ -24,9 +24,10 @@ inputs:
     doc: Not all models provided need to be a member of a clan
 
 baseCommand: []  # TODO, replaces with InitialWorkDirRequirement
+
 arguments:
   - ln
-  - - s
+  - -s
   - $(inputs.cmsearch_matches.path)
   - $(inputs.cmsearch_matches.basename)
   - ;
