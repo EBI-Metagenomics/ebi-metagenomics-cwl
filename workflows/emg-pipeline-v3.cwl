@@ -84,6 +84,20 @@ steps:
       sequences: convert_trimmed-reads_to_fasta/fasta
     out: [ sequences_with_cleaned_headers ]
 
+  sequence_stats:
+    run: ../tools/qc-stats.cwl
+    in: 
+      QCed_reads: clean_fasta_headers/sequences_with_cleaned_headers
+    out: 
+        - summary_out
+        - seq_length_pcbin
+        - seq_length_bin
+        - seq_length_out 
+        - nucleotide_distribution_out
+        - gc_sum_pcbin
+        - gc_sum_bin
+        - gc_sum_out
+
   find_SSUs_and_mask:
     run: rna-selector.cwl
     in: 
