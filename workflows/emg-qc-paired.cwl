@@ -22,7 +22,7 @@ inputs:
 outputs:
   processed_sequences:
     type: File
-    outputSource: convert_trimmed-reads_to_fasta/fasta
+    outputSource: clean_fasta_headers/sequences_with_cleaned_headers
 
 steps:
   overlap_reads:
@@ -64,6 +64,13 @@ steps:
     in:
       fastq: trim_quality_control/reads1_trimmed
     out: [ fasta ]
+
+  clean_fasta_headers:
+    run: ../tools/clean_fasta_headers.cwl
+    in:
+      sequences: convert_trimmed-reads_to_fasta/fasta
+    out: [ sequences_with_cleaned_headers ]
+
 
 $namespaces:
  edam: http://edamontology.org/
