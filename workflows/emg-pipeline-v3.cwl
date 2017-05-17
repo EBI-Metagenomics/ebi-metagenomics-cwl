@@ -52,21 +52,28 @@ outputs:
   biom_json:
     type: File
     outputSource: 16S_taxonomic_analysis/biom_json
-  qc_stats:
+  qc_stats_summary:
     type: File
     outputSource: sequence_stats/summary_out
+  qc_stats_seq_len_pbcbin:
     type: File
-    outputSource: sequence_stats/eq_length_pcbin
+    outputSource: sequence_stats/seq_length_pcbin
+  qc_stats_seq_len_bin:
     type: File
     outputSource: sequence_stats/seq_length_bin
+  qc_stats_seq_len:
     type: File
     outputSource: sequence_stats/seq_length_out 
+  qc_stats_nuc_dist:
     type: File
     outputSource: sequence_stats/nucleotide_distribution_out
+  qc_stats_gc_pcbin:
     type: File
     outputSource: sequence_stats/gc_sum_pcbin
+  qc_stats_gc_bin:
     type: File
     outputSource: sequence_stats/gc_sum_bin
+  qc_stats_gc:
     type: File
     outputSource: sequence_stats/gc_sum_out
 
