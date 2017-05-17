@@ -11,6 +11,9 @@ hints:
 
 requirements:
   ShellCommandRequirement: {}
+  EnvVarRequirement:
+    envDef:
+      LC_ALL: C
 
 inputs:
   cmsearch_matches:
