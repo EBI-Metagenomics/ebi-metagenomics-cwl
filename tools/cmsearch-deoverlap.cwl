@@ -9,6 +9,9 @@ hints:
         specs: [ "https://github.com/nawrockie/cmsearch_tblout_deoverlap" ]
         #version: [ "1.1.2" ]
 
+requirements:
+  ShellCommandRequirement: {}
+
 inputs:
   cmsearch_matches:
     type: File
