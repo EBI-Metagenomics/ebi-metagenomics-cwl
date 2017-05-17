@@ -42,7 +42,6 @@ inputs:
   omit_alignment_section:
     label: Omit the alignment section from the main output.
     type: boolean?
-    default: false
     inputBinding:
       prefix: --noali
     doc: This can greatly reduce the output volume.
