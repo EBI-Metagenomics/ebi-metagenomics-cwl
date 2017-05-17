@@ -19,7 +19,7 @@ inputs:
     type: File
     format: edam:format_3746  # BIOM
     inputBinding:
-      prefix: --input_fp
+      prefix: --input-fp
 
   table_type:
     type: biom-convert-table.yaml#table_type?
@@ -57,7 +57,7 @@ baseCommand: [ biom, convert ]
 
 arguments:
   - valueFrom: result
-    prefix: --output_fp
+    prefix: --output-fp
 
 outputs:
   result:
