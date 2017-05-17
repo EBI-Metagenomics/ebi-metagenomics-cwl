@@ -33,7 +33,7 @@ steps:
     run: ../tools/biom-convert.cwl
     in:
       biom: pick_closed_reference_otus/otu_table
-      table_type: { default: OTU Table }
+      table_type: { default: OTU table }
       json: { default: true }
     out: [ result ]
 
@@ -42,7 +42,7 @@ steps:
     in:
       biom: pick_closed_reference_otus/otu_table
       header_key: { default: taxonomy }
-      table_type: { default: OTU Table }
+      table_type: { default: OTU table }
       tsv: { default: true }
     out: [ result ]
 

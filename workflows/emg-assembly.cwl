@@ -146,7 +146,7 @@ steps:
     in:
        biom: convert_classifications_to_otu_counts/otu_counts
        hdf5: { default: true }
-       table_type: { default: OTU Table }
+       table_type: { default: OTU table }
     out: [ result ]
 
   convert_otu_counts_to_json:
@@ -154,7 +154,7 @@ steps:
     in:
        biom: convert_classifications_to_otu_counts/otu_counts
        json: { default: true }
-       table_type: { default: OTU Table }
+       table_type: { default: OTU table }
     out: [ result ]
 
 

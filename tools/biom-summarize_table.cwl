@@ -19,13 +19,13 @@ inputs:
     format: edam:format_3746  # BIOM
     type: File
     inputBinding:
-      prefix: --input_fp
+      prefix: --input-fp
 
 baseCommand: [ biom, summarize-table ]
 
 arguments:
   - valueFrom: otu_table_summary.txt
-    prefix: --output_fp
+    prefix: --output-fp
 
 outputs:
   otu_table_summary:

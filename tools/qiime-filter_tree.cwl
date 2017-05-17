@@ -35,7 +35,7 @@ arguments:
 outputs:
   pruned_tree:
     type: File
-    outputBinding: { glob: pruned_tree }
+    outputBinding: { glob: pruned.tree }
 
 $namespaces:
  edam: http://edamontology.org/
