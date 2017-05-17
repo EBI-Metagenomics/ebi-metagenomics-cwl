@@ -32,7 +32,7 @@ arguments:
 outputs:
   filtered_sequences:
     type: File
-    outputBinding: { glob: $(inputs.fastq.basename).filtered.fasta }
+    outputBinding: { glob: $(inputs.sequences.basename).filtered.fasta }
     format: edam:format_1929  # FASTA
 
 $namespaces:
