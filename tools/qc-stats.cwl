@@ -10,100 +10,100 @@ requirements:
   InlineJavascriptRequirement: {}
 
 inputs:
-  qc_reas:
+  QCed_reads:
     type: File
     format: edam:format_1929  # FASTA
     inputBinding:
       prefix: "-i"
   length_sum:
-    label: Summary of length distribution
-    type:string
-    default: seq-length.out.full
+    label: Prefix for the files assocaited with sequence length distribution
+    type: string
+    default: seq-length.out
     inputBinding:
-      prefix: -l
+      prefix: "-l"
   gc_sum:
-    label: Summary of GC distribution
-    type:string
-    default: GC-distribution.out.full 
+    label: Prefix for the files associated with GC distribution
+    type: string
+    default: GC-distribution.out
     inputBinding:
-      prefix: -g
+      prefix: "-g"
   nucleotide_distribution:
-    label: Nucleotide distribution
-    type:string
-    default: nucleotide-distribution.out.full
+    label: Prefix for the files associated with ucleotide distribution
+    type: string
+    default: nucleotide-distribution.out
     inputBinding:
-      prefix: -l
-  summmary:
-    label: Summary of .......
-    type:string
+      prefix: "-d"
+  summary:
+    label: File names for summary of sequences, e.g. number, min/max length etc.
+    type: string
     default: summary
     inputBinding:
-      prefix: -o
+      prefix: "-o"
   max_seq:
     label: Maximum number of sequences to sub-sample 
     type: int?
     default: 2000000
     inputBinding:
-      prefix: -m
+      prefix: "-m"
 
 baseCommand: [ MGRAST_base.py ]
 
 outputs:
-  summary:
-    label: information
+  summary_out:
+    label: Contains the summary statistics for the input sequence file
     type: File
     format: text/plain
     outputBinding:
-      glob: $(inputs.summary.nameroot).trimmed.fastq
- 
-   seq_length_pcbin:
-    label: information
-    type: File
-    format: text/plain
-    outputBinding:
-      glob: $(inputs.length_sum.nameroot)_pcbin
+      glob: $(inputs.summary)
 
-   seq_length_bin:
-    label: information
+  seq_length_pcbin:
+    label: Contains the binned length distribution expressed as percentage
     type: File
-    format: text/plain
+    format: text/tab-separated-values
     outputBinding:
-      glob: $(inputs.length_sum.nameroot)_bin
+      glob: $(inputs.length_sum)_pcbin
 
-   seq_length:
-    label: information
+  seq_length_bin:
+    label: Contains the binned length distribution, real numbers
     type: File
-    format: text/plain
+    format: text/tab-separated-values
     outputBinding:
-      glob: $(inputs.length_sum.nameroot)
+      glob: $(inputs.length_sum)_bin
 
-   nucleotide_distribution:
-    label: information
+  seq_length_out:
+    label: Contains all the lengths observed and frequencies
     type: File
-    format: text/plain
+    format: text/tab-separated-values
     outputBinding:
-      glob: $(inputs.nucleotide_distribution.nameroot)
+      glob: $(inputs.length_sum)
 
-   gc_sum_pcbin:
-    label: information
+  nucleotide_distribution_out:
+    label: Contains the normalised fraction of nucleotides on the sequences
     type: File
-    format: text/plain
+    format: text/tab-separated-values
     outputBinding:
-      glob: $(inputs.gc_sum.nameroot)_pcbin
+      glob: $(inputs.nucleotide_distribution)
+
+  gc_sum_pcbin:
+    label: Contains the binned GC distribution, percentage
+    type: File
+    format: text/tab-separated-values
+    outputBinding:
+      glob: $(inputs.gc_sum)_pcbin
 
   gc_sum_bin:
-    label: information
+    label: Contains the binned GC distribution, real numbers
     type: File
-    format: text/plain
+    format: text/tab-separated-values
     outputBinding:
-      glob: $(inputs.length_sum.nameroot)_bin
+      glob: $(inputs.gc_sum)_bin
 
-  gc_sum:
-    label: information
+  gc_sum_out:
+    label: Contains all GC fractsions observed and sequence counts
     type: File
-    format: text/plain
+    format: text/tab-separated-values
     outputBinding:
-      glob: $(inputs.gc_sum.nameroot)
+      glob: $(inputs.gc_sum)
 
 
 
