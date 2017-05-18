@@ -50,6 +50,8 @@ outputs:
     type: File
     outputSource: unified_processing/biom_json
 
+#TODO - need to also pull back all of the QC files..
+
 steps:
   overlap_reads:
     label: Paired-end overlapping reads are merged

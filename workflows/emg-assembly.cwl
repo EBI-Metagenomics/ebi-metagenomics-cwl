@@ -75,6 +75,12 @@ outputs:
     type: File
     outputSource: find_other_ncRNAs/matches
 
+#TODO
+# Add step to expand counts according to coverage
+# Add quality control steps
+# Write code to extract other ncRNAs
+
+
 steps:
   assembly:
     run: ../tools/metaspades.cwl
