@@ -25,7 +25,7 @@ arguments:
   - valueFrom: |
       from Bio import SeqIO
       input_seq_iterator = SeqIO.parse("$(inputs.sequences.path)", "fasta")
-      short_seq_iterator = (record for record in input_seq_iterator if len(record.seq) < $(inputs.minimum_length))
+      short_seq_iterator = (record for record in input_seq_iterator if len(record.seq) >= $(inputs.minimum_length))
       SeqIO.write(short_seq_iterator, "$(inputs.sequences.basename).filtered.fasta", "fasta")
     prefix: -c
 
