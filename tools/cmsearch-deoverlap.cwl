@@ -9,20 +9,38 @@ hints:
         specs: [ "https://github.com/nawrockie/cmsearch_tblout_deoverlap" ]
         #version: [ "1.1.2" ]
 
+requirements:
+  ShellCommandRequirement: {}
+  EnvVarRequirement:
+    envDef:
+      LC_ALL: C
+
 inputs:
   cmsearch_matches:
     type: File
-    inputBinding:
-      position: 1
+    # inputBinding:
+    #   position: 1
+    #   valueFrom: $(self.basename)
 
   clan_information:
     label: clan information on the models provided
     type: File?
-    inputBinding:
-      prefix: --clanin
+    # inputBinding:
+    #   prefix: --clanin
     doc: Not all models provided need to be a member of a clan
 
-baseCommand: cmsearch-deoverlap.pl
+baseCommand: []  # TODO, replaces with InitialWorkDirRequirement
+
+arguments:
+  - ln
+  - -s
+  - $(inputs.cmsearch_matches.path)
+  - $(inputs.cmsearch_matches.basename)
+  - ;
+  - cmsearch-deoverlap.pl
+  - $(inputs.cmsearch_matches.basename)
+  - --clanin
+  - $(inputs.clan_information.path)
 
 outputs:
   deoverlapped_matches:

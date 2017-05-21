@@ -37,5 +37,5 @@ steps:
     run: ../tools/cmsearch-deoverlap.cwl
     in:
       cmsearch_matches: concatenate_matches/result
-      clan_info: clan_info
+      clan_information: clan_info
     out: [ deoverlapped_matches ]
