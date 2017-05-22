@@ -3,6 +3,7 @@ cwlVersion: v1.0
 class: CommandLineTool
 
 label: split FASTA by number of records
+doc: based upon code by Maxim Scheremetjew, EMBL-EBI
 
 inputs:
   seqs:
@@ -19,7 +20,7 @@ arguments:
       currentSequences = []
       for record in SeqIO.parse("$(inputs.seqs.path)", "fasta"):
           currentSequences.append(record)
-          if len(currentSequences) == $(inputs.chunkSize):
+          if len(currentSequences) == $(inputs.chunk_size):
               fileName = currentSequences[0].id + "_" + currentSequences[-1].id
               fileName = fileName.replace("/", "_").replace(" ", "_")
               SeqIO.write(currentSequences, "$(runtime.outdir)/"+fileName, "fasta")
