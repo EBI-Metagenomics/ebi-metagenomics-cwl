@@ -30,4 +30,5 @@ export PATH
 export CLASSPATH
 
 cwltool --preserve-entire-environment --cache $PWD/cwltool-cache --debug \
+	--relax-path-checks \
 	emg-pipeline-v3-paired.cwl emg-pipeline-v3-paired-job.yaml

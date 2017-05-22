@@ -27,4 +27,5 @@ PATH=/hps/nobackup/production/metagenomics/pipeline/tools/interproscan-5.19-58.0
 export PATH
 
 cwltool --preserve-entire-environment --cache $PWD/cwltool-cache --debug \
-        --outdir v4-results emg-assembly.cwl emg-assembly-job.yaml 
+	--relax-path-checks --outdir v4-results \
+	emg-assembly.cwl emg-assembly-job.yaml 
