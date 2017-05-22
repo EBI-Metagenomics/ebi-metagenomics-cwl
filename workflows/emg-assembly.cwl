@@ -174,7 +174,7 @@ steps:
     run: ../tools/FragGeneScan1_20.cwl
     in:
       sequence: discard_short_scaffolds/filtered_sequences
-      completeSeq: { default: false }
+      completeSeq: { default: true }
       model: fraggenescan_model
     out: [predictedCDS]
 
