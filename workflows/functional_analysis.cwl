@@ -4,6 +4,7 @@ label: functional analysis prediction with InterProScan
 
 requirements:
  - class: SubworkflowFeatureRequirement
+ - class: ScatterFeatureRequirement
  - class: SchemaDefRequirement
    types: 
     - $import: ../tools/esl-reformat-replace.yaml
@@ -17,7 +18,7 @@ inputs:
 outputs:
   functional_annotations:
     type: File
-    outputSource: functional_analysis/i5Annotations
+    outputSource: combine_annotations/result
   go_summary:
     type: File
     outputSource: summarize_with_GO/go_summary
@@ -30,13 +31,20 @@ steps:
       replace: { default: { find: '*', replace: X } }
     out: [ reformatted_sequences ]
 
+  chunk_inputs:
+    run: ../tools/fasta_chunker.cwl
+    in:
+      seqs: remove_asterisks_and_reformat/reformatted_sequences
+      chunk_size: { default: 10000 }
+    out: [ chunks ]
+
   functional_analysis:
     doc: |
       Matches are generated against predicted CDS, using a sub set of databases
       (Pfam, TIGRFAM, PRINTS, PROSITE patterns, Gene3d) from InterPro. 
     run: ../tools/InterProScan5.21-60.cwl
     in:
-      proteinFile: remove_asterisks_and_reformat/reformatted_sequences
+      proteinFile: chunk_inputs/chunks
       applications:
         default:
           - Pfam
@@ -44,7 +52,14 @@ steps:
           - PRINTS
           - ProSitePatterns
           - Gene3D
+    scatter: proteinFile
     out: [i5Annotations]
+
+  combine_annotations:
+    run: ../tools/concatenate.cwl
+    in:
+      files: functional_analysis/i5Annotations
+    out: [ result ]
 
   summarize_with_GO:
     doc: |
@@ -53,7 +68,7 @@ steps:
       GO slim (http://www.geneontology.org/ontology/subsets/goslim_metagenomics.obo)
     run: ../tools/go_summary.cwl
     in:
-      InterProScan_results: functional_analysis/i5Annotations
+      InterProScan_results: combine_annotations/result
       config: go_summary_config
     out: [ go_summary ]
 
