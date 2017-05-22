@@ -7,6 +7,10 @@ requirements:
  - class: SchemaDefRequirement
    types: 
     - $import: ../tools/FragGeneScan-model.yaml
+    - $import: ../tools/InterProScan-apps.yaml
+    - $import: ../tools/InterProScan-protein_formats.yaml
+    - $import: ../tools/esl-reformat-replace.yaml
+    - $import: ../tools/biom-convert-table.yaml
 
 inputs:
   forward_reads:
@@ -51,13 +55,13 @@ outputs:
 
 
   #Keep all of the protein stuff here
-  pCDS:
+  predicted_CDS:
     type: File
-    outputSource: fraggenescan/predictedCDS
+    outputSource: unified_processing/predicted_CDS
 
-  annotations:
+  functional_annotations:
     type: File
-    outputSource: interproscan/i5Annotations
+    outputSource: unified_processing/functional_annotations
   
 
   #Taxonomic outputs
@@ -129,15 +133,15 @@ steps:
 
   unified_processing:
     label: continue with the main workflow
-    run: emg-pipeline-v3.cwl
+    run: emg-core-analysis-v4.cwl
     in:
       reads: combine_overlaped_and_unmerged_reads/merged_with_unmerged_reads
       fraggenescan_model: fraggenescan_model
  #Inputs are different.
-     16S_model: 16S_model
-      5S_model: 5S_model
-      23S_model: 23S_model
-      tRNA_model: tRNA_model
+      ncRNA_ribosomal_models: ncRNA_ribosomal_models
+      ncRNA_ribosomal_model_clans: ncRNA_ribosomal_model_clans
+      ncRNA_other_models: ncRNA_other_models
+      ncRNA_other_model_clans: ncRNA_other_model_clans
       go_summary_config: go_summary_config
     out:
       - processed_sequences
