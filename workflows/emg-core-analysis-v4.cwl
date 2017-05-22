@@ -36,6 +36,12 @@ inputs:
 
 outputs:  
 
+  #Need to pull back the file that we procced on. 
+  #This may need to be changed to a gzipped version
+  processed_nucleotide_reads: 
+    type: File
+    outputSource: clean_fasta_headers/sequences_with_cleaned_headers 
+    
   #All of the sequence file QC stats
   qc_stats_summary:
     type: File
@@ -73,11 +79,17 @@ outputs:
     type: File
     outputSource: classify_SSUs/classifications
 
+  #TODO: Need to repeat for LSU
+
+  #TODO: Need to extract 5S
+
+
   #The predicted proteins and their annotations
   predicted_CDS:
     type: File
     outputSource: fraggenescan/predictedCDS
 
+  #I think this is the GO slim, but we also need a TSV file with all GO annotations.
   go_summary:
     type: File
     outputSource: functional_analysis/go_summary
@@ -89,30 +101,32 @@ outputs:
 
 
   #Taxonomic visualisation step
-  otu_visualization:
+  ssu_otu_visualization:
     type: File
     outputSource: visualize_otu_counts/otu_visualization 
 
-  otu_counts_hdf5:
+  ssu_otu_counts_hdf5:
     type: File
     outputSource: convert_otu_counts_to_hdf5/result 
   
-  otu_counts_json:
+  ssu_otu_counts_json:
     type: File
     outputSource: convert_otu_counts_to_json/result 
 
+  #TODO - repeat for LSU
 
+  #TODO - there is no Newick tree at the moment. 
+    
 
   #Non-coding RNA analysis
   other_ncRNAs:
     type: File
     outputSource: find_other_ncRNAs/matches
-
+  #TODO - Extract these into a single file 
 
 #TODO - check all the outputs
 #Sequence cat
 #Summary files
-#LSU based taxonomy
 
 
 steps:
@@ -252,6 +266,10 @@ steps:
       covariance_models: ncRNA_other_models
       clan_info: ncRNA_other_model_clans
     out: [ matches ]
+
+  #TODO - need to think about summary file
+  
+  #TODO - need to extract ncRNA sequences
 
 
   #Protein identification
