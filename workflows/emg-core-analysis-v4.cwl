@@ -65,14 +65,12 @@ outputs:
     type: File
     outputSource: extract_SSUs/sequences
 
-  classifications:
+  ssu_classifications:
     type: File
     outputSource: classify_SSUs/classifications
 
-
-
   #The predicted proteins and their annotations
-  pCDS:
+  predicted_CDS:
     type: File
     outputSource: fraggenescan/predictedCDS
 
@@ -80,9 +78,9 @@ outputs:
     type: File
     outputSource: functional_analysis/go_summary
 
-  annotations:
+  functional_annotations:
     type: File
-    outputSource: interproscan/i5Annotations
+    outputSource: functional_analysis/functional_annotations
 
 
 
@@ -149,7 +147,7 @@ steps:
   sequence_stats:
     run: ../tools/qc-stats.cwl
     in: 
-      QCedreads: 
+      QCed_reads: clean_fasta_headers/sequences_with_cleaned_headers 
     out: 
       - summary_out
       - seq_length_pcbin
@@ -166,7 +164,7 @@ steps:
   find_ribosomal_ncRNAs:
     run:  cmsearch-multimodel.cwl 
     in: 
-      query_sequences: QCed_reads
+      query_sequences: clean_fasta_headers/sequences_with_cleaned_headers 
       covariance_models: ncRNA_ribosomal_models
       clan_info: ncRNA_ribosomal_model_clans
     out: [ matches ]
@@ -183,13 +181,13 @@ steps:
   index_reads:
     run: ../tools/esl-sfetch-index.cwl
     in:
-      sequences: QCed_reads
+      sequences: clean_fasta_headers/sequences_with_cleaned_headers 
     out: [ sequences_with_index ]
 
   extract_SSUs:
     run: ../tools/esl-sfetch-manyseqs.cwl
     in:
-      indexed_sequences: index_scaffolds/sequences_with_index
+      indexed_sequences: index_reads/sequences_with_index
       names: get_SSU_coords/SSU_coordinates
       names_contain_subseq_coords: { default: true }
     out: [ sequences ]
@@ -246,7 +244,7 @@ steps:
   find_other_ncRNAs:
     run:  cmsearch-multimodel.cwl 
     in: 
-      query_sequences: QCed_reads
+      query_sequences: clean_fasta_headers/sequences_with_cleaned_headers 
       covariance_models: ncRNA_other_models
       clan_info: ncRNA_other_model_clans
     out: [ matches ]
@@ -256,7 +254,7 @@ steps:
   fraggenescan:
     run: ../tools/FragGeneScan1_20.cwl
     in:
-      sequence: QC_reads
+      sequence: clean_fasta_headers/sequences_with_cleaned_headers 
       completeSeq: { default: false }
       model: fraggenescan_model
     out: [ predictedCDS ]
@@ -268,27 +266,21 @@ steps:
       replace: { default: { find: '*', replace: X } }
     out: [ reformatted_sequences ]
 
-
   #TODO - check that <60aa length are being removed.
 
 
-  interproscan:
-    run: ../tools/InterProScan5.21-60.cwl
+  functional_analysis:
+    doc: |
+      Matches are generated against predicted CDS, using a sub set of databases
+      (Pfam, TIGRFAM, PRINTS, PROSITE patterns, Gene3d) from InterPro. 
+    run: functional_analysis.cwl
     in:
-      proteinFile: remove_asterisks_and_reformat/reformatted_sequences
-      applications:
-        default:
-          - Pfam
-          - TIGRFAM
-          - PRINTS
-          - ProSitePatterns
-          - Gene3D
-      # outputFileType:
-      #   valueFrom: TSV
-    out: [i5Annotations]
-
-    
+      predicted_CDS: remove_asterisks_and_reformat/reformatted_sequences
+      go_summary_config: go_summary_config
+    out: [ functional_annotations, go_summary]  
+   
   #TODO - Sequence catagorisation & summary steps.
+
     
 $namespaces:
  edam: http://edamontology.org/

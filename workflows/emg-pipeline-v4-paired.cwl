@@ -43,15 +43,19 @@ outputs:
   processed_sequences:
     type: File
     outputSource: unified_processing/processed_sequences
+ 
+  #The idenditied SSU rRNA and their classification
+  SSUs:
+    type: File
+    outputSource: unified_processing/SSUs  
+  ssu_classifications:
+    type: File
+    outputSource: unified_processing/ssu_classifications
+
+  
   predicted_CDS:
     type: File
     outputSource: unified_processing/predicted_CDS
-  functional_annotations:
-    type: File
-    outputSource: unified_processing/functional_annotations
-  otu_table_summary:
-    type: File
-    outputSource: unified_processing/otu_table_summary
 
 
   #Keep all of the protein stuff here
@@ -64,50 +68,36 @@ outputs:
     outputSource: unified_processing/functional_annotations
   
 
-  #Taxonomic outputs
-  otu_visualization:
-    type: File
-    outputSource: visualize_otu_counts/otu_visualization 
-
-  otu_counts_hdf5:
-    type: File
-    outputSource: convert_otu_counts_to_hdf5/result 
-  
-  otu_counts_json:
-    type: File
-    outputSource: convert_otu_counts_to_json/result 
-
-
   #Other non-coding RNA hits
   other_ncRNAs:
     type: File
-    outputSource: find_other_ncRNAs/matches
+    outputSource: unified_processing/other_ncRNAs
 
   #All of the sequence file QC stats
   qc_stats_summary:
     type: File
-    outputSource: sequence_stats/summary_out
+    outputSource: unified_processing/qc_stats_summary
   qc_stats_seq_len_pbcbin:
     type: File
-    outputSource: sequence_stats/seq_length_pcbin
+    outputSource: unified_processing/qc_stats_seq_len_pcbin
   qc_stats_seq_len_bin:
     type: File
-    outputSource: sequence_stats/seq_length_bin
+    outputSource: unified_processing/qc_stats_seq_len_bin
   qc_stats_seq_len:
     type: File
-    outputSource: sequence_stats/seq_length_out 
+    outputSource: unified_processing/qc_stats_seq_len
   qc_stats_nuc_dist:
     type: File
-    outputSource: sequence_stats/nucleotide_distribution_out
+    outputSource: unified_processing/qc_stats_nuc_dist
   qc_stats_gc_pcbin:
     type: File
-    outputSource: sequence_stats/gc_sum_pcbin
+    outputSource: unified_processing/qc_stats_gc_pcbin
   qc_stats_gc_bin:
     type: File
-    outputSource: sequence_stats/gc_sum_bin
+    outputSource: unified_processing/qc_stats_gc_bin
   qc_stats_gc:
     type: File
-    outputSource: sequence_stats/gc_sum_out
+    outputSource: unified_processing/qc_stats_gc
 
   #TODO -
   # Add a step to extract ncRNAs
@@ -145,12 +135,24 @@ steps:
       go_summary_config: go_summary_config
     out:
       - processed_sequences
+      - other_ncRNAs
+      - SSUs
+      - ssu_classifications
       - predicted_CDS
       - functional_annotations
-      - otu_table_summary
+      - go_summary
+      - qc_stats_summary
+      - qc_stats_seq_len_pcbin
+      - qc_stats_seq_len_bin
+      - qc_stats_seq_len
+      - qc_stats_nuc_dist
+      - qc_stats_gc_pcbin
+      - qc_stats_gc_bin
+      - qc_stats_gc
+      #- otu_table_summary
 #TODO - checkouts and rationalise file names between v3 and v4
-      - tree
-      - biom_json
+      #- tree
+      #- biom_json
 
 $namespaces:
  edam: http://edamontology.org/
