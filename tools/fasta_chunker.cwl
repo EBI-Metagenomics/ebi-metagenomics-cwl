@@ -10,25 +10,26 @@ inputs:
     format: edam:format_1929  # FASTA
   chunk_size: int
 
-baseCommand:
-  - python
-  - -c
-  - |
-    from Bio import SeqIO
-    currentSequences = []
-    for record in SeqIO.parse("$(inputs.seqs.path)", "fasta"):
-        currentSequences.append(record)
-        if len(currentSequences) == $(inputs.chunkSize):
-            fileName = currentSequences[0].id + "_" + currentSequences[-1].id
-            fileName = fileName.replace("/", "_").replace(" ", "_")
-            SeqIO.write(currentSequences, "$(runtime.outdir)/"+fileName, "fasta")
-            currentSequences = []
+baseCommand: python
 
-    # write any remaining sequences
-    if len(currentSequences) > 0:
-        fileName = currentSequences[0].id + "_" + currentSequences[-1].id
-        fileName = fileName.replace("/", "_").replace(" ", "_")
-        SeqIO.write(currentSequences, "$(runtime.outdir)/"+fileName, "fasta")
+arguments:
+  - prefix: -c
+    valueFrom: |
+      from Bio import SeqIO
+      currentSequences = []
+      for record in SeqIO.parse("$(inputs.seqs.path)", "fasta"):
+          currentSequences.append(record)
+          if len(currentSequences) == $(inputs.chunkSize):
+              fileName = currentSequences[0].id + "_" + currentSequences[-1].id
+              fileName = fileName.replace("/", "_").replace(" ", "_")
+              SeqIO.write(currentSequences, "$(runtime.outdir)/"+fileName, "fasta")
+              currentSequences = []
+
+      # write any remaining sequences
+      if len(currentSequences) > 0:
+          fileName = currentSequences[0].id + "_" + currentSequences[-1].id
+          fileName = fileName.replace("/", "_").replace(" ", "_")
+          SeqIO.write(currentSequences, "$(runtime.outdir)/"+fileName, "fasta")
 
 outputs:
   chunks:
