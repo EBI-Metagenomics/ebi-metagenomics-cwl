@@ -31,6 +31,9 @@ mkdir -p ${workdir}
 
 #RESTART=--restart
 
-${CWLTOIL} ${RESTART} --logDebug --logFile $PWD/toil-log --setEnv PATH --setEnv CLASSPATH --preserve-environment PATH --preserve-environment CLASSPATH --batchSystem LSF \
-	--workDir ${workdir} --jobStore $PWD/toil-jobstore-v3 --disableCaching --defaultMemory 10Gi \
+${CWLTOIL} ${RESTART} --logDebug --logFile $PWD/toil-log \
+	--setEnv CLASSPATH=${CLASSPATH} --setEnv PATH=${PATH} \
+	--preserve-environment PATH --preserve-environment CLASSPATH \
+	--batchSystem LSF --workDir ${workdir} \
+	--jobStore $PWD/toil-jobstore-v3 --disableCaching --defaultMemory 10Gi \
 	emg-pipeline-v3-paired.cwl emg-pipeline-v3-paired-job.yaml
