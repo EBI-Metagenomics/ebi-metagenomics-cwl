@@ -12,6 +12,10 @@ requirements:
      - $import: ../tools/InterProScan-protein_formats.yaml
      - $import: ../tools/esl-reformat-replace.yaml
      - $import: ../tools/biom-convert-table.yaml
+     - $import: ../tools/trimmomatic-sliding_window.yaml
+     - $import: ../tools/trimmomatic-end_mode.yaml
+     - $import: ../tools/trimmomatic-phred.yaml
+      
 
 inputs:
   sequencing_run_id: string
