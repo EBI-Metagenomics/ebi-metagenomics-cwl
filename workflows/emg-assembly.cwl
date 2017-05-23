@@ -168,10 +168,7 @@ steps:
     out: [ matches ]
 
   ORF_prediction:
-    doc: |
-      Find reads with predicted coding sequences (pCDS) above 60 nucleotides in
-      length.
-    run: ../tools/FragGeneScan1_20.cwl
+    run: orf_prediction.cwl
     in:
       sequence: discard_short_scaffolds/filtered_sequences
       completeSeq: { default: true }
