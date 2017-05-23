@@ -13,7 +13,7 @@ inputs:
     type: File
     label: the output from the MAPseq that assigns a taxonomy to a sequence
     inputBinding:
-      prefix: --otuTable 
+      prefix: --query
 
   label:
     type: string
@@ -25,7 +25,7 @@ baseCommand: mapseq2biom.pl
 
 arguments:
   - valueFrom: $(inputs.query.basename).tsv
-    prefix: --outFile
+    prefix: --outfile
   - valueFrom: $(inputs.label).txt
     prefix: --krona
 
