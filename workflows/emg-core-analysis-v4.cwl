@@ -91,7 +91,7 @@ outputs:
   #The predicted proteins and their annotations
   predicted_CDS:
     type: File
-    outputSource: fraggenescan/predictedCDS
+    outputSource: ORF_prediction/predictedCDS
 
   #TODO: I think this is the GO slim, but we also need a TSV file with all GO annotations.
   go_summary:
@@ -308,8 +308,9 @@ steps:
 
 
   #Protein identification
-  fraggenescan:
-    run: ../tools/FragGeneScan1_20.cwl
+  
+  ORF_prediction:
+    run: orf_prediction.cwl
     in:
       sequence: clean_fasta_headers/sequences_with_cleaned_headers 
       completeSeq: { default: false }
@@ -319,7 +320,7 @@ steps:
   remove_asterisks_and_reformat:
     run: ../tools/esl-reformat.cwl
     in:
-      sequences: fraggenescan/predictedCDS
+      sequences: ORF_prediction/predictedCDS
       replace: { default: { find: '*', replace: X } }
     out: [ reformatted_sequences ]
 

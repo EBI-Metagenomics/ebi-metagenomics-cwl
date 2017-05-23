@@ -5,7 +5,7 @@ class: Workflow
 inputs:
   table_hits:
     type: File
-    label: output of infernal's cmscan or cmsearch
+    label: output of infernal's cmsearch
 
 outputs:
  5S_coordinates:
@@ -19,7 +19,7 @@ steps:
     out: [ 5Ss ]
 
   extract_5S_coords:
-    run: extract-coords-from-cmscan.cwl
+    run: extract-coords-from-cmsearch.cwl
     in: { infernal_matches: grep/5Ss }
     out: [ matched_seqs_with_coords ]
 

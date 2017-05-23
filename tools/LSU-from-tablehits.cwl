@@ -5,7 +5,7 @@ class: Workflow
 inputs:
   table_hits:
     type: File
-    label: output of infernal's cmscan or cmsearch
+    label: output of infernal's cmsearch
 
 outputs:
  LSU_coordinates:
@@ -19,7 +19,7 @@ steps:
     out: [ LSUs ]
 
   extract_lsu_coords:
-    run: extract-coords-from-cmscan.cwl
+    run: extract-coords-from-cmsearch.cwl
     in: { infernal_matches: grep/LSUs }
     out: [ matched_seqs_with_coords ]
 
