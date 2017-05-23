@@ -53,7 +53,7 @@ steps:
             (19) to (ali coord): The end of the MEA alignment of this domain
                  with respect to the sequence, numbered 1..L for a sequence of
                  L residues.
-      baseCommand: [ awk, '{print $1, $18, $19, $1}' ]
+      baseCommand: [ awk, '{print $1"/"$18"-"$19" "$18" "$19" "$1}' ]
       stdout: formatted_names_and_coords  # helps with cwltool's --cache
       outputs: { formatted_names_and_coords: { type: stdout } }
     in: { coordinate_lines: extract_coord_lines/coord_lines }
