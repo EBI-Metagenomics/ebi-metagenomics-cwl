@@ -5,6 +5,13 @@ class: CommandLineTool
 label: split FASTA by number of records
 doc: based upon code by Maxim Scheremetjew, EMBL-EBI
 
+hints:
+  - class: SoftwareRequirement
+    packages:
+      biopython:
+        specs: [ "https://identifiers.org/rrid/RRID:SCR_007173" ]
+        version: [ "1.65", "1.66", "1.69" ]
+
 inputs:
   seqs:
     type: File

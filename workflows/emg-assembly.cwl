@@ -37,6 +37,7 @@ inputs:
     format: edam:format_1929  # FASTA
     secondaryFiles: .mscluster
   mapseq_taxonomy: File
+  go_summary_config: File
 
 outputs:
   SSUs:
@@ -53,11 +54,11 @@ outputs:
 
   pCDS:
     type: File
-    outputSource: fraggenescan/predictedCDS
+    outputSource: ORF_prediction/predictedCDS
 
   annotations:
     type: File
-    outputSource: interproscan/i5Annotations
+    outputSource: functional_analysis/functional_annotations
 
   otu_visualization:
     type: File
@@ -166,35 +167,26 @@ steps:
       clan_info: ncRNA_other_model_clans
     out: [ matches ]
 
-  fraggenescan:
+  ORF_prediction:
+    doc: |
+      Find reads with predicted coding sequences (pCDS) above 60 nucleotides in
+      length.
     run: ../tools/FragGeneScan1_20.cwl
     in:
       sequence: discard_short_scaffolds/filtered_sequences
       completeSeq: { default: true }
       model: fraggenescan_model
-    out: [ predictedCDS ]
+    out: [predictedCDS]
 
-  remove_asterisks_and_reformat:
-    run: ../tools/esl-reformat.cwl
+  functional_analysis:
+    doc: |
+      Matches are generated against predicted CDS, using a sub set of databases
+      (Pfam, TIGRFAM, PRINTS, PROSITE patterns, Gene3d) from InterPro.
+    run: functional_analysis.cwl
     in:
-      sequences: fraggenescan/predictedCDS
-      replace: { default: { find: '*', replace: X } }
-    out: [ reformatted_sequences ]
-
-  interproscan:
-    run: ../tools/InterProScan5.21-60.cwl
-    in:
-      proteinFile: remove_asterisks_and_reformat/reformatted_sequences
-      applications:
-        default:
-          - Pfam
-          - TIGRFAM
-          - PRINTS
-          - ProSitePatterns
-          - Gene3D
-      # outputFileType:
-      #   valueFrom: TSV
-    out: [i5Annotations]
+      predicted_CDS: ORF_prediction/predictedCDS
+      go_summary_config: go_summary_config
+    out: [ functional_annotations, go_summary]
 
 $namespaces:
  edam: http://edamontology.org/

@@ -118,3 +118,6 @@ ncRNA_other_models:
 ncRNA_other_model_clans:
     class: File
     path: /hps/nobackup/production/metagenomics/CWL/data/libraries/Rfam/other/other.claninfo
+go_summary_config:
+    class: File
+    path: /hps/nobackup/production/metagenomics/production-scripts/current/mgportal/analysis-pipeline/python/tools/go_summary_generator/config/go_summary-config.json
