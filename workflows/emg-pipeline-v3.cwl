@@ -161,6 +161,18 @@ steps:
       16S_matches: find_SSUs_and_mask/16S_matches
     out: [ otu_table_summary, tree, biom_json ]
 
+  ipr_stats:
+    run: ../tools/ipr_stats.cwl
+    in:
+      iprscan: functional_analysis/functional_annotations
+    out: [ matchNumber, cdsWithMatchNumber, readWithMatchNumber, reads ]
+
+  orf_stats:
+    run: ../tools/orf_stats.cwl
+    in:
+      orfs: ORF_prediction/predictedCDS
+    out: [ numberReadsWithOrf, numberOrfs, readsWithOrf ]
+
 $namespaces:
  edam: http://edamontology.org/
  s: http://schema.org/
