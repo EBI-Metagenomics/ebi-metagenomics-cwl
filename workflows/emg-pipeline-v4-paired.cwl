@@ -34,23 +34,30 @@ inputs:
     format: edam:format_1929  # FASTA
     secondaryFiles: .mscluster
   mapseq_taxonomy: File
+  sequencing_run_id: string
 
   #Go summary file for slimming 
   go_summary_config: File
 
 outputs:
   #
-  processed_sequences:
+  processed_nucleotide_reads:
     type: File
-    outputSource: unified_processing/processed_sequences
+    outputSource: unified_processing/processed_nucleotide_reads
  
   #The idenditied SSU rRNA and their classification
-  SSUs:
+  SSU_sequences:
     type: File
-    outputSource: unified_processing/SSUs  
+    outputSource: unified_processing/SSU_sequences  
   ssu_classifications:
     type: File
     outputSource: unified_processing/ssu_classifications
+  LSU_sequences:
+    type: File
+    outputSource: unified_processing/LSU_sequences  
+  5S_sequences:
+    type: File
+    outputSource: unified_processing/5S_sequences  
 
   
   predicted_CDS:
@@ -125,6 +132,9 @@ steps:
     label: continue with the main workflow
     run: emg-core-analysis-v4.cwl
     in:
+      mapseq_ref: mapseq_ref
+      mapseq_taxonomy: mapseq_taxonomy 
+      sequencing_run_id: sequencing_run_id
       reads: combine_overlaped_and_unmerged_reads/merged_with_unmerged_reads
       fraggenescan_model: fraggenescan_model
  #Inputs are different.
@@ -134,9 +144,11 @@ steps:
       ncRNA_other_model_clans: ncRNA_other_model_clans
       go_summary_config: go_summary_config
     out:
-      - processed_sequences
+      - processed_nucleotide_reads
       - other_ncRNAs
-      - SSUs
+      - SSU_sequences
+      - LSU_sequences
+      - 5S_sequences
       - ssu_classifications
       - predicted_CDS
       - functional_annotations

@@ -46,7 +46,7 @@ outputs:
   qc_stats_summary:
     type: File
     outputSource: sequence_stats/summary_out
-  qc_stats_seq_len_pbcbin:
+  qc_stats_seq_len_pcbin:
     type: File
     outputSource: sequence_stats/seq_length_pcbin
   qc_stats_seq_len_bin:
@@ -68,10 +68,8 @@ outputs:
     type: File
     outputSource: sequence_stats/gc_sum_out
 
-
- 
   #Taxonomic analysis step
-  SSUs:
+  SSU_sequences:
     type: File
     outputSource: extract_SSUs/sequences
 
@@ -79,9 +77,15 @@ outputs:
     type: File
     outputSource: classify_SSUs/classifications
 
-  #TODO: Need to repeat for LSU
+  #Repeat extraction for LSU
+  LSU_sequences:
+    type: File
+    outputSource: extract_LSUs/sequences
 
-  #TODO: Need to extract 5S
+  #Repeat  extract for 5S
+  5S_sequences:
+    type: File
+    outputSource: extract_5Ss/sequences
 
 
   #The predicted proteins and their annotations
@@ -89,7 +93,7 @@ outputs:
     type: File
     outputSource: fraggenescan/predictedCDS
 
-  #I think this is the GO slim, but we also need a TSV file with all GO annotations.
+  #TODO: I think this is the GO slim, but we also need a TSV file with all GO annotations.
   go_summary:
     type: File
     outputSource: functional_analysis/go_summary
@@ -97,7 +101,6 @@ outputs:
   functional_annotations:
     type: File
     outputSource: functional_analysis/functional_annotations
-
 
 
   #Taxonomic visualisation step
@@ -113,20 +116,20 @@ outputs:
     type: File
     outputSource: convert_otu_counts_to_json/result 
 
-  #TODO - repeat for LSU
+  #TODO - repeat taxonomy LSU
 
-  #TODO - there is no Newick tree at the moment. 
     
 
   #Non-coding RNA analysis
   other_ncRNAs:
     type: File
     outputSource: find_other_ncRNAs/matches
+  
   #TODO - Extract these into a single file 
 
-#TODO - check all the outputs
-#Sequence cat
-#Summary files
+  #TODO - check all the outputs
+  #Sequence cat
+  #Global Summary files
 
 
 steps:
@@ -189,18 +192,18 @@ steps:
 
 
   
+  index_reads:
+    run: ../tools/esl-sfetch-index.cwl
+    in:
+      sequences: clean_fasta_headers/sequences_with_cleaned_headers 
+    out: [ sequences_with_index ]
+  
   #SSU classification
   get_SSU_coords:
     run: ../tools/SSU-from-tablehits.cwl
     in:
       table_hits: find_ribosomal_ncRNAs/matches
     out: [ SSU_coordinates ]
-
-  index_reads:
-    run: ../tools/esl-sfetch-index.cwl
-    in:
-      sequences: clean_fasta_headers/sequences_with_cleaned_headers 
-    out: [ sequences_with_index ]
 
   extract_SSUs:
     run: ../tools/esl-sfetch-manyseqs.cwl
@@ -220,9 +223,22 @@ steps:
 
 
 
-  #TODO - LSU classification
+  #LSU classification
+  get_LSU_coords:
+    run: ../tools/LSU-from-tablehits.cwl
+    in:
+      table_hits: find_ribosomal_ncRNAs/matches
+    out: [ LSU_coordinates ]
 
-  #TODO - Longer term ITS1 identification
+  extract_LSUs:
+    run: ../tools/esl-sfetch-manyseqs.cwl
+    in:
+      indexed_sequences: index_reads/sequences_with_index
+      names: get_LSU_coords/LSU_coordinates
+      names_contain_subseq_coords: { default: true }
+    out: [ sequences ]
+
+
 
 
   #Visualisation of taxonomic classification
@@ -257,6 +273,22 @@ steps:
     out: [ result ]
 
 
+  #5S extraction
+  get_5S_coords:
+    run: ../tools/5S-from-tablehits.cwl
+    in:
+      table_hits: find_ribosomal_ncRNAs/matches
+    out: [ 5S_coordinates ]
+
+  extract_5Ss:
+    run: ../tools/esl-sfetch-manyseqs.cwl
+    in:
+      indexed_sequences: index_reads/sequences_with_index
+      names: get_5S_coords/5S_coordinates
+      names_contain_subseq_coords: { default: true }
+    out: [ sequences ]
+
+
 
   #Find other ubquitious ncRNAs
   find_other_ncRNAs:
@@ -267,9 +299,10 @@ steps:
       clan_info: ncRNA_other_model_clans
     out: [ matches ]
 
-  #TODO - need to think about summary file
   
-  #TODO - need to extract ncRNA sequences
+  #TODO - need to extract ncRNA sequences 
+  #TODO - need to think about summary file for ncRNAs
+  #TODO - Longer term ITS1 identification
 
 
   #Protein identification
