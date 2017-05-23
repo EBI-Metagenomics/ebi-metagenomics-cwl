@@ -14,7 +14,7 @@ hints:
 inputs:
   orfs:
     type: File
-    format: edam:format_1929  # FASTA
+    #format: edam:format_1929  # FASTA
 
 baseCommand: python
 
@@ -22,13 +22,14 @@ arguments:
   - prefix: -c
     valueFrom: |
       from __future__ import print_function
-      from Bio import SeqIO
+      import re
       import json
-      accessionPattern = re.compile("(\S+)_\d+_\d+_[+-]")
+      from Bio import SeqIO
+      accessionPattern = re.compile("(\\S+)_\\d+_\\d+_[+-]")
       numberOrfs = 0
       readsWithOrf = set()
       for record in SeqIO.parse("$(inputs.orfs.path)", "fasta"):
-          readAccessionMatch = re.match(accessionPattern, record.ID)
+          readAccessionMatch = re.match(accessionPattern, record.id)
           readAccession = readAccessionMatch.group(1)
           readsWithOrf.add(readAccession)
           numberOrfs += 1
@@ -36,7 +37,9 @@ arguments:
       print(json.dumps({
         "numberReadsWithOrf": numberReadsWithOrf,
         "numberOrfs": numberOrfs,
-        "readsWithOrf": readsWithOrf }))
+        "readsWithOrf": list(readsWithOrf) }))
+
+stdout: cwl.output.json
 
 outputs:
   numberReadsWithOrf: int
