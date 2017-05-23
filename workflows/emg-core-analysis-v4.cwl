@@ -126,6 +126,7 @@ outputs:
     outputSource: find_other_ncRNAs/matches
   
   #TODO - Extract these into a single file 
+  
 
   #TODO - check all the outputs
   #Sequence cat
@@ -133,6 +134,7 @@ outputs:
 
 
 steps:
+  #TODO - break this out into a subworkflow.  When we use assemblies, we do not need this.
   trim_quality_control:
     doc: |
       Low quality trimming (low quality ends and sequences with < quality scores
