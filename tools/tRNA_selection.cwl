@@ -51,7 +51,7 @@ steps:
                          starts
             (8) ali to: The position in the target sequence at which the hit
                         ends.
-      baseCommand: [ awk, '{print $1, $7, $8, $1}' ]
+      baseCommand: [ awk, '{print $1"/"$7"-"$8" "$7" "$8" "$1}' ]
       stdout: formatted_names_and_coords  # helps with cwltool's --cache
       outputs: { formatted_names_and_coords: { type: stdout } }
     in: { coordinate_lines: extract_coord_lines/coord_lines }
