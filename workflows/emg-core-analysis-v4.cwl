@@ -92,11 +92,13 @@ outputs:
   predicted_CDS:
     type: File
     outputSource: ORF_prediction/predictedCDS
-
-  #TODO: I think this is the GO slim, but we also need a TSV file with all GO annotations.
+  #The GO terms, full and slimmed.
   go_summary:
     type: File
     outputSource: functional_analysis/go_summary
+  go_summary_slim:
+    type: File
+    outputSource: functional_analysis/go_summary_slim
 
   functional_annotations:
     type: File
@@ -334,7 +336,7 @@ steps:
     in:
       predicted_CDS: remove_asterisks_and_reformat/reformatted_sequences
       go_summary_config: go_summary_config
-    out: [ functional_annotations, go_summary]  
+    out: [ functional_annotations, go_summary, go_summary_slim ]  
    
   #TODO - Sequence catagorisation & summary steps.
 

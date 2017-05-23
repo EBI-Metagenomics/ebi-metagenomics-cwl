@@ -73,7 +73,12 @@ outputs:
   functional_annotations:
     type: File
     outputSource: unified_processing/functional_annotations
-  
+  go_summary:
+    type: File
+    outputSource: unified_processing/go_summary 
+  go_summary_slim:
+    type: File
+    outputSource: unified_processing/go_summary_slim
 
   #Other non-coding RNA hits
   other_ncRNAs:
@@ -153,6 +158,7 @@ steps:
       - predicted_CDS
       - functional_annotations
       - go_summary
+      - go_summary_slim
       - qc_stats_summary
       - qc_stats_seq_len_pcbin
       - qc_stats_seq_len_bin

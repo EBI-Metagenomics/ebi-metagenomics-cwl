@@ -59,7 +59,8 @@ outputs:
   annotations:
     type: File
     outputSource: functional_analysis/functional_annotations
-
+  #TODO - pull back the GO and GO/slim files.
+    
   otu_visualization:
     type: File
     outputSource: visualize_otu_counts/otu_visualization 
@@ -189,7 +190,7 @@ steps:
     in:
       predicted_CDS: ORF_prediction/predictedCDS
       go_summary_config: go_summary_config
-    out: [ functional_annotations, go_summary]
+    out: [ functional_annotations, go_summary, go_summary_slim ]
 
 $namespaces:
  edam: http://edamontology.org/

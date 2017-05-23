@@ -22,6 +22,9 @@ outputs:
   go_summary:
     type: File
     outputSource: summarize_with_GO/go_summary
+  go_summary_slim:
+    type: File
+    outputSource: summarize_with_GO/go_summary_slim
 
 steps:
   remove_asterisks_and_reformat:
@@ -70,7 +73,7 @@ steps:
     in:
       InterProScan_results: combine_annotations/result
       config: go_summary_config
-    out: [ go_summary ]
+    out: [ go_summary, go_summary_slim ]
 
 $namespaces:
  edam: http://edamontology.org/

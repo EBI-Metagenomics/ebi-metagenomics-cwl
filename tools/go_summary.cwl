@@ -31,6 +31,9 @@ outputs:
   go_summary:
     type: File
     outputBinding: { glob: go-summary }
+  go_summary_slim:
+    type: File
+    outputBinding: { glob: go-summary_slim }
 
 $namespaces:
  s: http://schema.org/

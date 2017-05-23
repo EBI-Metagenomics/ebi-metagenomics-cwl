@@ -63,6 +63,9 @@ outputs:
   go_summary:
     type: File
     outputSource: functional_analysis/go_summary
+  go_summary_slim:
+    type: File
+    outputSource: functional_analysis/go_summary_slim
 
   #All of the sequence file QC stats
   qc_stats_summary:
@@ -165,7 +168,7 @@ steps:
     in:
       predicted_CDS: ORF_prediction/predictedCDS
       go_summary_config: go_summary_config
-    out: [ functional_annotations, go_summary]
+    out: [ functional_annotations, go_summary, go_summary_slim ]
 
   16S_taxonomic_analysis:
     doc: |
