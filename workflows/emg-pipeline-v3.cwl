@@ -180,11 +180,25 @@ steps:
       16S_matches: find_SSUs_and_mask/16S_matches
     out: [ otu_table_summary, tree, biom_json ]
 
+  ipr_stats:
+    run: ../tools/ipr_stats.cwl
+    in:
+      iprscan: functional_analysis/functional_annotations
+    out: [ matchNumber, cdsWithMatchNumber, readWithMatchNumber, reads ]
 
-# TODO:
-# Sequence categoriastion step
-# Summary file generation
+  orf_stats:
+    run: ../tools/orf_stats.cwl
+    in:
+      orfs: ORF_prediction/predictedCDS
+    out: [ numberReadsWithOrf, numberOrfs, readsWithOrf ]
 
+  categorisation:
+    run: ../tools/create_categorisations.cwl
+    in:
+      seqs: find_SSUs_and_mask/masked_sequences
+      ipr_idset: ipr_stats/reads
+      cds_idset: orf_stats/readsWithOrf
+    out: [ interproscan, pCDS_seqs, no_functions_seqs ]
 
 $namespaces:
  edam: http://edamontology.org/
