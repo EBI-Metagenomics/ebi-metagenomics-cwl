@@ -177,8 +177,8 @@ steps:
     run: ../tools/create_categorisations.cwl
     in:
       seqs: find_SSUs_and_mask/masked_sequences
-      ipr_readset: ipr_stats/reads
-      cds_readset: orf_stats/readsWithOrf
+      ipr_idset: ipr_stats/reads
+      cds_idset: orf_stats/readsWithOrf
     out: [ interproscan, pCDS_seqs, no_functions_seqs ]
 
 $namespaces:
