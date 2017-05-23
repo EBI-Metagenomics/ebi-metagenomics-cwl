@@ -173,6 +173,14 @@ steps:
       orfs: ORF_prediction/predictedCDS
     out: [ numberReadsWithOrf, numberOrfs, readsWithOrf ]
 
+  categorisation:
+    run: ../tools/create_categorisations.cwl
+    in:
+      seqs: find_SSUs_and_mask/masked_sequences
+      ipr_readset: ipr_stats/reads
+      cds_readset: orf_stats/readsWithOrf
+    out: [ interproscan, pCDS_seqs, no_functions_seqs ]
+
 $namespaces:
  edam: http://edamontology.org/
  s: http://schema.org/
