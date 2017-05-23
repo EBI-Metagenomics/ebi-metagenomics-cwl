@@ -304,11 +304,11 @@ steps:
   
   #TODO - need to extract ncRNA sequences 
   #TODO - need to think about summary file for ncRNAs
+  
   #TODO - Longer term ITS1 identification
 
 
-  #Protein identification
-  
+  #Protein identification and tidying up
   ORF_prediction:
     run: orf_prediction.cwl
     in:
@@ -324,9 +324,8 @@ steps:
       replace: { default: { find: '*', replace: X } }
     out: [ reformatted_sequences ]
 
-  #TODO - check that <60aa length are being removed.
 
-
+  #Can we go full fat InterPro in the future?
   functional_analysis:
     doc: |
       Matches are generated against predicted CDS, using a sub set of databases
