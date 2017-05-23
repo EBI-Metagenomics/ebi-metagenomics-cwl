@@ -32,7 +32,6 @@ arguments:
           cdsAccessions = splitLine[0].split("|")
           for cdsAccession in cdsAccessions:
               cds.add(cdsAccession)
-              #print(cdsAccession)
               readAccessionMatch = re.match(accessionPattern, cdsAccession)
               readAccession = readAccessionMatch.group(1)
               reads.add(readAccession)

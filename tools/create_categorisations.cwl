@@ -30,11 +30,9 @@ baseCommand: python
 arguments:
   - prefix: -c
     valueFrom: |
-      from __future__ import print_function
-      import re
       import json
       from Bio import SeqIO
-      inputs = json.loads(open("inputs.json))
+      inputs = json.loads(open("inputs.json"))
       ipr_idset = inputs['ipr_idset']
       cds_idset = inputs['cds_idset']
       ipr_output = open("interproscan.fasta", 'w')
