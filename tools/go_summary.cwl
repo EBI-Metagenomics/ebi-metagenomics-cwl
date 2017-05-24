@@ -32,6 +32,9 @@ outputs:
     type: File
     format: text/csv
     outputBinding: { glob: go-summary }
+  go_summary_slim:
+    type: File
+    outputBinding: { glob: go-summary_slim }
 
   go_summary_slim:
     type: File

@@ -40,6 +40,12 @@ outputs:
   functional_annotations:
     type: File
     outputSource: unified_processing/functional_annotations
+  go_summary:
+    type: File
+    outputSource: unified_processing/go_summary
+  go_summary_slim:
+    type: File
+    outputSource: unified_processing/go_summary_slim
   otu_table_summary:
     type: File
     outputSource: unified_processing/otu_table_summary
@@ -49,6 +55,8 @@ outputs:
   biom_json:
     type: File
     outputSource: unified_processing/biom_json
+
+#TODO - need to also pull back all of the QC files..
 
 steps:
   overlap_reads:
@@ -82,6 +90,8 @@ steps:
       - processed_sequences
       - predicted_CDS
       - functional_annotations
+      - go_summary
+      - go_summary_slim
       - otu_table_summary
       - tree
       - biom_json

@@ -31,18 +31,18 @@ inputs:
   go_summary_config: File
 
 outputs:
+
+  #TODO - check if we need the post-QC sequences. Below fetches it.
+  post_sequences:
+    type: File
+    outputSource: clean_fasta_headers/sequences_with_cleaned_headers
+
+  #Sequences that are masked after the ribosomal step
   processed_sequences:
     type: File
     outputSource: find_SSUs_and_mask/masked_sequences
-  predicted_CDS:
-    type: File
-    outputSource: ORF_prediction/predictedCDS
-  functional_annotations:
-    type: File
-    outputSource: functional_analysis/functional_annotations
-  go_summary:
-    type: File
-    outputSource: functional_analysis/go_summary
+  
+  #Taxonomic analysis step
   otu_table_summary:
     type: File
     outputSource: 16S_taxonomic_analysis/otu_table_summary
@@ -52,6 +52,22 @@ outputs:
   biom_json:
     type: File
     outputSource: 16S_taxonomic_analysis/biom_json
+
+  #The predicted proteins and their annotations
+  predicted_CDS:
+    type: File
+    outputSource: ORF_prediction/predictedCDS
+  functional_annotations:
+    type: File
+    outputSource: functional_analysis/functional_annotations
+  go_summary:
+    type: File
+    outputSource: functional_analysis/go_summary
+  go_summary_slim:
+    type: File
+    outputSource: functional_analysis/go_summary_slim
+
+  #All of the sequence file QC stats
   qc_stats_summary:
     type: File
     outputSource: sequence_stats/summary_out
@@ -77,6 +93,7 @@ outputs:
     type: File
     outputSource: sequence_stats/gc_sum_out
 
+#TODO - check all the outputs
 
 steps:
   trim_quality_control:
@@ -141,6 +158,8 @@ steps:
       model: fraggenescan_model
     out: [predictedCDS]
 
+  #TODO - check that the 60 nt filtering has gone in here.
+
   functional_analysis:
     doc: |
       Matches are generated against predicted CDS, using a sub set of databases
@@ -149,7 +168,7 @@ steps:
     in:
       predicted_CDS: ORF_prediction/predictedCDS
       go_summary_config: go_summary_config
-    out: [ functional_annotations, go_summary]
+    out: [ functional_annotations, go_summary, go_summary_slim ]
 
   16S_taxonomic_analysis:
     doc: |
