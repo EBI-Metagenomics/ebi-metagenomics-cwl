@@ -104,7 +104,6 @@ outputs:
     type: File
     outputSource: functional_analysis/functional_annotations
 
-
   #Taxonomic visualisation step
   ssu_otu_visualization:
     type: File
@@ -133,7 +132,45 @@ outputs:
   #TODO - check all the outputs
   #Sequence cat
   #Global Summary files
+  matchNumber:
+    type: int
+    outputSource: ipr_stats/matchNumber
 
+  cdsWithMatchNumber:
+    type: int
+    outputSource: ipr_stats/cdsWithMatchNumber
+
+  readsWithMatchNumber:
+    type: int
+    outputSource: ipr_stats/readWithMatchNumber
+
+  stats_reads:
+    type: string[]
+    outputSource: ipr_stats/reads
+
+  numberReadsWithOrf:
+    type: int
+    outputSource: orf_stats/numberReadsWithOrf
+  
+  numberOrfs:
+    type: int
+    outputSource: orf_stats/numberOrfs
+
+  readsWithOrf:
+    type: string[]
+    outputSource: orf_stats/readsWithOrf
+
+  interproscan:
+    type: File
+    outputSource: categorisation/interproscan
+
+  no_functions_seqs:
+    type: File
+    outputSource: categorisation/no_functions_seqs
+   
+  pCDS_seqs:
+    type: File
+    outputSource: categorisation/pCDS_seqs
 
 steps:
   #TODO - break this out into a subworkflow.  When we use assemblies, we do not need this.
@@ -306,8 +343,9 @@ steps:
   
   #TODO - need to extract ncRNA sequences 
   #TODO - need to think about summary file for ncRNAs
-  
+  #TODO - Extra tRNAs and then run them through tRNAScan-se 
   #TODO - Longer term ITS1 identification
+  #TODO - Remove ORFs that overlaps with ncRNA predictions >4 bp
 
 
   #Protein identification and tidying up
@@ -338,8 +376,26 @@ steps:
       go_summary_config: go_summary_config
     out: [ functional_annotations, go_summary, go_summary_slim ]  
    
-  #TODO - Sequence catagorisation & summary steps.
+  #Sequence catagorisation & summary steps.
+  ipr_stats:
+    run: ../tools/ipr_stats.cwl
+    in:
+      iprscan: functional_analysis/functional_annotations
+    out: [ matchNumber, cdsWithMatchNumber, readWithMatchNumber, reads ]
 
+  orf_stats:
+    run: ../tools/orf_stats.cwl
+    in:
+      orfs: ORF_prediction/predictedCDS
+    out: [ numberReadsWithOrf, numberOrfs, readsWithOrf ]
+
+  categorisation:
+    run: ../tools/create_categorisations.cwl
+    in:
+      seqs: extract_SSUs/sequences
+      ipr_idset: ipr_stats/reads
+      cds_idset: orf_stats/readsWithOrf
+    out: [ interproscan, pCDS_seqs, no_functions_seqs ]
     
 $namespaces:
  edam: http://edamontology.org/
