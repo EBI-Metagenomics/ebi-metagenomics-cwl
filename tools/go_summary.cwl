@@ -30,7 +30,14 @@ arguments:
 outputs:
   go_summary:
     type: File
+    format: text/csv
     outputBinding: { glob: go-summary }
+
+  go_summary_slim:
+    type: File
+    format: text/csv
+    outputBinding: { glob: go-summary_slim }
+
 
 $namespaces:
  s: http://schema.org/

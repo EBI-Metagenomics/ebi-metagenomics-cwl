@@ -37,6 +37,7 @@ inputs:
     format: edam:format_1929  # FASTA
     secondaryFiles: .mscluster
   mapseq_taxonomy: File
+  mapseq_taxonomy_otu_table: File
   go_summary_config: File
 
 outputs:
@@ -128,10 +129,11 @@ steps:
       database: mapseq_ref
       taxonomy: mapseq_taxonomy
     out: [ classifications ]
+
   convert_classifications_to_otu_counts:
     run: ../tools/mapseq2biom.cwl
     in:
-       otu_table: mapseq_taxonomy
+       otu_table: mapseq_taxonomy_otu_table
        label: sequencing_run_id
        query: classify_SSUs/classifications
     out: [ otu_counts, krona_otu_counts ]

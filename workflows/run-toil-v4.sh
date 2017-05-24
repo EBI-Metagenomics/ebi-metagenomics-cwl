@@ -31,6 +31,7 @@ mkdir -p ${workdir}
 
 RESTART=--restart
 
-${CWLTOIL} ${RESTART} --logDebug --logFile $PWD/toil-log --preserve-environment PATH --batchSystem LSF \
-	--workDir ${workdir} --jobStore $PWD/toil-jobstore --disableCaching --defaultMemory 10Gi \
-	emg-assembly.cwl emg-assembly-job.yaml
+${CWLTOIL} ${RESTART} --logDebug --logFile $PWD/toil-log \
+	--preserve-environment PATH CLASSPATH --batchSystem LSF \
+	--workDir ${workdir} --jobStore $PWD/toil-jobstore --disableCaching \
+	--defaultMemory 10Gi emg-assembly.cwl emg-assembly-job.yaml

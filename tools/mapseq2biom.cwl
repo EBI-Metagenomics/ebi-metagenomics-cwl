@@ -32,7 +32,7 @@ arguments:
 outputs:
   otu_counts:
     type: File
-    format: text/tab-separated-values
+    format: edam:format_3746  # BIOM
     outputBinding:
       glob: $(inputs.query.basename).tsv
 
@@ -42,4 +42,12 @@ outputs:
     outputBinding:
       glob: $(inputs.label).txt
 
+$namespaces:
+ edam: http://edamontology.org/
+ s: http://schema.org/
+$schemas:
+ - http://edamontology.org/EDAM_1.16.owl
+ - https://schema.org/docs/schema_org_rdfa.html
 
+s:license: "https://www.apache.org/licenses/LICENSE-2.0"
+s:copyrightHolder: "EMBL - European Bioinformatics Institute"
