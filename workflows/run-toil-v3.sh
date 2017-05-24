@@ -3,7 +3,7 @@
 set -x
 set -e
 
-CLASSPATH=/hps/nobackup/production/metagenomics/production-scripts/current/mgportal/analysis-pipeline/python/tools/Trimmomatic-0.35/trimmomatic-0.35.jar:$CLASSPATH
+CLASSPATH=/hps/nobackup/production/metagenomics/production-scripts/current/mgportal/analysis-pipeline/python/tools/Trimmomatic-0.35/trimmomatic-0.35.jar
 PATH=/hps/nobackup/production/metagenomics/CWL/code/:$PATH
 PATH=/hps/nobackup/production/metagenomics/production-scripts/current/mgportal/analysis-pipeline/python/tools/SeqPrep-1.1/:$PATH
 PATH=/hps/nobackup/production/metagenomics/production-scripts/current/mgportal/analysis-pipeline/python/tools/RNASelector-1.0/binaries/64_bit_Linux/HMMER3.1b1/:$PATH
@@ -19,7 +19,7 @@ PATH=/hps/nobackup/production/metagenomics/pipeline/tools/interproscan-5.19-58.0
 export PATH
 export CLASSPATH
 export TOIL_LSF_ARGS="-q production-rh7"
-#export LSB_DEFAULTQUEUE=production-rh7 
+export LSB_DEFAULTQUEUE=production-rh7 
 #pip install html5lib 
 
 #CWLTOIL="ipdb ../../toil-hack/venv/bin/cwltoil"
@@ -30,10 +30,12 @@ mkdir -p ${workdir}
 # must be a directory accessible from all nodes
 
 #RESTART=--restart
+#SETENV="--setEnv CLASSPATH=${CLASSPATH} --setEnv PATH=${PATH}"
+#SETENV="--setEnv CLASSPATH=${CLASSPATH}"
 
 ${CWLTOIL} ${RESTART} --logDebug --logFile $PWD/toil-log \
-	--setEnv CLASSPATH=${CLASSPATH} --setEnv PATH=${PATH} \
-	--preserve-environment PATH --preserve-environment CLASSPATH \
+        ${SETENV} \
+	--preserve-environment PATH \
 	--batchSystem LSF --workDir ${workdir} \
 	--jobStore $PWD/toil-jobstore-v3 --disableCaching --defaultMemory 10Gi \
 	emg-pipeline-v3-paired.cwl emg-pipeline-v3-paired-job.yaml
