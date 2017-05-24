@@ -32,7 +32,7 @@ arguments:
 outputs:
   otu_counts:
     type: File
-    format: text/tab-separated-values
+    format: edam:format_3746  # BIOM
     outputBinding:
       glob: $(inputs.query.basename).tsv
 

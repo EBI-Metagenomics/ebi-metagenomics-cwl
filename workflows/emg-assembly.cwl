@@ -129,6 +129,7 @@ steps:
       database: mapseq_ref
       taxonomy: mapseq_taxonomy
     out: [ classifications ]
+
   convert_classifications_to_otu_counts:
     run: ../tools/mapseq2biom.cwl
     in:
