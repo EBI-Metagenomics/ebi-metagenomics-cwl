@@ -113,8 +113,49 @@ outputs:
 
   #TODO -
   # Add a step to extract ncRNAs
+  
+
   # Sequence categoriastion outputs
   # Summary files
+  matchNumber:
+    type: int
+    outputSource: unified_processing/matchNumber
+  
+  cdsWithMatchNumber:
+    type: int
+    outputSource: unified_processing/cdsWithMatchNumber
+
+  readWithMatchNumber:
+    type: int
+    outputSource: unified_processing/readWithMatchNumber
+
+  stats_reads:
+    type: string[]
+    outputSource: unified_processing/stats_reads
+
+  numberReadsWithOrf:
+    type: int
+    outputSource: unified_processing/numberReadsWithOrf
+  
+  numberOrfs:
+    type: int
+    outputSource: unified_processing/numberOrfs 
+
+  readsWithOrf:
+    type: string[]
+    outputSource: unified_processing/readsWithOrf
+
+  interproscan:
+    type: File 
+    outputSource: unified_processing/interproscan 
+ 
+  no_functions_seqs: 
+    type: File
+    outputSource: unified_processing/no_functions_seqs 
+
+  pCDS_seqs:
+    type: File
+    outputSource: unified_processing/pCDS_seqs  
  
 steps:
   overlap_reads:
@@ -167,6 +208,17 @@ steps:
       - qc_stats_gc_pcbin
       - qc_stats_gc_bin
       - qc_stats_gc
+      - matchNumber
+      - cdsWithMatchNumber
+      - readWithMatchNumber
+      - stats_reads
+      - numberReadsWithOrf
+      - numberOrfs
+      - readsWithOrf
+      - interproscan
+      - no_functions_seqs
+      - pCDS_seqs
+
       #- otu_table_summary
 #TODO - checkouts and rationalise file names between v3 and v4
       #- tree

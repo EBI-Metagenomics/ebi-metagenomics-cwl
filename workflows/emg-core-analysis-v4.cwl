@@ -140,7 +140,7 @@ outputs:
     type: int
     outputSource: ipr_stats/cdsWithMatchNumber
 
-  readsWithMatchNumber:
+  readWithMatchNumber:
     type: int
     outputSource: ipr_stats/readWithMatchNumber
 
