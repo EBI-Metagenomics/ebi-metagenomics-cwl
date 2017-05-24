@@ -3,11 +3,13 @@
 set -x
 set -e
 
-CLASSPATH=/hps/nobackup/production/metagenomics/production-scripts/current/mgportal/analysis-pipeline/python/tools/Trimmomatic-0.35/trimmomatic-0.35.jar
+CLASSPATH=/hps/nobackup/production/metagenomics/production-scripts/current/mgportal/analysis-pipeline/python/tools/Trimmomatic-0.35/trimmomatic-0.35.jar:$CLASSPATH
 PATH=/hps/nobackup/production/metagenomics/CWL/code/:$PATH
-PATH=/hps/nobackup/production/metagenomics/production-scripts/current/mgportal/analysis-pipeline/python/tools/SeqPrep-1.1/:$PATH
 PATH=/hps/nobackup/production/metagenomics/production-scripts/current/mgportal/analysis-pipeline/python/tools/RNASelector-1.0/binaries/64_bit_Linux/HMMER3.1b1/:$PATH
-PATH=/hps/nobackup/production/metagenomics/pipeline/tools/miniconda2-4.0.5/bin:$PATH  # for biopython
+PATH=/hps/nobackup/production/metagenomics/CWL/rdf/code/mgportal/analysis-pipeline/python/tools/qc-stats/:$PATH
+PATH=/hps/nobackup/production/metagenomics/pipeline/tools/miniconda2-4.0.5/bin:$PATH  # for biopython, qiime
+PATH=/hps/nobackup/production/metagenomics/production-scripts/current/mgportal/analysis-pipeline/python/tools/go_summary_generator/:$PATH
+PATH=/hps/nobackup/production/metagenomics/production-scripts/current/mgportal/analysis-pipeline/python/tools/SeqPrep-1.1/:$PATH
 PATH=/hps/nobackup/production/metagenomics/CWL/code/thirdparty/SPAdes-3.10.0/:$PATH
 PATH=/hps/nobackup/production/metagenomics/CWL/code/thirdparty/infernal/src/:$PATH
 PATH=/hps/nobackup/production/metagenomics/CWL/code/thirdparty/infernal/easel/miniapps/:$PATH
