@@ -74,6 +74,9 @@ mapseq_ref:  # downloaded from https://www.arb-silva.de/fileadmin/silva_database
 mapseq_taxonomy:
   class: File
   path: /hps/nobackup/production/metagenomics/CWL/data/libraries/SILVA/consensus_taxonomy_7_levels.txt
+mapseq_taxonomy_otu_table:
+  class: File
+  path: /hps/nobackup/production/metagenomics/CWL/data/libraries/SILVA/consensus_taxonomy_7_levels.otu
 ncRNA_other_models:
   - class: File
     path: /hps/nobackup/production/metagenomics/CWL/data/libraries/Rfam/other/alpha_tmRNA.cm    
