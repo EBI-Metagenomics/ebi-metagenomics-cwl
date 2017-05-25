@@ -130,7 +130,7 @@ outputs:
     outputSource: unified_processing/readWithMatchNumber
 
   stats_reads:
-    type: string[]
+    type: File
     outputSource: unified_processing/stats_reads
 
   numberReadsWithOrf:
@@ -142,7 +142,7 @@ outputs:
     outputSource: unified_processing/numberOrfs 
 
   readsWithOrf:
-    type: string[]
+    type: File
     outputSource: unified_processing/readsWithOrf
 
   interproscan:
