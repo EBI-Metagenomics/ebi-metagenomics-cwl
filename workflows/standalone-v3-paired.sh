@@ -4,7 +4,7 @@
 #BSUB -R "rusage[mem=100000]"
 #BSUB -n 4
 #BSUB -q production-rh7
-#BSUB -o cwltool-v3-paired/log
+#BSUB -o cwltool-v3-paired-log
 
 #  to run: bsub < standalone-v3-paired.sh
 
@@ -22,7 +22,7 @@ RUN=v3-paired
 DESC=../emg-pipeline-v3-paired.cwl
 INPUTS=../emg-pipeline-v3-paired-job.yaml
 
-start=cwlool-${RUN}
+start=cwltool-${RUN}
 mkdir -p ${start}
 cd ${start}
 

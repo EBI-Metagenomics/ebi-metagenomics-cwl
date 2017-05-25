@@ -1,9 +1,5 @@
 #!/bin/bash
 
-git remote -v
-echo current git branch is $(git rev-parse --abbrev-ref HEAD)
-echo git HEAD is $(git rev-parse HEAD)
-
 CLASSPATH=/hps/nobackup/production/metagenomics/production-scripts/current/mgportal/analysis-pipeline/python/tools/Trimmomatic-0.35/trimmomatic-0.35.jar:$CLASSPATH
 PATH=/hps/nobackup/production/metagenomics/CWL/code/:$PATH
 PATH=/hps/nobackup/production/metagenomics/CWL/code/thirdparty/cmsearch_tblout_deoverlap/:$PATH
