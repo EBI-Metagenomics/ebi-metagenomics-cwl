@@ -14,7 +14,8 @@ hints:
 inputs:
   orfs:
     type: File
-    #format: edam:format_1929  # FASTA
+    streamable: true
+    format: edam:format_1929  # FASTA
 
 baseCommand: python
 
@@ -34,17 +35,22 @@ arguments:
           readsWithOrf.add(readAccession)
           numberOrfs += 1
       numberReadsWithOrf = len(readsWithOrf)
+      with open("reads.json", 'w') as readsFile:
+          json.dump(list(readsWithOrf), readsFile)
       print(json.dumps({
         "numberReadsWithOrf": numberReadsWithOrf,
         "numberOrfs": numberOrfs,
-        "readsWithOrf": list(readsWithOrf) }))
+        "readsWithOrf":{ "class": "File", "path": "reads.json" } }))
 
 stdout: cwl.output.json
 
 outputs:
   numberReadsWithOrf: int
   numberOrfs: int
-  readsWithOrf: string[]
+  readsWithOrf:
+    type: File
+    streamable: true
+    format: application/json
 
 $namespaces:
  edam: http://edamontology.org/

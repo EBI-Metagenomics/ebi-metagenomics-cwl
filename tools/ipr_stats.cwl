@@ -12,6 +12,7 @@ hints:
 inputs:
   iprscan:
     type: File
+    streamable: true
 
 baseCommand: python
 
@@ -38,11 +39,13 @@ arguments:
               matchNumber += 1
       cdsWithMatchNumber = len(cds)
       readWithMatchNumber = len(reads)
+      with open("reads.json", 'w') as readsFile:
+          json.dump(list(reads), readsFile)
       print(json.dumps({
         "matchNumber": matchNumber,
         "cdsWithMatchNumber": cdsWithMatchNumber,
         "readWithMatchNumber": readWithMatchNumber,
-        "reads": list(reads) }))
+        "reads": { "class": "File", "path": "reads.json" } }))
 
 stdout: cwl.output.json
 
@@ -50,7 +53,10 @@ outputs:
   matchNumber: int
   cdsWithMatchNumber: int
   readWithMatchNumber: int
-  reads: string[]
+  reads:
+    type: File
+    streamable: true
+    format: application/json
 
 $namespaces:
  s: http://schema.org/
