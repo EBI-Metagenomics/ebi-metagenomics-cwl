@@ -30,7 +30,7 @@ arguments:
 outputs:
   go_summary:
     type: File
-    format: text/csv
+    format: iana:text/csv
     outputBinding: { glob: go-summary }
   go_summary_slim:
     type: File
@@ -38,11 +38,12 @@ outputs:
 
   go_summary_slim:
     type: File
-    format: text/csv
+    format: iana:text/csv
     outputBinding: { glob: go-summary_slim }
 
 
 $namespaces:
+ iana: https://www.iana.org/assignments/media-types/
  s: http://schema.org/
 $schemas:
  - https://schema.org/docs/schema_org_rdfa.html

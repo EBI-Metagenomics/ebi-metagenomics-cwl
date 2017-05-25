@@ -145,7 +145,7 @@ outputs:
     outputSource: ipr_stats/readWithMatchNumber
 
   stats_reads:
-    type: string[]
+    type: File
     outputSource: ipr_stats/reads
 
   numberReadsWithOrf:
@@ -157,7 +157,7 @@ outputs:
     outputSource: orf_stats/numberOrfs
 
   readsWithOrf:
-    type: string[]
+    type: File
     outputSource: orf_stats/readsWithOrf
 
   interproscan:

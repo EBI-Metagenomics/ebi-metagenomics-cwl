@@ -23,12 +23,12 @@ inputs:
       position: 1
     format:
       - edam:format_1929  # FASTA
-      - edam:format_1927  # EMBL
-      - edam:format_1936  # Genbank entry format
-      - edam:format_1961  # Stockholm
-      - edam:format_3281  # A2M
-      - edam:format_1982  # Clustal
-      - edam:format_1997  # PHYLIP
+      # - edam:format_1927  # EMBL
+      # - edam:format_1936  # Genbank entry format
+      # - edam:format_1961  # Stockholm
+      # - edam:format_3281  # A2M
+      # - edam:format_1982  # Clustal
+      # - edam:format_1997  # PHYLIP
       # ddbj ?
       # pfam ?
       # afa ?

@@ -4,9 +4,9 @@
 #BSUB -R "rusage[mem=100000]"
 #BSUB -n 4
 #BSUB -q production-rh7
-#BSUB -o cwltool-v4-assembly/log
+#BSUB -o cwltool-v3-paired/log
 
-#  to run: bsub < standalone-v4.sh
+#  to run: bsub < standalone-v3-paired.sh
 
 source ~mcrusoe/test/bin/activate
 
@@ -18,9 +18,9 @@ workdir=/tmp
 #mkdir -p ${workdir}
 # must be a directory accessible from all nodes
 
-RUN=v4-assembly
-DESC=../emg-assembly.cwl
-INPUTS=../emg-assembly-job.yaml
+RUN=v3-paired
+DESC=../emg-pipeline-v3-paired.cwl
+INPUTS=../emg-pipeline-v3-paired-job.yaml
 
 start=cwlool-${RUN}
 mkdir -p ${start}

@@ -14,18 +14,26 @@ hints:
 inputs:
   seqs:
     type: File
+    streamable: true
     format: edam:format_1929  # FASTA
-  ipr_idset: string[]
-  cds_idset: string[]
+  ipr_idset:
+    type: File
+    streamable: true
+    format: iana:application/json
+  cds_idset:
+    type: File
+    streamable: true
+    format: iana:application/json
 
 baseCommand: python
 
 arguments:
   - prefix: -c
     valueFrom: |
+      import json
       from Bio import SeqIO
-      ipr_idset = $(inputs.ipr_idset)
-      cds_idset = $(inputs.cds_idset)
+      ipr_idset = json.loads(open("$(inputs.ipr_idset.path)", "r"))
+      cds_idset = json.loads(open("$(inputs.cds_idset.path)", "r"))
       ipr_output = open("interproscan.fasta", 'w')
       cds_output = open("pCDS.fasta", 'w')
       nof_output = open("noFunction.fasta", 'w')
@@ -40,20 +48,24 @@ outputs:
   interproscan:
     type: File
     format: edam:format_1929  # FASTA
+    streamable: true
     outputBinding:
       glob: interproscan.fasta
   pCDS_seqs:
     type: File
     format: edam:format_1929  # FASTA
+    streamable: true
     outputBinding:
       glob: pCDS.fasta
   no_functions_seqs:
     type: File
     format: edam:format_1929  # FASTA
+    streamable: true
     outputBinding:
       glob: noFunction.fasta
 
 $namespaces:
+ iana: https://www.iana.org/assignments/media-types/
  edam: http://edamontology.org/
  s: http://schema.org/
 $schemas:

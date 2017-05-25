@@ -12,6 +12,7 @@ hints:
 inputs:
   iprscan:
     type: File
+    streamable: true
 
 baseCommand: python
 
@@ -38,11 +39,13 @@ arguments:
               matchNumber += 1
       cdsWithMatchNumber = len(cds)
       readWithMatchNumber = len(reads)
+      with open("reads.json", 'w') as readsFile:
+          json.dump(list(reads), readsFile)
       print(json.dumps({
         "matchNumber": matchNumber,
         "cdsWithMatchNumber": cdsWithMatchNumber,
         "readWithMatchNumber": readWithMatchNumber,
-        "reads": list(reads) }))
+        "reads": { "class": "File", "path": "$(runtime.outdir)/reads.json" } }))
 
 stdout: cwl.output.json
 
@@ -50,9 +53,13 @@ outputs:
   matchNumber: int
   cdsWithMatchNumber: int
   readWithMatchNumber: int
-  reads: string[]
+  reads:
+    type: File
+    streamable: true
+    format: iana:application/json
 
 $namespaces:
+ iana: https://www.iana.org/assignments/media-types/
  s: http://schema.org/
 $schemas:
  - https://schema.org/docs/schema_org_rdfa.html

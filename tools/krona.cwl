@@ -13,7 +13,7 @@ hints:
 inputs:
   otu_counts:
     type: File
-    format: text/tab-separated-values
+    format: iana:text/tab-separated-values
     label: Tab-delimited text file
     inputBinding:
       position: 2
@@ -25,12 +25,13 @@ arguments:
 outputs:
   otu_visualization:
     type: File
-    format: text/html
+    format: iana:text/html
     outputBinding:
       glob: $(inputs.otu_counts.basename).html
 
 $namespaces:
  edam: http://edamontology.org/
+ iana: https://www.iana.org/assignments/media-types/
  s: http://schema.org/
 $schemas:
  - http://edamontology.org/EDAM_1.16.owl
