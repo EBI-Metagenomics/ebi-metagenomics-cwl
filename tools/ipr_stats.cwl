@@ -45,7 +45,7 @@ arguments:
         "matchNumber": matchNumber,
         "cdsWithMatchNumber": cdsWithMatchNumber,
         "readWithMatchNumber": readWithMatchNumber,
-        "reads": { "class": "File", "path": "reads.json" } }))
+        "reads": { "class": "File", "path": "$(runtime.outdir)/reads.json" } }))
 
 stdout: cwl.output.json
 

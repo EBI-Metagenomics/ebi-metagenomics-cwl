@@ -40,7 +40,7 @@ arguments:
       print(json.dumps({
         "numberReadsWithOrf": numberReadsWithOrf,
         "numberOrfs": numberOrfs,
-        "readsWithOrf":{ "class": "File", "path": "reads.json" } }))
+        "readsWithOrf":{ "class": "File", "path": "$(runtime.outdir)/reads.json" } }))
 
 stdout: cwl.output.json
 
