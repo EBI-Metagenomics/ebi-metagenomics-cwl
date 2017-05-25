@@ -2,6 +2,10 @@
 cwlVersion: v1.0
 class: CommandLineTool
 
+requirements:
+ ResourceRequirement:
+   ramMin: 10240
+ 
 hints:
  SoftwareRequirement:
    packages:
