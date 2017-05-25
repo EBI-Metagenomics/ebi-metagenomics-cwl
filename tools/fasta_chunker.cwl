@@ -29,7 +29,8 @@ arguments:
           currentSequences.append(record)
           if len(currentSequences) == $(inputs.chunk_size):
               fileName = currentSequences[0].id + "_" + currentSequences[-1].id
-              fileName = fileName.replace("/", "_").replace(" ", "_")
+              for char in [ "/", " ", ":" ]:
+                  fileName = fileName.replace(char, "_")
               SeqIO.write(currentSequences, "$(runtime.outdir)/"+fileName, "fasta")
               currentSequences = []
 
