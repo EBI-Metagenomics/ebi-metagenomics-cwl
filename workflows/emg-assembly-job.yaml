@@ -63,7 +63,6 @@ fraggenescan_model:
   pwm_dist:
     class: File
     path: /hps/nobackup/production/metagenomics/pipeline/tools/FragGeneScan1.20/train/pwm
-assembly_mem_limit: 100
 mapseq_ref:  # downloaded from https://www.arb-silva.de/fileadmin/silva_databases/qiime/Silva_128_release.tgz
   format: edam:format_1929
   class: File

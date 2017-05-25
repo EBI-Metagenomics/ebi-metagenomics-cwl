@@ -29,9 +29,6 @@ inputs:
   ncRNA_other_models: File[]
   ncRNA_other_model_clans: File
   fraggenescan_model: ../tools/FragGeneScan-model.yaml#model
-  assembly_mem_limit:
-    type: int
-    doc: in Gb
   mapseq_ref:
     type: File
     format: edam:format_1929  # FASTA
@@ -91,7 +88,6 @@ steps:
       forward_reads: forward_reads
       reverse_reads: reverse_reads
       unpaired_reads: unpaired_reads
-      memory_limit: assembly_mem_limit
     out: [ scaffolds ]
 
   discard_short_scaffolds:
