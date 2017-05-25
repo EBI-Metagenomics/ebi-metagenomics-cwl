@@ -5,7 +5,7 @@ class: CommandLineTool
 inputs:
   files:
     type: File[]
-    streaming: true
+    streamable: true
     inputBinding:
       position: 1
 
