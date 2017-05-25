@@ -19,11 +19,11 @@ inputs:
   ipr_idset:
     type: File
     streamable: true
-    format: application/json
+    format: iana:application/json
   cds_idset:
     type: File
     streamable: true
-    format: application/json
+    format: iana:application/json
 
 baseCommand: python
 
@@ -65,6 +65,7 @@ outputs:
       glob: noFunction.fasta
 
 $namespaces:
+ iana: https://www.iana.org/assignments/media-types/
  edam: http://edamontology.org/
  s: http://schema.org/
 $schemas:

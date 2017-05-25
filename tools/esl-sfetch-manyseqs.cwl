@@ -20,10 +20,10 @@ inputs:
       position: 1
     format:
       - edam:format_1929  # FASTA
-      - edam:format_1927  # EMBL
-      - edam:format_1936  # Genbank entry format
-      - edam:format_1961  # Stockholm
-      - edam:format_1963  # UniProt
+      # - edam:format_1927  # EMBL
+      # - edam:format_1934  # Genbank entry format
+      # - edam:format_1961  # Stockholm
+      # - edam:format_1963  # UniProt
       # ddbj ?
   names:
     type: File

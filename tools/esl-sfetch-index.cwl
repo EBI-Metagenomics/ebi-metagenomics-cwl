@@ -3,13 +3,6 @@ class: CommandLineTool
 label: index a sequence file for use by esl-sfetch
 doc: "https://github.com/EddyRivasLab/easel"
 
-# hints:
-#   - class: SoftwareRequirement
-#     packages:
-#       spades:
-#         specs: [ https://identifiers.org/rrid/RRID:TBD ]
-#         version: [ "???" ]
-
 requirements:
   ShellCommandRequirement: {}
 #  InitialWorkDirRequirement:
@@ -23,10 +16,10 @@ inputs:
       valueFrom: $(self.basename)
     format:
       - edam:format_1929  # FASTA
-      - edam:format_1927  # EMBL
-      - edam:format_1936  # Genbank entry format
-      - edam:format_1961  # Stockholm
-      - edam:format_1963  # UniProt
+      # - edam:format_1927  # EMBL
+      # - edam:format_1936  # Genbank entry format
+      # - edam:format_1961  # Stockholm
+      # - edam:format_1963  # UniProt
       # ddbj ?
 
 baseCommand: [ ]

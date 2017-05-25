@@ -115,14 +115,14 @@ outputs:
   params:
     label: information about SPAdes parameters in this run
     type: File
-    format: text/plain
+    format: iana:text/plain
     outputBinding:
       glob: params.txt
 
   log:
     label: SPAdes log
     type: File
-    format: text/plain
+    format: iana:text/plain
     outputBinding:
       glob: spades.log
 
@@ -141,6 +141,7 @@ outputs:
 
 $namespaces:
  edam: http://edamontology.org/
+ iana: https://www.iana.org/assignments/media-types/
  s: http://schema.org/
 $schemas:
  - http://edamontology.org/EDAM_1.16.owl

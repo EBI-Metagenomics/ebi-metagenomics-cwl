@@ -50,10 +50,11 @@ outputs:
   readsWithOrf:
     type: File
     streamable: true
-    format: application/json
+    format: iana:application/json
 
 $namespaces:
  edam: http://edamontology.org/
+ iana: https://www.iana.org/assignments/media-types/
  s: http://schema.org/
 $schemas:
  - http://edamontology.org/EDAM_1.16.owl

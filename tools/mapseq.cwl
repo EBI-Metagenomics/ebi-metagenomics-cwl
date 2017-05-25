@@ -43,10 +43,11 @@ stdout: classifications  # helps with cwltool's --cache
 outputs:
   classifications:
     type: stdout
-    format: text/tab-separated-values
+    format: iana:text/tab-separated-values
 
 $namespaces:
  edam: http://edamontology.org/
+ iana: https://www.iana.org/assignments/media-types/
  s: http://schema.org/
 $schemas:
  - http://edamontology.org/EDAM_1.16.owl

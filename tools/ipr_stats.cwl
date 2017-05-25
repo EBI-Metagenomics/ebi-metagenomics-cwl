@@ -56,9 +56,10 @@ outputs:
   reads:
     type: File
     streamable: true
-    format: application/json
+    format: iana:application/json
 
 $namespaces:
+ iana: https://www.iana.org/assignments/media-types/
  s: http://schema.org/
 $schemas:
  - https://schema.org/docs/schema_org_rdfa.html
