@@ -13,6 +13,7 @@ doc: |
 requirements:
  - class: ResourceRequirement
    ramMin: 10240
+   coresMin: 3
  - class: SchemaDefRequirement
    types: 
      - $import: InterProScan-apps.yaml
