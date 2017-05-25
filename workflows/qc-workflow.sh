@@ -1,18 +1,31 @@
 #!/bin/bash
 
-#set -x
-#set -e
+#BSUB -M 100000
+#BSUB -R "rusage[mem=100000]"
+#BSUB -n 4
+#BSUB -q production-rh7
+#BSUB -o cwltool-qc-workflow/log
 
-echo $1
+#  to run: bsub < qc-workflow.sh
 
-. /hps/nobackup/production/metagenomics/software/miniconda2/bin/activate cwl-runner
-CLASSPATH=/hps/nobackup/production/metagenomics/production-scripts/current/mgportal/analysis-pipeline/python/tools/Trimmomatic-0.35/trimmomatic-0.35.jar:$CLASSPATH
-PATH=$PATH:/hps/nobackup/production/metagenomics/CWL/code/thirdparty/node-v6.10.3
-PATH=/hps/nobackup/production/metagenomics/pipeline/tools/miniconda2-4.0.5/bin:$PATH
+source ~mcrusoe/test/bin/activate
 
-export PATH
-export CLASSPATH
-cwltool --preserve-entire-environment /hps/nobackup/production/metagenomics/CWL/rdf/code/ebi-metagenomics-cwl/workflows/$1\.cwl /hps/nobackup/production/metagenomics/CWL/rdf/code/ebi-metagenomics-cwl/workflows/$1\-job.yaml
+source ebi-setup.sh
 
-#cwltool --preserve-environment PATH,CLASSPATH --cache $PWD/cwltool-cache --debug \
-	#emg-pipeline-v3-paired.cwl emg-pipeline-v3-paired-job.yaml
+#DEBUG=--debug  # uncomment to make output & logs more verbose
+
+workdir=/tmp
+#mkdir -p ${workdir}
+# must be a directory accessible from all nodes
+
+RUN=qc-paired
+DESC=../emg-${RUN}.cwl
+INPUTS=../emg-${RUN}-job.yaml
+
+start=cwlool-${RUN}
+mkdir -p ${start}
+cd ${start}
+
+cwltool ${DEBUG} --outdir ${PWD}/results --on-error continue \
+	--preserve-entire-environment --cache ${PWD}/../cwltool-cache \
+       	${DESC} ${INPUTS} | tee output 
