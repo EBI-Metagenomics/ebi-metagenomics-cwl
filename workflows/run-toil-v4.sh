@@ -1,37 +1,25 @@
 #!/bin/bash
 
-set -x
-set -e
+source ebi-setup.sh
 
-CLASSPATH=/hps/nobackup/production/metagenomics/production-scripts/current/mgportal/analysis-pipeline/python/tools/Trimmomatic-0.35/trimmomatic-0.35.jar:$CLASSPATH
-PATH=/hps/nobackup/production/metagenomics/CWL/code/:$PATH
-PATH=/hps/nobackup/production/metagenomics/production-scripts/current/mgportal/analysis-pipeline/python/tools/SeqPrep-1.1/:$PATH
-PATH=/hps/nobackup/production/metagenomics/production-scripts/current/mgportal/analysis-pipeline/python/tools/RNASelector-1.0/binaries/64_bit_Linux/HMMER3.1b1/:$PATH
-PATH=/hps/nobackup/production/metagenomics/pipeline/tools/miniconda2-4.0.5/bin:$PATH  # for biopython
-PATH=/hps/nobackup/production/metagenomics/CWL/code/thirdparty/SPAdes-3.10.0/:$PATH
-PATH=/hps/nobackup/production/metagenomics/CWL/code/thirdparty/cmsearch_tblout_deoverlap/:$PATH
-PATH=/hps/nobackup/production/metagenomics/CWL/code/thirdparty/infernal-1.1.2/src/:$PATH
-PATH=/hps/nobackup/production/metagenomics/CWL/code/thirdparty/infernal-1.1.2/easel/miniapps/:$PATH
-PATH=/hps/nobackup/production/metagenomics/CWL/code/thirdparty/mapseq-1.0/:$PATH
-PATH=/hps/nobackup/production/metagenomics/pipeline/tools/FragGeneScan1.20/:$PATH
-PATH=/hps/nobackup/production/metagenomics/pipeline/tools/interproscan-5.19-58.0/:$PATH
-
-export PATH
-export CLASSPATH
-export TOIL_LSF_ARGS="-q production-rh7"
-#export LSB_DEFAULTQUEUE=production-rh7 
-#pip install html5lib 
-
-#CWLTOIL="ipdb ../../toil-v3.8.0a/venv/bin/cwltoil"
+#CWLTOIL="ipdb ../../toil-hack/venv/bin/cwltoil"
 CWLTOIL=cwltoil
+#RESTART=--restart # uncomment to restart a previous run; if the CWL descriptions have changed you will need to start over
+#DEBUG=--logDebug  # uncomment to make output & logs more verbose
 
-workdir=${PWD}/toil-workdir
-mkdir -p ${workdir}
+workdir=/tmp
+#mkdir -p ${workdir}
 # must be a directory accessible from all nodes
 
-RESTART=--restart
+RUN=v4-assembly
+DESC=../emg-assembly.cwl
+INPUTS=../emg-assembly.job.yaml
 
-${CWLTOIL} ${RESTART} --logDebug --logFile $PWD/toil-log \
-	--preserve-environment PATH CLASSPATH --batchSystem LSF \
-	--workDir ${workdir} --jobStore $PWD/toil-jobstore --disableCaching \
-	--defaultMemory 10Gi emg-assembly.cwl emg-assembly-job.yaml
+start=toil-${RUN}
+mkdir -p ${start}
+cd ${start}
+
+${CWLTOIL} ${RESTART} ${DEBUG} --logFile ${PWD}/log --outdir ${PWD}/results \
+	--preserve-environment PATH CLASSPATH --batchSystem LSF --retryCount 1 \
+	--workDir ${workdir} --jobStore ${PWD}/jobstore --disableCaching \
+	--defaultMemory 10Gi ${DESC} ${INPUTS} | tee output
