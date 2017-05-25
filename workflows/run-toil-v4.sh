@@ -13,7 +13,7 @@ workdir=/tmp
 
 RUN=v4-assembly
 DESC=../emg-assembly.cwl
-INPUTS=../emg-assembly.job.yaml
+INPUTS=../emg-assembly-job.yaml
 
 start=toil-${RUN}
 mkdir -p ${start}
