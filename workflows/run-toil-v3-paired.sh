@@ -13,7 +13,7 @@ workdir=/tmp
 
 RUN=v3-paired
 DESC=../emg-pipeline-v3-paired.cwl
-INPUTS=../emg-pipeline-v3-paired.job.yaml
+INPUTS=../emg-pipeline-v3-paired-job.yaml
 
 start=toil-${RUN}
 mkdir -p ${start}
