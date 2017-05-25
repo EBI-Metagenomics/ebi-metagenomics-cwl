@@ -14,7 +14,7 @@ hints:
   ResourceRequirement:
     #ramMin: $(inputs.memory_limit * 1024^2)
     ramMin: 102400  # known issue: https://github.com/BD2KGenomics/toil/issues/1540
-    cpuMin: 16
+    coresMin: 16
   SoftwareRequirement:
     packages:
       spades:
