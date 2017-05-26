@@ -45,7 +45,10 @@ arguments:
         "matchNumber": matchNumber,
         "cdsWithMatchNumber": cdsWithMatchNumber,
         "readWithMatchNumber": readWithMatchNumber,
-        "reads": { "class": "File", "path": "$(runtime.outdir)/reads.json" } }))
+        "reads": {
+            "class": "File",
+            "format": "https://www.iana.org/assignments/media-types/application/json",
+            "path": "$(runtime.outdir)/reads.json" } }))
 
 stdout: cwl.output.json
 

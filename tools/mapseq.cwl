@@ -6,6 +6,9 @@ doc: |
   classifications to ribosomal RNA sequences.
   http://meringlab.org/software/mapseq/
 
+requirements:
+  ResourceRequirement:
+    ramMin: 10240
 hints:
   SoftwareRequirement:
     packages:

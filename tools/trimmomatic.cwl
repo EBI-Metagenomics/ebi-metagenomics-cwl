@@ -11,6 +11,9 @@ hints:
         version: [ "0.32", "0.35", "0.36" ]
 
 requirements:
+ ResourceRequirement:
+   ramMin: 10240
+   coresMin: 8
  SchemaDefRequirement:
    types:
     - $import: trimmomatic-end_mode.yaml
@@ -61,14 +64,6 @@ inputs:
       prefix: TOPHRED33
       separate: false
     doc: This (re)encodes the quality part of the FASTQ file to base 33.
-
-  nthreads:
-    type: int
-    default: 1
-    inputBinding:
-      position: 4
-      prefix: -threads
-    doc: Number of threads
 
   minlen:
     type: int?
@@ -253,6 +248,9 @@ arguments:
 - valueFrom: trim.log
   prefix: -trimlog 
   position: 4
+- valueFrom: $(runtime.cores)
+  position: 4
+  prefix: -threads
 - valueFrom: $(inputs.reads1.nameroot).trimmed.fastq
   position: 7
 - valueFrom: |

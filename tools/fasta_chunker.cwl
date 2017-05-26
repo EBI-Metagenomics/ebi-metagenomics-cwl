@@ -37,7 +37,8 @@ arguments:
       # write any remaining sequences
       if len(currentSequences) > 0:
           fileName = currentSequences[0].id + "_" + currentSequences[-1].id
-          fileName = fileName.replace("/", "_").replace(" ", "_")
+          for char in [ "/", " ", ":" ]:
+              fileName = fileName.replace(char, "_")
           SeqIO.write(currentSequences, "$(runtime.outdir)/"+fileName, "fasta")
 
 outputs:

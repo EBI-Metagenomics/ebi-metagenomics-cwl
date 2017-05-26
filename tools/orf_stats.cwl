@@ -40,7 +40,10 @@ arguments:
       print(json.dumps({
         "numberReadsWithOrf": numberReadsWithOrf,
         "numberOrfs": numberOrfs,
-        "readsWithOrf":{ "class": "File", "path": "$(runtime.outdir)/reads.json" } }))
+        "readsWithOrf":{
+            "class": "File",
+            "format": "https://www.iana.org/assignments/media-types/application/json",
+            "path": "$(runtime.outdir)/reads.json" } }))
 
 stdout: cwl.output.json
 

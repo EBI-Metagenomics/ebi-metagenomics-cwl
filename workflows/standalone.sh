@@ -4,7 +4,7 @@
 #BSUB -R "rusage[mem=100000]"
 #BSUB -n 4
 #BSUB -q production-rh7
-#BSUB -o cwltool-v4-assembly/log
+#BSUB -o cwltool-v4-assembly-log
 
 #  to run: bsub < standalone-v4.sh
 
@@ -22,7 +22,7 @@ RUN=v4-assembly
 DESC=../emg-assembly.cwl
 INPUTS=../emg-assembly-job.yaml
 
-start=cwlool-${RUN}
+start=cwltool-${RUN}
 mkdir -p ${start}
 cd ${start}
 
