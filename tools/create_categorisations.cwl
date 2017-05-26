@@ -39,11 +39,11 @@ arguments:
       nof_output = open("noFunction.fasta", 'w')
       for seq in SeqIO.parse("$(inputs.seqs.path)", "fasta"):
           if seq.name in ipr_idset:
-              ipr_output.write(str(">" + seq.name + "\n" + seq.seq + "\n"))
+              SeqIO.write(seq, ipr_output, "fasta")
           if seq.name in cds_idset:
-              cds_output.write(str(">" + seq.name + "\n" + seq.seq + "\n"))
+              SeqIO.write(seq, cds_output, "fasta")
               if seq.name not in ipr_idset:
-                   nof_output.write(str(">" + seq.name + "\n" + seq.seq + "\n"))
+                   SeqIO.write(seq, nof_output, "fasta")
 outputs:
   interproscan:
     type: File
