@@ -38,12 +38,15 @@ arguments:
       cds_output = open("pCDS.fasta", "w")
       nof_output = open("noFunction.fasta", "w")
       for seq in SeqIO.parse("$(inputs.seqs.path)", "fasta"):
+          ipr_seen = False
           if seq.name in ipr_idset:
-              SeqIO.write(seq, ipr_output, "fasta")
+              ipr_output.write(str(">" + seq.name + "\\n" + seq.seq + "\\n"))
+              ipr_seen = True
           if seq.name in cds_idset:
-              SeqIO.write(seq, cds_output, "fasta")
-              if seq.name not in ipr_idset:
-                   SeqIO.write(seq, nof_output, "fasta")
+              cds_output.write(str(">" + seq.name + "\\n" + seq.seq + "\\n"))
+              if not ipr_seen:
+                   nof_output.write(str(">" + seq.name + "\\n" + seq.seq + "\\n"))
+
 outputs:
   interproscan:
     type: File
