@@ -32,8 +32,8 @@ arguments:
     valueFrom: |
       import json
       from Bio import SeqIO
-      ipr_idset = json.loads(open("$(inputs.ipr_idset.path)", "r"))
-      cds_idset = json.loads(open("$(inputs.cds_idset.path)", "r"))
+      ipr_idset = json.load(open("$(inputs.ipr_idset.path)", "r"))
+      cds_idset = json.load(open("$(inputs.cds_idset.path)", "r"))
       ipr_output = open("interproscan.fasta", 'w')
       cds_output = open("pCDS.fasta", 'w')
       nof_output = open("noFunction.fasta", 'w')
