@@ -19,7 +19,7 @@ start=toil-${RUN}
 mkdir -p ${start}
 cd ${start}
 
-${CWLTOIL} ${RESTART} ${DEBUG} --logFile ${PWD}/log --outdir ${PWD}/results \
+/usr/bin/time ${CWLTOIL} ${RESTART} ${DEBUG} --logFile ${PWD}/log --outdir ${PWD}/results \
 	--preserve-environment PATH CLASSPATH --batchSystem LSF --retryCount 1 \
 	--workDir ${workdir} --jobStore ${PWD}/jobstore --disableCaching \
 	--defaultMemory 10Gi ${DESC} ${INPUTS} | tee output
