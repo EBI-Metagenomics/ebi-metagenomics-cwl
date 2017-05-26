@@ -16,7 +16,7 @@ DESC=../emg-assembly.cwl
 INPUTS=../emg-assembly-job.yaml
 
 start=toil-${RUN}
-mkdir -p ${start}
+mkdir -p ${start}/results
 cd ${start}
 
 /usr/bin/time ${CWLTOIL} ${RESTART} ${DEBUG} --logFile ${PWD}/log --outdir ${PWD}/results \
