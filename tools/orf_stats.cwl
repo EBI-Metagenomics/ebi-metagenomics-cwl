@@ -37,7 +37,7 @@ arguments:
           readsWithOrf.add(readAccession)
           numberOrfs += 1
       numberReadsWithOrf = len(readsWithOrf)
-      with open("reads.json", 'w') as readsFile:
+      with open("reads.json", "w") as readsFile:
           json.dump(list(readsWithOrf), readsFile)
       print(json.dumps({
         "numberReadsWithOrf": numberReadsWithOrf,

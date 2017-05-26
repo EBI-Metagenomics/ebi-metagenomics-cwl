@@ -41,7 +41,7 @@ arguments:
               matchNumber += 1
       cdsWithMatchNumber = len(cds)
       readWithMatchNumber = len(reads)
-      with open("reads.json", 'w') as readsFile:
+      with open("reads.json", "w") as readsFile:
           json.dump(list(reads), readsFile)
       print(json.dumps({
         "matchNumber": matchNumber,
