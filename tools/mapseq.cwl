@@ -8,7 +8,7 @@ doc: |
 
 requirements:
   ResourceRequirement:
-    ramMin: 102400
+    ramMin: 10240
 hints:
   SoftwareRequirement:
     packages:
