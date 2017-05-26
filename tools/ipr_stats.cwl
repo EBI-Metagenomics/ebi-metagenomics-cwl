@@ -1,11 +1,13 @@
 #!/usr/bin/env cwl-runner
 cwlVersion: v1.0
 class: CommandLineTool
-
 label: gather stats from InterProScan
-
+requirements:
+  ResourceRequirement:
+    coresMax: 1
+    ramMin: 1024  # just a default, could be lowered
 hints:
-  - class: SoftwareRequirement
+  SoftwareRequirement:
     packages:
       python: {}
 

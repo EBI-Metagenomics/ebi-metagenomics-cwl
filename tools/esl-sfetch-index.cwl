@@ -4,9 +4,18 @@ label: index a sequence file for use by esl-sfetch
 doc: "https://github.com/EddyRivasLab/easel"
 
 requirements:
+  ResourceRequirement:
+    coresMax: 1
+    ramMin: 100  # just a default, could be lowered
   ShellCommandRequirement: {}
 #  InitialWorkDirRequirement:
 #    listing: [ $(inputs.sequences) ]
+hints:
+  SoftwareRequirement:
+    packages:
+      easel: {}
+        # specs: [ https://identifiers.org/rrid/RRID:TBD ]
+        # version: [ "???" ]
 
 inputs:
   sequences:

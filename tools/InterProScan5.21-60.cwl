@@ -11,14 +11,13 @@ doc: |
       https://github.com/ebi-pf-team/interproscan/wiki/HowToRun
 
 requirements:
- - class: ResourceRequirement
-   ramMin: 10240
-   coresMin: 3
- - class: SchemaDefRequirement
-   types: 
-     - $import: InterProScan-apps.yaml
-     - $import: InterProScan-protein_formats.yaml
-
+  ResourceRequirement:
+    ramMin: 10240
+    coresMin: 3
+  SchemaDefRequirement:
+    types: 
+      - $import: InterProScan-apps.yaml
+      - $import: InterProScan-protein_formats.yaml
 hints:
   SoftwareRequirement:
     packages:

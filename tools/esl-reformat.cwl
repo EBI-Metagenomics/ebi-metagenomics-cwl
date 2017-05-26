@@ -6,16 +6,18 @@ doc: |
   per line using esl-reformat from https://github.com/EddyRivasLab/easel
 
 requirements:
+  ResourceRequirement:
+    coresMax: 1
+    ramMin: 100  # just a default, could be lowered
   SchemaDefRequirement:
     types:
       - $import: esl-reformat-replace.yaml
-# hints:
-#   - class: SoftwareRequirement
-#     packages:
-#       easel:
-#         specs: [ https://identifiers.org/rrid/RRID:TBD ]
-#         version: [ "???" ]
-
+hints:
+  SoftwareRequirement:
+    packages:
+      easel: {}
+        # specs: [ https://identifiers.org/rrid/RRID:TBD ]
+        # version: [ "???" ]
 inputs:
   sequences:
     type: File

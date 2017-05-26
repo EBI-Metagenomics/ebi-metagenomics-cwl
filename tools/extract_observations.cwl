@@ -1,10 +1,16 @@
 #!/usr/bin/env cwl-runner
 cwlVersion: v1.0
-
 class: CommandLineTool
 
+requirements:
+  ResourceRequirement:
+    coresMax: 1
+    ramMin: 100  # just a default, could be lowered
+
 inputs:
-  tsv_otu_table: File
+  tsv_otu_table:
+    type: File
+    streamable: true
 
 baseCommand: [ awk, '/#/ {next};{print $1}' ]
 

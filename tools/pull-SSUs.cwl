@@ -1,15 +1,19 @@
 #!/usr/bin/env
 cwlVersion: v1.0
 class: CommandLineTool
+requirements:
+  ResourceRequirement:
+    coresMax: 1
+    ramMin: 100  # just a default, could be lowered
 
 inputs:
   hits: { type: File, streamable: true }
 
+stdin: $(inputs.hits.path)
+
 baseCommand: [ grep, SSU ]
 
 stdout: SSUs  # helps with cwltool's --cache
-
-arguments: [ $(inputs.hits.path) ]
 
 outputs: { SSUs: { type: stdout } }
 

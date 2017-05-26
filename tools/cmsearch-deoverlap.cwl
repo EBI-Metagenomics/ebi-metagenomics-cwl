@@ -10,6 +10,9 @@ hints:
         #version: [ "1.1.2" ]
 
 requirements:
+  ResourceRequirement:
+    coresMax: 1
+    ramMin: 100  # just a default, could be lowered
   ShellCommandRequirement: {}
   EnvVarRequirement:
     envDef:

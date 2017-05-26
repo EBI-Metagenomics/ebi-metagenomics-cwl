@@ -3,12 +3,16 @@ class: CommandLineTool
 label: index a sequence file for use by esl-sfetch
 doc: "https://github.com/EddyRivasLab/easel"
 
-# hints:
-#   - class: SoftwareRequirement
-#     packages:
-#       spades:
-#         specs: [ https://identifiers.org/rrid/RRID:TBD ]
-#         version: [ "???" ]
+requirements:
+  ResourceRequirement:
+    coresMax: 1
+    ramMin: 100  # just a default, could be lowered
+hints:
+  SoftwareRequirement:
+    packages:
+      easel: {}
+        # specs: [ https://identifiers.org/rrid/RRID:TBD ]
+        # version: [ "???" ]
 
 inputs:
   sequences:

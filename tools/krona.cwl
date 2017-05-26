@@ -1,8 +1,10 @@
 cwlVersion: v1.0
 class: CommandLineTool
 label: visualize using krona
-baseCommand: ktImportText
-
+requirements:
+  ResourceRequirement:
+    coresMax: 1
+    ramMin: 1024  # just a default, could be lowered
 hints:
   SoftwareRequirement:
     packages:
@@ -17,6 +19,8 @@ inputs:
     label: Tab-delimited text file
     inputBinding:
       position: 2
+
+baseCommand: ktImportText
 
 arguments:
   - valueFrom: $(inputs.otu_counts.basename).html

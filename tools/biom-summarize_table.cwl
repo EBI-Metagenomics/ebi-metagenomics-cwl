@@ -3,6 +3,9 @@ cwlVersion: v1.0
 class: CommandLineTool
 
 requirements:
+  ResourceRequirement:
+    coresMax: 1
+    ramMin: 100  # just a default, could be lowered
   SchemaDefRequirement:
     types:
       - $import: biom-convert-table.yaml

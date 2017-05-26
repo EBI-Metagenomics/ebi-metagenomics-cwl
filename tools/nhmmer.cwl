@@ -1,9 +1,12 @@
 cwlVersion: v1.0
 class: CommandLineTool
 label: search profile(s) against a sequence database
-
+requirements:
+  ResourceRequirement:
+    coresMax: 1
+    ramMin: 1024  # just a default, could be lowered
 hints:
-  - class: SoftwareRequirement
+  SoftwareRequirement:
     packages:
       hmmer:
         specs: [ "https://identifiers.org/rrid/RRID:SCR_005305" ]

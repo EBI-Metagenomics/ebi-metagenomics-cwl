@@ -3,6 +3,9 @@ cwlVersion: v1.0
 class: CommandLineTool
 
 requirements:
+  ResourceRequirement:
+    coresMax: 1
+    ramMin: 1024  # just a default, could be lowered
   ShellCommandRequirement: {}
 
 inputs:

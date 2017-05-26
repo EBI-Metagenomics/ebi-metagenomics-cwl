@@ -5,8 +5,12 @@ class: CommandLineTool
 label: split FASTA by number of records
 doc: based upon code by Maxim Scheremetjew, EMBL-EBI
 
+requirements:
+  ResourceRequirement:
+    coresMax: 1
+    ramMin: 100  # just a default, could be lowered
 hints:
-  - class: SoftwareRequirement
+  SoftwareRequirement:
     packages:
       biopython:
         specs: [ "https://identifiers.org/rrid/RRID:SCR_007173" ]

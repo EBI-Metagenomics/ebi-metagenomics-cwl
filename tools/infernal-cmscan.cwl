@@ -2,8 +2,12 @@ cwlVersion: v1.0
 class: CommandLineTool
 label: search sequence(s) against a covariance model database
 doc: "http://eddylab.org/infernal/Userguide.pdf"
+requirements:
+  ResourceRequirement:
+    coresMax: 1
+    ramMin: 1024  # just a default, could be lowered
 hints:
-  - class: SoftwareRequirement
+  SoftwareRequirement:
     packages:
       infernal:
         specs: [ "https://identifiers.org/rrid/RRID:SCR_011809" ]
