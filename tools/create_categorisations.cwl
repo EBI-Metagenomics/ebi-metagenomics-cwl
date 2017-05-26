@@ -34,9 +34,9 @@ arguments:
       from Bio import SeqIO
       ipr_idset = json.load(open("$(inputs.ipr_idset.path)", "r"))
       cds_idset = json.load(open("$(inputs.cds_idset.path)", "r"))
-      ipr_output = open("interproscan.fasta", 'w')
-      cds_output = open("pCDS.fasta", 'w')
-      nof_output = open("noFunction.fasta", 'w')
+      ipr_output = open("interproscan.fasta", "w")
+      cds_output = open("pCDS.fasta", "w")
+      nof_output = open("noFunction.fasta", "w")
       for seq in SeqIO.parse("$(inputs.seqs.path)", "fasta"):
           if seq.name in ipr_idset:
               SeqIO.write(seq, ipr_output, "fasta")
