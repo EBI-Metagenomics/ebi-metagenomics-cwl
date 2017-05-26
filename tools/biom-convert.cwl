@@ -59,13 +59,13 @@ inputs:
 baseCommand: [ biom, convert ]
 
 arguments:
-  - valueFrom: result
+  - valueFrom: $(inputs.biom.basename)
     prefix: --output-fp
 
 outputs:
   result:
     type: File
-    outputBinding: { glob: result }
+    outputBinding: { glob: $(inputs.biom.basename) }
 
 $namespaces:
  edam: http://edamontology.org/
