@@ -22,4 +22,4 @@ cd ${start}
 /usr/bin/time ${CWLTOIL} ${RESTART} ${DEBUG} --logFile ${PWD}/log --outdir ${PWD}/results \
 	--preserve-environment PATH CLASSPATH --batchSystem LSF --retryCount 1 \
 	--workDir ${workdir} --jobStore ${PWD}/jobstore --disableCaching \
-	--defaultMemory 10Gi ${DESC} ${INPUTS} | tee output
+	${DESC} ${INPUTS} | tee output
