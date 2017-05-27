@@ -16,7 +16,7 @@ PATH=/hps/nobackup/production/metagenomics/production-scripts/current/mgportal/a
 PATH=/hps/nobackup/production/metagenomics/production-scripts/current/mgportal/analysis-pipeline/python/tools/KronaTools-2.3/bin/:$PATH
 PATH=/hps/nobackup/production/metagenomics/production-scripts/current/mgportal/analysis-pipeline/python/tools/RNASelector-1.0/binaries/64_bit_Linux/HMMER3.1b1/:$PATH
 PATH=/hps/nobackup/production/metagenomics/production-scripts/current/mgportal/analysis-pipeline/python/tools/SeqPrep-1.1/:$PATH
-PATH=$PATH:/hps/nobackup/production/metagenomics/CWL/code/thirdparty/node-v6.10.3export
+PATH=$PATH:/hps/nobackup/production/metagenomics/CWL/code/thirdparty/node-v6.10.3
 
 export PATH
 export CLASSPATH
