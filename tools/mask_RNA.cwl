@@ -3,6 +3,9 @@ cwlVersion: v1.0
 class: CommandLineTool
 
 requirements:
+  ResourceRequirement:
+    coresMax: 1
+    ramMin: 1024  # just a default, could be lowered
   ShellCommandRequirement: {}
 
 inputs:
@@ -20,34 +23,34 @@ arguments:
  - ln
  - -s
  - $(inputs.unique_rRNA_hits.path)
- - nhmmer.txt
+ - hmmer.txt
  - ;
  - ln
  - -s
  - $(inputs.16s_rRNA_hmmer_matches.path)
- - nhmmer.16s.txt
+ - hmmer.16s.txt
  - ;
  - ln
  - -s
  - $(inputs.23s_rRNA_hmmer_matches.path)
- - nhmmer.23s.txt
+ - hmmer.23s.txt
  - ;
  - ln
  - -s
  - $(inputs.5s_rRNA_hmmer_matches.path)
- - nhmmer.5s.txt
+ - hmmer.5s.txt
  - ;
  - rnaMaskingStep.py
- - --hmmer
- - nhmmer.txt
- - --nhmmer
- - $(inputs.unique_tRNA_hits.path)
- - --seq_id
- - $(inputs.tRNA_matches.path)
- - --input
- - $(inputs.sequences.path)
- - --output
- - masked_sequences.fasta
+ - valueFrom: hmmer.txt
+   prefix: --hmmer
+ - valueFrom: $(inputs.tRNA_matches.path)
+   prefix: --nhmmer
+ - valueFrom: $(inputs.unique_tRNA_hits.path)
+   prefix: --seq_id
+ - valueFrom: $(inputs.sequences.path)
+   prefix: --input
+ - valueFrom: masked_sequences.fasta
+   prefix: --output
 
    #  TODO: either re-write using InitialWorkDirRequirement when Toil gets
    #  support or add parsing of a CWL JSON object to the python script

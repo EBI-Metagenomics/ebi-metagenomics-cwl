@@ -4,12 +4,11 @@ label: search sequence(s) against a covariance model database
 doc: "http://eddylab.org/infernal/Userguide.pdf"
 
 requirements:
- ResourceRequirement:
-   ramMin: 10240
-   coresMin: 4
-
+  ResourceRequirement:
+    ramMin: 10240
+    coresMin: 4
 hints:
-  - class: SoftwareRequirement
+  SoftwareRequirement:
     packages:
       infernal:
         specs: [ "https://identifiers.org/rrid/RRID:SCR_011809" ]

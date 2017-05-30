@@ -7,6 +7,9 @@ label: "Post QC-ed input analysis of sequence file"
 #doc: |
 
 requirements:
+  ResourceRequirement:
+    coresMax: 1
+    ramMin: 1024  # just a default, could be lowered
   InlineJavascriptRequirement: {}
 
 inputs:
@@ -14,31 +17,31 @@ inputs:
     type: File
     format: edam:format_1929  # FASTA
     inputBinding:
-      prefix: "-i"
+      prefix: -i
   length_sum:
     label: Prefix for the files assocaited with sequence length distribution
     type: string
     default: seq-length.out
     inputBinding:
-      prefix: "-l"
+      prefix: -l
   gc_sum:
     label: Prefix for the files associated with GC distribution
     type: string
     default: GC-distribution.out
     inputBinding:
-      prefix: "-g"
+      prefix: -g
   nucleotide_distribution:
-    label: Prefix for the files associated with ucleotide distribution
+    label: Prefix for the files associated with nucleotide distribution
     type: string
     default: nucleotide-distribution.out
     inputBinding:
-      prefix: "-d"
+      prefix: -d
   summary:
     label: File names for summary of sequences, e.g. number, min/max length etc.
     type: string
     default: summary
     inputBinding:
-      prefix: "-o"
+      prefix: -o
   max_seq:
     label: Maximum number of sequences to sub-sample 
     type: int?

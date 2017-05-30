@@ -3,16 +3,15 @@ cwlVersion: v1.0
 class: CommandLineTool
 
 requirements:
- ResourceRequirement:
-   ramMin: 10240
- 
+  ResourceRequirement:
+    coresMax: 1
+    ramMin: 10240  # just a default, could be lowered
 hints:
  SoftwareRequirement:
    packages:
      owltools:
        specs: [ "https://identifiers.org/rrid/RRID:SCR_005732" ]
        version: [ "8d53bbce1ffe60d9aa3357c1001599f9a882317a" ]
-
 
 inputs:
   InterProScan_results:

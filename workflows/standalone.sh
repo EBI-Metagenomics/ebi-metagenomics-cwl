@@ -12,7 +12,7 @@ source ~mcrusoe/test/bin/activate
 
 source ebi-setup.sh
 
-#DEBUG=--debug  # uncomment to make output & logs more verbose
+DEBUG=--debug  # uncomment to make output & logs more verbose
 
 workdir=/tmp
 #mkdir -p ${workdir}

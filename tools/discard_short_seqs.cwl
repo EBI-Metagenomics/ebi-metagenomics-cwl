@@ -3,8 +3,13 @@ class: CommandLineTool
 
 label: drop short seqs
 
+requirements:
+  ResourceRequirement:
+    coresMax: 1
+    ramMin: 100  # just a default, could be lowered
+
 hints:
-  - class: SoftwareRequirement
+  SoftwareRequirement:
     packages:
       biopython:
         specs: [ "https://identifiers.org/rrid/RRID:SCR_007173" ]

@@ -2,8 +2,12 @@ cwlVersion: v1.0
 class: CommandLineTool
 label: search profile(s) against a sequence database
 
+requirements:
+  ResourceRequirement:
+    coresMax: 4
+    ramMin: 1024  # just a default, could be lowered
 hints:
-  - class: SoftwareRequirement
+  SoftwareRequirement:
     packages:
       hmmer:
         specs: [ "https://identifiers.org/rrid/RRID:SCR_005305" ]
@@ -30,8 +34,8 @@ inputs:
 baseCommand: [ hmmsearch ]
 
 arguments:
- - --domtblout
- - per_domain_summary.txt
+ - valueFrom: per_domain_summary.txt
+   prefix: --domtblout
  - valueFrom: $(runtime.cores)
    prefix: --cpu
 

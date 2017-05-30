@@ -1,11 +1,13 @@
 #!/usr/bin/env cwl-runner
 cwlVersion: v1.0
 class: CommandLineTool
-
 label: gather stats from ORF caller
-
+requirements:
+  ResourceRequirement:
+    coresMax: 1
+    ramMin: 100  # just a default, could be lowered
 hints:
-  - class: SoftwareRequirement
+  SoftwareRequirement:
     packages:
       biopython:
         specs: [ "https://identifiers.org/rrid/RRID:SCR_007173" ]
@@ -35,7 +37,7 @@ arguments:
           readsWithOrf.add(readAccession)
           numberOrfs += 1
       numberReadsWithOrf = len(readsWithOrf)
-      with open("reads.json", 'w') as readsFile:
+      with open("reads.json", "w") as readsFile:
           json.dump(list(readsWithOrf), readsFile)
       print(json.dumps({
         "numberReadsWithOrf": numberReadsWithOrf,

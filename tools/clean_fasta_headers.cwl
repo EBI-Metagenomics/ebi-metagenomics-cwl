@@ -4,9 +4,15 @@ class: CommandLineTool
 
 label: replace problem characters from FASTA headers with dashes
 
+requirements:
+  ResourceRequirement:
+    coresMax: 1
+    ramMin: 100  # just a default, could be lowered
+
 inputs:
   sequences:
     type: File
+    streamable: true
     format: edam:format_1929  # FASTA
 
 stdin: $(inputs.sequences.path)

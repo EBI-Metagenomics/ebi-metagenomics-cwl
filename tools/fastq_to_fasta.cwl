@@ -1,8 +1,12 @@
 cwlVersion: v1.0
 class: CommandLineTool
 
+requirements:
+  ResourceRequirement:
+    coresMax: 1
+    ramMin: 100  # just a default, could be lowered
 hints:
-  - class: SoftwareRequirement
+  SoftwareRequirement:
     packages:
       biopython:
         specs: [ "https://identifiers.org/rrid/RRID:SCR_007173" ]
@@ -11,19 +15,25 @@ hints:
 inputs:
   fastq:
     type: File
+    streamable: true
     format: edam:format_1930  # FASTQ
+
+stdin: $(inputs.fastq.path)
 
 baseCommand: [ python ]
 
 arguments:
   - valueFrom: |
-      from Bio import SeqIO; SeqIO.convert("$(inputs.fastq.path)", "fastq", "$(inputs.fastq.basename).fasta", "fasta");
+      import sys
+      from Bio import SeqIO
+      SeqIO.convert(sys.stdin, "fastq", sys.stdout, "fasta")
     prefix: -c
+
+stdout: $(inputs.fastq.basename).fasta  # helps with cwltool's cache
 
 outputs:
   fasta:
-    type: File
-    outputBinding: { glob: $(inputs.fastq.basename).fasta }
+    type: stdout
     format: edam:format_1929  # FASTA
 
 $namespaces:

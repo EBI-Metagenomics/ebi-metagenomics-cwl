@@ -2,10 +2,17 @@
 cwlVersion: v1.0
 class: CommandLineTool
 
+requirements:
+  ResourceRequirement:
+    coresMax: 1
+    ramMin: 1024  # just a default, could be lowered
+
 inputs:
   otu_table:
     type: File
-    label: the OTU table produced for the taxonomies found in the reference databases that was used with MAPseq
+    doc: |
+      the OTU table produced for the taxonomies found in the reference
+      databases that was used with MAPseq
     inputBinding:
       prefix: --otuTable 
 

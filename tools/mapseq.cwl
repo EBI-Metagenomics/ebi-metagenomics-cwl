@@ -8,6 +8,7 @@ doc: |
 
 requirements:
   ResourceRequirement:
+    coresMax: 1
     ramMin: 10240
 hints:
   SoftwareRequirement:

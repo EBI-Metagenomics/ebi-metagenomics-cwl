@@ -27,7 +27,7 @@ steps:
     in:
       query: model
       sequences: indexed_sequences
-      bitscore_threshold: { default: 40 }
+      bitscore_threshold: { default: 20 }
     out: [ per_target_summary ]
 
   extract_coord_lines:
