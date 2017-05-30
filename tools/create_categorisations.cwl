@@ -37,18 +37,21 @@ arguments:
     valueFrom: |
       import json
       from Bio import SeqIO
-      ipr_idset = json.load(open("$(inputs.ipr_idset.path)", "r"))
-      cds_idset = json.load(open("$(inputs.cds_idset.path)", "r"))
+      ipr_idset = frozenset(json.load(open("$(inputs.ipr_idset.path)", "r")))
+      cds_idset = frozenset(json.load(open("$(inputs.cds_idset.path)", "r")))
       ipr_output = open("interproscan.fasta", "w")
       cds_output = open("pCDS.fasta", "w")
       nof_output = open("noFunction.fasta", "w")
       for seq in SeqIO.parse("$(inputs.seqs.path)", "fasta"):
+          ipr_seen = False
           if seq.name in ipr_idset:
-              ipr_output.write(str(">" + seq.name + "\n" + seq.seq + "\n"))
+              ipr_output.write(str(">" + seq.name + "\\n" + seq.seq + "\\n"))
+              ipr_seen = True
           if seq.name in cds_idset:
-              cds_output.write(str(">" + seq.name + "\n" + seq.seq + "\n"))
-              if seq.name not in ipr_idset:
-                   nof_output.write(str(">" + seq.name + "\n" + seq.seq + "\n"))
+              cds_output.write(str(">" + seq.name + "\\n" + seq.seq + "\\n"))
+              if not ipr_seen:
+                   nof_output.write(str(">" + seq.name + "\\n" + seq.seq + "\\n"))
+
 outputs:
   interproscan:
     type: File
