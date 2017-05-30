@@ -4,7 +4,7 @@ label: search profile(s) against a sequence database
 
 requirements:
   ResourceRequirement:
-    coresMax: 1
+    coresMax: 4
     ramMin: 1024  # just a default, could be lowered
 hints:
   SoftwareRequirement:
