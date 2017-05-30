@@ -15,7 +15,7 @@ hints:
 inputs:
   fastq:
     type: File
-    streaming: true
+    streamable: true
     format: edam:format_1930  # FASTQ
 
 stdin: $(inputs.fastq.path)
