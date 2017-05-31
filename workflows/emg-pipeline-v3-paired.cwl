@@ -15,6 +15,7 @@ inputs:
   reverse_reads:
     type: File
     format: edam:format_1930  # FASTQ
+  run_id: string
   fraggenescan_model: ../tools/FragGeneScan-model.yaml#model
   16S_model:
     type: File
@@ -80,6 +81,7 @@ steps:
     run: emg-pipeline-v3.cwl
     in:
       reads: combine_overlaped_and_unmerged_reads/merged_with_unmerged_reads
+      run_id: run_id
       fraggenescan_model: fraggenescan_model
       16S_model: 16S_model
       5S_model: 5S_model
