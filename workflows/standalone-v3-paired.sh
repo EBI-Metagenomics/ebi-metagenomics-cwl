@@ -25,6 +25,7 @@ INPUTS=../emg-pipeline-v3-paired-job.yaml
 start=cwltool-${RUN}
 mkdir -p ${start}
 cd ${start}
+cp ${INPUTS} ./
 
 cwltool ${DEBUG} --outdir ${PWD}/results --on-error continue \
 	--preserve-entire-environment --cache ${PWD}/../cwltool-cache \
