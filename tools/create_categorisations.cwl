@@ -7,7 +7,7 @@ label: categorise sequences
 requirements:
   ResourceRequirement:
     coresMax: 1
-    ramMin: 100  # just a default, could be lowered
+    ramMin: 1024  # just a default, could be lowered
 
 hints:
   SoftwareRequirement:
