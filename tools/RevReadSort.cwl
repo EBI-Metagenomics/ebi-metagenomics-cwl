@@ -2,8 +2,6 @@
 cwlVersion: v1.0
 class: CommandLineTool
 
-label: replace problem characters from FASTA headers with dashes
-
 requirements:
   ResourceRequirement:
     coresMax: 1
@@ -12,19 +10,22 @@ requirements:
 inputs:
   sequences:
     type: File
-    streamable: true
+    label: single-line sequences only
     format: edam:format_1929  # FASTA
+    inputBinding:
+      position: 1
 
-stdin: $(inputs.sequences.path)
+baseCommand: RevReadSort.pl
 
-baseCommand: [ tr, ' /|<_;#', '-------' ]
-
-stdout: $(inputs.sequences.nameroot).cleaned.fasta
+arguments:
+  - valueFrom: $(inputs.sequences.basename)_revsort.fasta
+    position: 2
 
 outputs:
-  sequences_with_cleaned_headers:
-    type: stdout
+  rev_sorted_sequences:
+    type: File
     format: edam:format_1929  # FASTA
+    outputBinding: { glob: $(inputs.sequences.basename)_revsort.fasta }
 
 $namespaces:
  edam: http://edamontology.org/

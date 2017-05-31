@@ -1,5 +1,6 @@
 #!/usr/bin/env cwl-runner
 cwl:tool: emg-pipeline-v3-paired.cwl
+run_id: ERR770958
 forward_reads:
   path: /hps/nobackup/production/metagenomics/CWL/data/ERP009703/raw/ERR770958_1.fastq.gz
   class: File
@@ -11,7 +12,7 @@ reverse_reads:
 fraggenescan_model:
   main:
     class: File
-    path: /hps/nobackup/production/metagenomics/pipeline/tools/FragGeneScan1.20/train/complete
+    path: /hps/nobackup/production/metagenomics/pipeline/tools/FragGeneScan1.20/train/illumina_5 
   prob_forward:
     class: File
     path: /hps/nobackup/production/metagenomics/pipeline/tools/FragGeneScan1.20/train/gene

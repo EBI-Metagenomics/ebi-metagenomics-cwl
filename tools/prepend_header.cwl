@@ -2,27 +2,30 @@
 cwlVersion: v1.0
 class: CommandLineTool
 
-label: replace problem characters from FASTA headers with dashes
+label: prepend a string + an underscore to all headers in a FASTA sequence file
 
 requirements:
   ResourceRequirement:
     coresMax: 1
-    ramMin: 1024  # just a default, could be lowered
+    ramMin: 100  # just a default, could be lowered
 
 inputs:
   sequences:
     type: File
-    streamable: true
     format: edam:format_1929  # FASTA
+    streamable: true
+  label: string
 
 stdin: $(inputs.sequences.path)
 
-baseCommand: [ tr, ' /|<_;#', '-------' ]
+baseCommand: sed
 
-stdout: $(inputs.sequences.nameroot).cleaned.fasta
+arguments: [ "s/^>/>${inputs.label}_/" ]
+
+stdout: $(inputs.sequences.basename).labeled.fasta  # to aid cwltool's cache feature
 
 outputs:
-  sequences_with_cleaned_headers:
+  labeled_sequences:
     type: stdout
     format: edam:format_1929  # FASTA
 

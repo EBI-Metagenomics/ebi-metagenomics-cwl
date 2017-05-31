@@ -18,7 +18,8 @@ outputs:
   predictedCDS:
     type: File
     format: edam:format_1929  # FASTA
-    outputSource: remove_short_pCDS/filtered_sequences
+    outputSource: ORF_prediction/predictedCDS
+    #outputSource: remove_short_pCDS/filtered_sequences
 
 steps:
   ORF_prediction:
@@ -31,12 +32,12 @@ steps:
       model: model
     out: [ predictedCDS ]
 
-  remove_short_pCDS:
-    run: ../tools/discard_short_seqs.cwl
-    in:
-      sequences: ORF_prediction/predictedCDS
-      minimum_length: { default: 60 }
-    out: [ filtered_sequences ]
+  # remove_short_pCDS:
+    # run: ../tools/discard_short_seqs.cwl
+    # in:
+    #   sequences: ORF_prediction/predictedCDS
+    #  minimum_length: { default: 60 }
+    # out: [ filtered_sequences ]
 
 $namespaces:
  edam: http://edamontology.org/

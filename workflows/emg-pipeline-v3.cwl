@@ -15,6 +15,7 @@ inputs:
   reads:
     type: File
     format: edam:format_1930  # FASTQ
+  run_id: string
   fraggenescan_model: ../tools/FragGeneScan-model.yaml#model
   16S_model:
     type: File
@@ -144,6 +145,7 @@ steps:
     run: rna-selector.cwl
     in: 
       reads: clean_fasta_headers/sequences_with_cleaned_headers
+      run_id: run_id
       16S_model: 16S_model
       5S_model: 5S_model
       23S_model: 23S_model

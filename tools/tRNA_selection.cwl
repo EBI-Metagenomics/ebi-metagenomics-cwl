@@ -16,7 +16,7 @@ outputs:
    matching_sequences:
      type: File
      format: edam:format_1929  # FASTA
-     outputSource: fetch_aligned_sequences/sequences
+     outputSource: sort_matches/rev_sorted_sequences
    hmmer_search_results:
      type: File
      outputSource: nhmmer/per_target_summary
@@ -64,6 +64,19 @@ steps:
       names: extract_coordinates/formatted_names_and_coords
       names_contain_subseq_coords: { default: true }
     out: [ sequences ]
+
+  reformat_matches:
+    run: oneLineFasta.cwl
+    in: 
+      sequences: fetch_aligned_sequences/sequences
+      minimum_length: { default: 30 }
+    out: [ reformatted_sequences ]
+
+  sort_matches:
+    run: RevReadSort.cwl
+    in:
+      sequences: reformat_matches/reformatted_sequences
+    out: [ rev_sorted_sequences ]
 
 $namespaces:
  edam: http://edamontology.org/
