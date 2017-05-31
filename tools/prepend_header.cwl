@@ -20,7 +20,7 @@ stdin: $(inputs.sequences.path)
 
 baseCommand: sed
 
-arguments: [ "s/^>/>${inputs.label}_/" ]
+arguments: [ "s/^>/>$(inputs.label)_/" ]
 
 stdout: $(inputs.sequences.basename).labeled.fasta  # to aid cwltool's cache feature
 
