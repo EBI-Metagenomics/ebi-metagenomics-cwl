@@ -18,6 +18,9 @@ INPUTS=../emg-pipeline-v3-paired-job.yaml
 start=toil-${RUN}
 mkdir -p ${start}/results
 cd ${start}
+cp ${INPUTS} ./
+
+cwltool --pack ${DESC} > packed.cwl
 
 /usr/bin/time ${CWLTOIL} ${RESTART} ${DEBUG} --logFile ${PWD}/log --outdir ${PWD}/results \
 	--preserve-environment PATH CLASSPATH --batchSystem LSF --retryCount 1 \

@@ -2,7 +2,9 @@
 cwlVersion: v1.0
 class: CommandLineTool
 
-label: replace problem characters from FASTA headers with dashes
+doc: |
+  reformats FASTA. single line sequence, adds 'length=' to header
+  drops seqs with identical IDs (up until the first `/`)
 
 requirements:
   ResourceRequirement:
@@ -12,19 +14,26 @@ requirements:
 inputs:
   sequences:
     type: File
-    streamable: true
     format: edam:format_1929  # FASTA
+    inputBinding:
+      position: 1
 
-stdin: $(inputs.sequences.path)
+  minimum_length:
+    type: int?
+    inputBinding:
+      position: 3
 
-baseCommand: [ tr, ' /|<_;#', '-------' ]
+baseCommand: oneLineFasta.py
 
-stdout: $(inputs.sequences.nameroot).cleaned.fasta
+arguments:
+  - valueFrom: $(inputs.sequences.basename)_reformatted.fasta
+    position: 2
 
 outputs:
-  sequences_with_cleaned_headers:
-    type: stdout
+  reformatted_sequences:
+    type: File
     format: edam:format_1929  # FASTA
+    outputBinding: { glob: $(inputs.sequences.basename)_reformatted.fasta }
 
 $namespaces:
  edam: http://edamontology.org/

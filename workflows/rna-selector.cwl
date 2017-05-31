@@ -18,6 +18,7 @@ inputs:
   reads:
     type: File
     format: edam:format_1929  # FASTA
+  run_id: string
   16S_model:
     type: File
     format: edam:format_1370  # HMMER
@@ -34,7 +35,7 @@ inputs:
 outputs:
   16S_matches:
     type: File
-    outputSource: discard_short_16S_matches/filtered_sequences
+    outputSource: prepend_header_for_QIIME/labeled_sequences
   masked_sequences:
     type: File
     outputSource: mask_rRNA_and_tRNA/masked_sequences
@@ -52,13 +53,6 @@ steps:
       indexed_sequences: index_reads/sequences_with_index
       model: 16S_model
     out: [ matching_sequences, hmmer_search_results ]
-
-  discard_short_16S_matches:
-    run: ../tools/discard_short_seqs.cwl
-    in:
-      sequences: find_16S_matches/matching_sequences
-      minimum_length: { default: 80 }
-    out: [ filtered_sequences ]
 
   find_23S_matches:
     run: ../tools/rRNA_selection.cwl
@@ -97,6 +91,13 @@ steps:
         source: find_tRNA_matches/hmmer_search_results
         valueFrom: ${ return [ self ]; }
     out: [ unique_hits ]
+
+  prepend_header_for_QIIME:
+    run: ../tools/prepend_header.cwl
+    in:
+      sequences: find_16S_matches/matching_sequences
+      label: run_id
+    out: [ labeled_sequences ]
 
   mask_rRNA_and_tRNA:
     run: ../tools/mask_RNA.cwl
