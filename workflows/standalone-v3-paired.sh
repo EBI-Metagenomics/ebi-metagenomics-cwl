@@ -27,6 +27,8 @@ mkdir -p ${start}
 cd ${start}
 cp ${INPUTS} ./
 
+cwltool --pack ${DESC} > packed.cwl
+
 cwltool ${DEBUG} --outdir ${PWD}/results --on-error continue \
 	--preserve-entire-environment --cache ${PWD}/../cwltool-cache \
        	${DESC} ${INPUTS} | tee output 
