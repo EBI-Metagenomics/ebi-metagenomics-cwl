@@ -153,10 +153,12 @@ outputs:
   no_functions_seqs:
     type: File
     outputSource: categorisation/no_functions_seqs
-
+  run_id:
+    type: string
+    outputSource: run_id
 steps:
   count_reads:
-    run: ../tools/count_sequences.cwl
+    run: ../tools/count_fastq.cwl
     in:
       sequences: reads
     out: [ count ]
@@ -186,7 +188,7 @@ steps:
     out: [ fasta ]
 
   count_processed_reads:
-    run: ../tools/count_sequences.cwl
+    run: ../tools/count_fasta.cwl
     in:
       sequences: convert_trimmed-reads_to_fasta/fasta
     out: [ count ]
@@ -228,7 +230,7 @@ steps:
       - masked_sequences
 
   count_masked_reads:
-    run: ../tools/count_sequences.cwl
+    run: ../tools/count_fasta.cwl
     in:
       sequences: find_SSUs_and_mask/masked_sequences
     out: [ count ]

@@ -137,6 +137,9 @@ outputs:
   no_functions_seqs:
     type: File
     outputSource: unified_processing/no_functions_seqs
+  run_id:
+    type: string
+    outputSource: unified_processing/run_id
 
 steps:
   overlap_reads:
