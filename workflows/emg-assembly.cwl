@@ -52,7 +52,7 @@ outputs:
 
   pCDS:
     type: File
-    outputSource: ORF_prediction/predictedCDS
+    outputSource: ORF_prediction/predicted_CDS_aa
 
   annotations:
     type: File
@@ -178,7 +178,7 @@ steps:
       sequence: discard_short_scaffolds/filtered_sequences
       completeSeq: { default: true }
       model: fraggenescan_model
-    out: [predictedCDS]
+    out: [predicted_CDS_aa]
 
   functional_analysis:
     doc: |
@@ -186,7 +186,7 @@ steps:
       (Pfam, TIGRFAM, PRINTS, PROSITE patterns, Gene3d) from InterPro.
     run: functional_analysis.cwl
     in:
-      predicted_CDS: ORF_prediction/predictedCDS
+      predicted_CDS: ORF_prediction/predicted_CDS_aa
       go_summary_config: go_summary_config
     out: [ functional_annotations, go_summary, go_summary_slim ]
 
