@@ -2,6 +2,7 @@
 cwlVersion: v1.0
 class: CommandLineTool
 requirements:
+  InlineJavascriptRequirement: {}
   ResourceRequirement:
     coresMax: 1
     ramMin: 100  # just a default, could be lowered
@@ -24,7 +25,7 @@ outputs:
     outputBinding:
       glob: count
       loadContents: true
-      outputEval: $(self[0].contents)
+      outputEval: $(Number(self[0].contents))
 
 $namespaces:
  edam: http://edamontology.org/
