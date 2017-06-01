@@ -92,6 +92,9 @@ outputs:
   ipr_reads:
     type: File
     outputSource: unified_processing/ipr_reads
+  ipr_summary:
+    type: File
+    outputSource: unified_processing/ipr_summary
   annotated_CDS_nuc:
     type: File
     outputSource: unified_processing/annotated_CDS_nuc
@@ -155,6 +158,7 @@ steps:
       - ipr_cdsWithMatchNumber
       - ipr_readWithMatchNumber
       - ipr_reads
+      - ipr_summary
       - annotated_CDS_nuc
       - annotated_CDS_aa
       - unannotated_CDS_nuc

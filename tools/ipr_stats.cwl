@@ -25,15 +25,17 @@ arguments:
       import re
       import json
       accessionPattern = re.compile("(\\S+)_\\d+_\\d+_[+-]")
-      matchNumber = 0
-      cdsWithMatchNumber = 0
-      readWithMatchNumber = 0
-      cds = set()
-      reads = set()
+      matchNumber = cdsWithMatchNumber = readWithMatchNumber = 0
+      cds, reads = (set(),)*2
+      entry2protein, entry2name = ({},)*2
       for line in open("$(inputs.iprscan.path)", "r"):
           splitLine = line.strip().split("\\t")
           cdsAccessions = splitLine[0].split("|")
           for cdsAccession in cdsAccessions:
+              if len(splitLine) >= 13 and splitLine[11].startswith("IPR"):
+                  entry = splitLine[11]
+                  entry2protein.setdefault(entry, set()).add(cdsAccession)
+                  entry2name[entry] = splitLine[12]
               cds.add(cdsAccession)
               readAccessionMatch = re.match(accessionPattern, cdsAccession)
               readAccession = readAccessionMatch.group(1)
@@ -47,6 +49,9 @@ arguments:
       readWithMatchNumber = len(reads)
       with open("reads.json", "w") as readsFile:
           json.dump(list(reads), readsFile)
+      with open("ipr_entry_maps.json", "w") as mapsFile:
+          json.dump({"entry2protein": entry2protein,
+                     "entry2name": entry2name"}, mapsFile)
       print(json.dumps({
         "matchNumber": matchNumber,
         "cdsWithMatchNumber": cdsWithMatchNumber,
@@ -54,6 +59,10 @@ arguments:
         "id_list": {
             "class": "File",
             "path": "$(runtime.outdir)/id_list.txt" },
+        "ipr_entry_maps": {
+            "class": "File",
+            "format": "https://www.iana.org/assignments/media-types/application/json",
+            "path": "$(runtime.outdir)/ipr_entry_maps.json" },
         "reads": {
             "class": "File",
             "format": "https://www.iana.org/assignments/media-types/application/json",
@@ -65,6 +74,10 @@ outputs:
   matchNumber: int
   cdsWithMatchNumber: int
   readWithMatchNumber: int
+  ipr_entry_maps:
+    type: File
+    streamable: true
+    format: iana:application/json
   reads:
     type: File
     streamable: true

@@ -105,6 +105,9 @@ outputs:
   ipr_reads:
     type: File
     outputSource: ipr_stats/reads
+  ipr_summary:
+    type: File
+    outputSource: ipr_summary/ipr_summary
   annotated_CDS_nuc:
     type: File
     outputSource: relabel_annotated_cds_nuc_seqs/relabeled_sequences
@@ -214,6 +217,13 @@ steps:
       - readWithMatchNumber
       - reads
       - id_list
+      - ipr_entry_maps
+
+  ipr_summary:
+    run: ../tools/write_ipr_summary.cwl
+    in:
+      ipr_entry_maps: ipr_stats/ipr_entry_maps
+    out: [ ipr_summary ]
 
   divide_faa:
     run: ../tools/faselector.cwl
