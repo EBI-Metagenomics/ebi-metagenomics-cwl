@@ -132,7 +132,27 @@ outputs:
   summary:
     type: File
     outputSource: generate_summary/summary
-#TODO - check all the outputs
+  tRNA_matches:
+    type: File
+    outputSource: find_SSUs_and_mask/tRNA_matches 
+  16S_matches:
+    type: File
+    outputSource: find_SSUs_and_mask/16S_matches 
+  23S_matches:
+    type: File
+    outputSource: find_SSUs_and_mask/23S_matches 
+  5S_matches:
+    type: File
+    outputSource: find_SSUs_and_mask/5S_matches 
+  interproscan_matches:
+    type: File
+    outputSource: categorisation/interproscan_matches
+  pCDS_seqs:
+    type: File
+    outputSource: categorisation/pCDS_seqs
+  no_functions_seqs:
+    type: File
+    outputSource: categorisation/no_function_seqs
 
 steps:
   count_reads:
@@ -200,7 +220,12 @@ steps:
       5S_model: 5S_model
       23S_model: 23S_model
       tRNA_model: tRNA_model
-    out: [ 16S_matches, masked_sequences ]
+    out:
+      - 16S_matches
+      - 23S_matches
+      - 5S_matches
+      - tRNA_matches
+      - masked_sequences
 
   count_masked_reads:
     run: ../tools/count_sequences.cwl

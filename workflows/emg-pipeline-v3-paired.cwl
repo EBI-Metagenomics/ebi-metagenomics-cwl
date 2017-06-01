@@ -116,6 +116,27 @@ outputs:
   qiime_assigned_taxonomy:
     type: File
     outputSource: unified_processing/qiime_assigned_taxonomy
+  16S_matches:
+    type: File
+    outputSource: unified_processing/16S_matches
+  23S_matches:
+    type: File
+    outputSource: unified_processing/23S_matches
+  5S_matches:
+    type: File
+    outputSource: unified_processing/5S_matches
+  tRNA_matches:
+    type: File
+    outputSource: unified_processing/tRNA_matches 
+  interproscan_matches:
+    type: File
+    outputSource: unified_processing/interproscan_matches
+  pCDS_seqs:
+    type: File
+    outputSource: unified_processing/pCDS_seqs
+  no_functions_seqs:
+    type: File
+    outputSource: unified_processing/no_functions_seqs
 
 steps:
   overlap_reads:
@@ -175,6 +196,13 @@ steps:
       - qiime_sequences-filtered_clusters
       - qiime_sequences-filtered_otus
       - qiime_assigned_taxonomy
+      - tRNA_matches
+      - 16S_matches
+      - 23S_matches
+      - 5S_matches
+      - interproscan_matches
+      - pCDS_seqs
+      - no_functions_seqs
 
 $namespaces:
  edam: http://edamontology.org/
