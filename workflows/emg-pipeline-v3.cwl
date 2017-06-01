@@ -146,13 +146,13 @@ outputs:
     outputSource: find_SSUs_and_mask/5S_matches 
   interproscan_matches:
     type: File
-    outputSource: categorisation/interproscan_matches
+    outputSource: categorisation/interproscan
   pCDS_seqs:
     type: File
     outputSource: categorisation/pCDS_seqs
   no_functions_seqs:
     type: File
-    outputSource: categorisation/no_function_seqs
+    outputSource: categorisation/no_functions_seqs
 
 steps:
   count_reads:
