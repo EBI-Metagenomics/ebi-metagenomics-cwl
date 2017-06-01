@@ -15,11 +15,15 @@ inputs:
   model: ../tools/FragGeneScan-model.yaml#model
 
 outputs:
-  predictedCDS:
+  predicted_CDS_aa:
     type: File
     format: edam:format_1929  # FASTA
-    outputSource: ORF_prediction/predictedCDS
-    #outputSource: remove_short_pCDS/filtered_sequences
+    outputSource: ORF_prediction/predicted_CDS_aa
+  predicted_CDS_nuc:
+    type: File
+    format: edam:format_1929  # FASTA
+    outputSource: ORF_prediction/predicted_CDS_nuc
+
 
 steps:
   ORF_prediction:
@@ -30,7 +34,7 @@ steps:
       sequence: sequence
       completeSeq: completeSeq
       model: model
-    out: [ predictedCDS ]
+    out: [ predicted_CDS_aa, predicted_CDS_nuc ]
 
   # remove_short_pCDS:
     # run: ../tools/discard_short_seqs.cwl

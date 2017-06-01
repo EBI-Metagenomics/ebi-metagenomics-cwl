@@ -40,6 +40,10 @@ arguments:
               reads.add(readAccession)
               matchNumber += 1
       cdsWithMatchNumber = len(cds)
+      withFunctionFaaList = sorted(list(cds))
+      with open("id_list.txt", "w") as idFile:
+          for id in withFunctionFaaList:
+              idFile.write(id + "\\n")
       readWithMatchNumber = len(reads)
       with open("reads.json", "w") as readsFile:
           json.dump(list(reads), readsFile)
@@ -47,6 +51,9 @@ arguments:
         "matchNumber": matchNumber,
         "cdsWithMatchNumber": cdsWithMatchNumber,
         "readWithMatchNumber": readWithMatchNumber,
+        "id_list": {
+            "class": "File",
+            "path": "$(runtime.outdir)/id_list.txt" },
         "reads": {
             "class": "File",
             "format": "https://www.iana.org/assignments/media-types/application/json",
@@ -62,6 +69,9 @@ outputs:
     type: File
     streamable: true
     format: iana:application/json
+  id_list:
+    type: File
+    streamable: true
 
 $namespaces:
  iana: https://www.iana.org/assignments/media-types/

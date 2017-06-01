@@ -381,7 +381,12 @@ steps:
     run: ../tools/ipr_stats.cwl
     in:
       iprscan: functional_analysis/functional_annotations
-    out: [ matchNumber, cdsWithMatchNumber, readWithMatchNumber, reads ]
+    out:
+      - matchNumber
+      - cdsWithMatchNumber
+      - readWithMatchNumber
+      - reads
+      - id_list
 
   orf_stats:
     run: ../tools/orf_stats.cwl

@@ -35,9 +35,9 @@ outputs:
   processed_sequences:
     type: File
     outputSource: unified_processing/processed_sequences
-  predicted_CDS:
+  predicted_CDS_aa:
     type: File
-    outputSource: unified_processing/predicted_CDS
+    outputSource: unified_processing/predicted_CDS_aa
   functional_annotations:
     type: File
     outputSource: unified_processing/functional_annotations
@@ -92,6 +92,18 @@ outputs:
   ipr_reads:
     type: File
     outputSource: unified_processing/ipr_reads
+  annotated_CDS_nuc:
+    type: File
+    outputSource: unified_processing/annotated_CDS_nuc
+  annotated_CDS_aa:
+    type: File
+    outputSource: unified_processing/annotated_CDS_aa
+  unannotated_CDS_nuc:
+    type: File
+    outputSource: unified_processing/unannotated_CDS_nuc
+  unannotated_CDS_aa:
+    type: File
+    outputSource: unified_processing/unannotated_CDS_aa
 
 steps:
   overlap_reads:
@@ -124,7 +136,7 @@ steps:
       go_summary_config: go_summary_config
     out:
       - processed_sequences
-      - predicted_CDS
+      - predicted_CDS_aa
       - functional_annotations
       - go_summary
       - go_summary_slim
@@ -143,6 +155,10 @@ steps:
       - ipr_cdsWithMatchNumber
       - ipr_readWithMatchNumber
       - ipr_reads
+      - annotated_CDS_nuc
+      - annotated_CDS_aa
+      - unannotated_CDS_nuc
+      - unannotated_CDS_aa
 
 $namespaces:
  edam: http://edamontology.org/

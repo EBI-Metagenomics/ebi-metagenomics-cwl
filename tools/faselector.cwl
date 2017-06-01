@@ -18,12 +18,6 @@ inputs:
     inputBinding:
       prefix: -d
 
-  append:
-    type: boolean?
-    label: append to old header rather than replacing
-    inputBinding:
-      prefix: -a
-
 baseCommand: faselector
 
 arguments:

@@ -117,11 +117,17 @@ arguments:
 # this ShellCommandRequirement hack/workaround
 
 outputs:
-  predictedCDS:
+  predicted_CDS_aa:
     type: File
     format: edam:format_1929  # FASTA
     outputBinding:
       glob: predicted_cds.faa
+  predicted_CDS_nuc:
+    type: File
+    format: edam:format_1929  # FASTA
+    outputBinding:
+      glob: predicted_cds.ffn
+
 
 $namespaces:
  edam: http://edamontology.org/

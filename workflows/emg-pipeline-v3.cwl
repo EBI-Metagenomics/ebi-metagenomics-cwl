@@ -55,9 +55,9 @@ outputs:
     outputSource: 16S_taxonomic_analysis/biom_json
 
   #The predicted proteins and their annotations
-  predicted_CDS:
+  predicted_CDS_aa:
     type: File
-    outputSource: ORF_prediction/predictedCDS
+    outputSource: ORF_prediction/predicted_CDS_aa
   functional_annotations:
     type: File
     outputSource: functional_analysis/functional_annotations
@@ -105,6 +105,18 @@ outputs:
   ipr_reads:
     type: File
     outputSource: ipr_stats/reads
+  annotated_CDS_nuc:
+    type: File
+    outputSource: relabel_annotated_cds_nuc_seqs/relabeled_sequences
+  annotated_CDS_aa:
+    type: File
+    outputSource: relabel_annotated_cds_aa_seqs/relabeled_sequences
+  unannotated_CDS_nuc:
+    type: File
+    outputSource: divide_ffn/rejected_sequences
+  unannotated_CDS_aa:
+    type: File
+    outputSource: divide_faa/rejected_sequences
 
 #TODO - check all the outputs
 
@@ -170,7 +182,7 @@ steps:
       sequence: find_SSUs_and_mask/masked_sequences
       completeSeq: { default: false }
       model: fraggenescan_model
-    out: [predictedCDS]
+    out: [predicted_CDS_aa, predicted_CDS_nuc]
 
   functional_analysis:
     doc: |
@@ -178,7 +190,7 @@ steps:
       (Pfam, TIGRFAM, PRINTS, PROSITE patterns, Gene3d) from InterPro. 
     run: functional_analysis.cwl
     in:
-      predicted_CDS: ORF_prediction/predictedCDS
+      predicted_CDS: ORF_prediction/predicted_CDS_aa
       go_summary_config: go_summary_config
     out: [ functional_annotations, go_summary, go_summary_slim ]
 
@@ -196,13 +208,54 @@ steps:
     run: ../tools/ipr_stats.cwl
     in:
       iprscan: functional_analysis/functional_annotations
-    out: [ matchNumber, cdsWithMatchNumber, readWithMatchNumber, reads ]
+    out:
+      - matchNumber
+      - cdsWithMatchNumber
+      - readWithMatchNumber
+      - reads
+      - id_list
+
+  divide_faa:
+    run: ../tools/faselector.cwl
+    in:
+      sequences: ORF_prediction/predicted_CDS_aa
+      id_list: ipr_stats/id_list
+    out: [ kept_sequences, rejected_sequences ]
+
+  divide_ffn:
+    run: ../tools/faselector.cwl
+    in:
+      sequences: ORF_prediction/predicted_CDS_nuc
+      id_list: ipr_stats/id_list
+    out: [ kept_sequences, rejected_sequences ]
+
+  extract_iprscan_coords:
+    run: ../tools/extract_sig_coords.cwl
+    in:
+      i5_annotations: functional_analysis/functional_annotations
+    out: [ matches_coords ]
 
   orf_stats:
     run: ../tools/orf_stats.cwl
     in:
-      orfs: ORF_prediction/predictedCDS
+      orfs: ORF_prediction/predicted_CDS_aa
     out: [ numberReadsWithOrf, numberOrfs, readsWithOrf ]
+
+  relabel_annotated_cds_aa_seqs:
+    run: ../tools/map_fa_headers.cwl
+    in:
+      sequences: divide_faa/kept_sequences
+      header_mapping: extract_iprscan_coords/matches_coords
+      append: { default: true }
+    out: [ relabeled_sequences ]
+
+  relabel_annotated_cds_nuc_seqs:
+    run: ../tools/map_fa_headers.cwl
+    in:
+      sequences: divide_ffn/kept_sequences
+      header_mapping: extract_iprscan_coords/matches_coords
+      append: { default: true }
+    out: [ relabeled_sequences ]
 
   categorisation:
     run: ../tools/create_categorisations.cwl
