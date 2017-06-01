@@ -56,8 +56,42 @@ outputs:
   biom_json:
     type: File
     outputSource: unified_processing/biom_json
-
-#TODO - need to also pull back all of the QC files..
+  qc_stats_summary:
+    type: File
+    outputSource: unified_processing/qc_stats_summary
+  qc_stats_seq_len_pbcbin:
+    type: File
+    outputSource: unified_processing/qc_stats_seq_len_pbcbin
+  qc_stats_seq_len_bin:
+    type: File
+    outputSource: unified_processing/qc_stats_seq_len_bin
+  qc_stats_seq_len:
+    type: File
+    outputSource: unified_processing/qc_stats_seq_len
+  qc_stats_nuc_dist:
+    type: File
+    outputSource: unified_processing/qc_stats_nuc_dist
+  qc_stats_gc_pcbin:
+    type: File
+    outputSource: unified_processing/qc_stats_gc_pcbin
+  qc_stats_gc_bin:
+    type: File
+    outputSource: unified_processing/qc_stats_gc_bin
+  qc_stats_gc:
+    type: File
+    outputSource: unified_processing/qc_stats_gc
+  ipr_matchNumber:
+    type: File
+    outputSource: unified_processing/ipr_matchNumber
+  ipr_cdsWithMatchNumber:
+    type: File
+    outputSource: unified_processing/ipr_cdsWithMatchNumber
+  ipr_readWithMatchNumber:
+    type: File
+    outputSource: unified_processing/ipr_readWithMatchNumber
+  ipr_reads:
+    type: File
+    outputSource: unified_processing/ipr_reads
 
 steps:
   overlap_reads:
@@ -97,6 +131,18 @@ steps:
       - otu_table_summary
       - tree
       - biom_json
+      - qc_stats_summary
+      - qc_stats_seq_len_pbcbin
+      - qc_stats_seq_len_bin
+      - qc_stats_seq_len
+      - qc_stats_nuc_dist
+      - qc_stats_gc_pcbin
+      - qc_stats_gc_bin
+      - qc_stats_gc
+      - ipr_matchNumber
+      - ipr_cdsWithMatchNumber
+      - ipr_readWithMatchNumber
+      - ipr_reads
 
 $namespaces:
  edam: http://edamontology.org/

@@ -93,6 +93,18 @@ outputs:
   qc_stats_gc:
     type: File
     outputSource: sequence_stats/gc_sum_out
+  ipr_matchNumber:
+    type: File
+    outputSource: ipr_stats/matchNumber
+  ipr_cdsWithMatchNumber:
+    type: File
+    outputSource: ipr_stats/cdsWithMatchNumber
+  ipr_readWithMatchNumber:
+    type: File
+    outputSource: ipr_stats/readWithMatchNumber
+  ipr_reads:
+    type: File
+    outputSource: ipr_stats/reads
 
 #TODO - check all the outputs
 
@@ -159,8 +171,6 @@ steps:
       completeSeq: { default: false }
       model: fraggenescan_model
     out: [predictedCDS]
-
-  #TODO - check that the 60 nt filtering has gone in here.
 
   functional_analysis:
     doc: |

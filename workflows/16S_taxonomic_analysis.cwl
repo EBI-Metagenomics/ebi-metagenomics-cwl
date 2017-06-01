@@ -21,6 +21,10 @@ outputs:
   biom_json:
     type: File
     outputSource: convert_new_biom_to_old_biom/result
+  biom_hdf5:
+    type: File
+    outputSource: convert_otu_counts_to_hdf5/result
+
 
 steps:
   pick_closed_reference_otus:
@@ -44,6 +48,14 @@ steps:
       header_key: { default: taxonomy }
       table_type: { default: OTU table }
       tsv: { default: true }
+    out: [ result ]
+
+  convert_otu_counts_to_hdf5:
+    run: ../tools/biom-convert.cwl
+    in:
+      biom: pick_closed_reference_otus/otu_table
+      hdf5: { default: true }
+      table_type: { default: OTU table }
     out: [ result ]
 
   create_otu_text_summary:
