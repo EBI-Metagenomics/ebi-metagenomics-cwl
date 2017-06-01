@@ -39,16 +39,16 @@ outputs:
     outputBinding: { glob: log_*.txt }
   sequences-filtered_clusters:
     type: File
-    outputBinding: { glob: uclust_ref_picked_otus/$(inputs.sequences.basename).filtered_clusters }
+    outputBinding: { glob: uclust_ref_picked_otus/*_clusters }
   sequences-filtered_failures:
     type: File
-    outputBinding: { glob: uclust_ref_picked_otus/$(inputs.sequences.basename).filtered_failures.txt }
+    outputBinding: { glob: uclust_ref_picked_otus/*_failures.txt }
   sequences-filtered_otus:
     type: File
-    outputBinding: { glob: uclust_ref_picked_otus/$(inputs.sequences.basename).filtered_otus.txt }
+    outputBinding: { glob: uclust_ref_picked_otus/*_otus.txt }
   sequences-filtered_otus_log:
     type: File
-    outputBinding: { glob: uclust_ref_picked_otus/$(inputs.sequences.basename).filtered_otus.log }
+    outputBinding: { glob: uclust_ref_picked_otus/*_otus.log }
 
 $namespaces:
  edam: http://edamontology.org/
