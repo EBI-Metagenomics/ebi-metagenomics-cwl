@@ -37,9 +37,18 @@ outputs:
   log:
     type: File
     outputBinding: { glob: log_*.txt }
-  uclust_ref_picked_otus:
-    type: Directory
-    outputBinding: { glob: uclust_ref_picked_otus }
+  sequences-filtered_clusters:
+    type: File
+    outputBinding: { glob: uclust_ref_picked_otus/sequences.filtered_clusters }
+  sequences-filtered_failures:
+    type: File
+    outputBinding: { glob: uclust_ref_picked_otus/sequences.filtered_failures.txt }
+  sequences-filtered_otus:
+    type: File
+    outputBinding: { glob: uclust_ref_picked_otus/sequences.filtered_otus.txt }
+  sequences-filtered_otus_log:
+    type: File
+    outputBinding: { glob: uclust_ref_picked_otus/sequences.filtered_otus.log }
 
 $namespaces:
  edam: http://edamontology.org/

@@ -24,14 +24,34 @@ outputs:
   biom_hdf5:
     type: File
     outputSource: convert_otu_counts_to_hdf5/result
-
+  qiime_sequences-filtered_clusters:
+    type: File
+    outputSource: pick_closed_reference_otus/sequences-filtered_clusters
+  qiime_sequences-filtered_otus:
+    type: File
+    outputSource: pick_closed_reference_otus/sequences-filtered_otus
+  qiime_assigned_taxonomy:
+    type: File
+    outputSource: modify_taxonomy_table/qiime_assigned_taxonomy
 
 steps:
   pick_closed_reference_otus:
     run: ../tools/qiime-pick_closed_reference_otus.cwl
     in:
       sequences: 16S_matches
-    out: [ otu_table, otus_tree ]
+    out:
+      - otu_table
+      - otus_tree
+      - sequences-filtered_clusters
+      - sequences-filtered_otus
+      - sequences-filtered_otus_log
+
+  modify_taxonomy_table:
+    run: ../tools/modify_taxonomy_table.cwl
+    in:
+      uclust_log: pick_closed_reference_otus/sequences-filtered_otus_log
+      otu_table: pick_closed_reference_otus/otu_table
+    out: [ qiime_assigned_taxonomy ]
 
   convert_new_biom_to_old_biom:
     run: ../tools/biom-convert.cwl

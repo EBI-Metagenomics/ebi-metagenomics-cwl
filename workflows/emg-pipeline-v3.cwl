@@ -53,6 +53,15 @@ outputs:
   biom_json:
     type: File
     outputSource: 16S_taxonomic_analysis/biom_json
+  qiime_sequences-filtered_clusters:
+    type: File
+    outputSource: 16S_taxonomic_analysis/qiime_sequences-filtered_clusters
+  qiime_sequences-filtered_otus:
+    type: File
+    outputSource: 16S_taxonomic_analysis/qiime_sequences-filtered_otus
+  qiime_assigned_taxonomy:
+    type: File
+    outputSource: 16S_taxonomic_analysis/qiime_assigned_taxonomy
 
   #The predicted proteins and their annotations
   predicted_CDS_aa:
@@ -93,21 +102,21 @@ outputs:
   qc_stats_gc:
     type: File
     outputSource: sequence_stats/gc_sum_out
-  ipr_matchNumber:
+  ipr_match_count:
     type: int
-    outputSource: ipr_stats/matchNumber
-  ipr_cdsWithMatchNumber:
+    outputSource: ipr_stats/match_count
+  ipr_CDS_with_match_count:
     type: int
-    outputSource: ipr_stats/cdsWithMatchNumber
-  ipr_readWithMatchNumber:
+    outputSource: ipr_stats/CDS_with_match_count
+  ipr_reads_with_match_count:
     type: int
-    outputSource: ipr_stats/readWithMatchNumber
+    outputSource: ipr_stats/reads_with_match_count
   ipr_reads:
     type: File
     outputSource: ipr_stats/reads
   ipr_summary:
     type: File
-    outputSource: ipr_summary/ipr_summary
+    outputSource: generate_ipr_summary/ipr_summary
   annotated_CDS_nuc:
     type: File
     outputSource: relabel_annotated_cds_nuc_seqs/relabeled_sequences
@@ -120,10 +129,18 @@ outputs:
   unannotated_CDS_aa:
     type: File
     outputSource: divide_faa/rejected_sequences
-
+  summary:
+    type: File
+    outputSource: generate_summary/summary
 #TODO - check all the outputs
 
 steps:
+  count_reads:
+    run: ../tools/count_sequences.cwl
+    in:
+      sequences: reads
+    out: [ count ]
+
   trim_quality_control:
     doc: |
       Low quality trimming (low quality ends and sequences with < quality scores
@@ -147,6 +164,12 @@ steps:
     in:
       fastq: trim_quality_control/reads1_trimmed
     out: [ fasta ]
+
+  count_processed_reads:
+    run: ../tools/count_sequences.cwl
+    in:
+      sequences: convert_trimmed-reads_to_fasta/fasta
+    out: [ count ]
 
   clean_fasta_headers:
     run: ../tools/clean_fasta_headers.cwl
@@ -179,6 +202,12 @@ steps:
       tRNA_model: tRNA_model
     out: [ 16S_matches, masked_sequences ]
 
+  count_masked_reads:
+    run: ../tools/count_sequences.cwl
+    in:
+      sequences: find_SSUs_and_mask/masked_sequences
+    out: [ count ]
+
   ORF_prediction:
     run: orf_prediction.cwl
     in:
@@ -205,21 +234,27 @@ steps:
     run: 16S_taxonomic_analysis.cwl
     in:
       16S_matches: find_SSUs_and_mask/16S_matches
-    out: [ otu_table_summary, tree, biom_json ]
+    out:
+      - otu_table_summary
+      - tree
+      - biom_json
+      - qiime_sequences-filtered_clusters
+      - qiime_sequences-filtered_otus
+      - qiime_assigned_taxonomy
 
   ipr_stats:
     run: ../tools/ipr_stats.cwl
     in:
       iprscan: functional_analysis/functional_annotations
     out:
-      - matchNumber
-      - cdsWithMatchNumber
-      - readWithMatchNumber
+      - match_count
+      - CDS_with_match_count
+      - reads_with_match_count
       - reads
       - id_list
       - ipr_entry_maps
 
-  ipr_summary:
+  generate_ipr_summary:
     run: ../tools/write_ipr_summary.cwl
     in:
       ipr_entry_maps: ipr_stats/ipr_entry_maps
@@ -274,6 +309,19 @@ steps:
       ipr_idset: ipr_stats/reads
       cds_idset: orf_stats/readsWithOrf
     out: [ interproscan, pCDS_seqs, no_functions_seqs ]
+
+  generate_summary:
+    run: ../tools/summary.cwl
+    in:
+      submitted_count: count_reads/count
+      initial_filtered_count: count_processed_reads/count
+      reads_with_orf: orf_stats/numberReadsWithOrf
+      rna_count: count_masked_reads/count
+      reads_with_match: ipr_stats/reads_with_match_count
+      predicted_CDS_count: orf_stats/numberOrfs
+      CDS_with_match:  ipr_stats/CDS_with_match_count
+      IPS_matches: ipr_stats/match_count
+    out: [ summary ]
 
 $namespaces:
  edam: http://edamontology.org/

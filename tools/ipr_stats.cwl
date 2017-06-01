@@ -25,7 +25,7 @@ arguments:
       import re
       import json
       accessionPattern = re.compile("(\\S+)_\\d+_\\d+_[+-]")
-      matchNumber = cdsWithMatchNumber = readWithMatchNumber = 0
+      match_count = CDS_with_match_number = reads_with_match_count = 0
       cds, reads = (set(),)*2
       entry2protein, entry2name = ({},)*2
       for line in open("$(inputs.iprscan.path)", "r"):
@@ -40,22 +40,22 @@ arguments:
               readAccessionMatch = re.match(accessionPattern, cdsAccession)
               readAccession = readAccessionMatch.group(1)
               reads.add(readAccession)
-              matchNumber += 1
-      cdsWithMatchNumber = len(cds)
+              match_count += 1
+      cds_with_match_count = len(cds)
       withFunctionFaaList = sorted(list(cds))
       with open("id_list.txt", "w") as idFile:
           for id in withFunctionFaaList:
               idFile.write(id + "\\n")
-      readWithMatchNumber = len(reads)
+      reads_with_match_count = len(reads)
       with open("reads.json", "w") as readsFile:
           json.dump(list(reads), readsFile)
       with open("ipr_entry_maps.json", "w") as mapsFile:
           json.dump({"entry2protein": entry2protein,
                      "entry2name": entry2name"}, mapsFile)
       print(json.dumps({
-        "matchNumber": matchNumber,
-        "cdsWithMatchNumber": cdsWithMatchNumber,
-        "readWithMatchNumber": readWithMatchNumber,
+        "match_count": match_count,
+        "CDS_with_match_count": CDS_with_match_count,
+        "reads_with_match_count": reads_with_match_count,
         "id_list": {
             "class": "File",
             "path": "$(runtime.outdir)/id_list.txt" },
@@ -71,9 +71,9 @@ arguments:
 stdout: cwl.output.json
 
 outputs:
-  matchNumber: int
-  cdsWithMatchNumber: int
-  readWithMatchNumber: int
+  match_count: int
+  CDS_with_match_count: int
+  reads_with_match_count: int
   ipr_entry_maps:
     type: File
     streamable: true

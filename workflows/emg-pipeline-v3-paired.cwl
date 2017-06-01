@@ -80,15 +80,15 @@ outputs:
   qc_stats_gc:
     type: File
     outputSource: unified_processing/qc_stats_gc
-  ipr_matchNumber:
+  ipr_match_count:
     type: int
-    outputSource: unified_processing/ipr_matchNumber
-  ipr_cdsWithMatchNumber:
+    outputSource: unified_processing/ipr_match_count
+  ipr_CDS_with_match_count:
     type: int
-    outputSource: unified_processing/ipr_cdsWithMatchNumber
-  ipr_readWithMatchNumber:
+    outputSource: unified_processing/ipr_CDS_with_match_count
+  ipr_reads_with_match_count:
     type: int
-    outputSource: unified_processing/ipr_readWithMatchNumber
+    outputSource: unified_processing/ipr_reads_with_match_count
   ipr_reads:
     type: File
     outputSource: unified_processing/ipr_reads
@@ -107,6 +107,15 @@ outputs:
   unannotated_CDS_aa:
     type: File
     outputSource: unified_processing/unannotated_CDS_aa
+  qiime_sequences-filtered_clusters:
+    type: File
+    outputSource: unified_processing/qiime_sequences-filtered_clusters
+  qiime_sequences-filtered_otus:
+    type: File
+    outputSource: unified_processing/qiime_sequences-filtered_otus
+  qiime_assigned_taxonomy:
+    type: File
+    outputSource: unified_processing/qiime_assigned_taxonomy
 
 steps:
   overlap_reads:
@@ -154,15 +163,18 @@ steps:
       - qc_stats_gc_pcbin
       - qc_stats_gc_bin
       - qc_stats_gc
-      - ipr_matchNumber
-      - ipr_cdsWithMatchNumber
-      - ipr_readWithMatchNumber
+      - ipr_match_count
+      - ipr_CDS_with_match_count
+      - ipr_reads_with_match_count
       - ipr_reads
       - ipr_summary
       - annotated_CDS_nuc
       - annotated_CDS_aa
       - unannotated_CDS_nuc
       - unannotated_CDS_aa
+      - qiime_sequences-filtered_clusters
+      - qiime_sequences-filtered_otus
+      - qiime_assigned_taxonomy
 
 $namespaces:
  edam: http://edamontology.org/
