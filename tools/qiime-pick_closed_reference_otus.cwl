@@ -39,7 +39,7 @@ outputs:
     outputBinding: { glob: log_*.txt }
   sequences-filtered_clusters:
     type: File
-    outputBinding: { glob: uclust_ref_picked_otus/*_clusters }
+    outputBinding: { glob: uclust_ref_picked_otus/*_clusters.uc }
   sequences-filtered_failures:
     type: File
     outputBinding: { glob: uclust_ref_picked_otus/*_failures.txt }
