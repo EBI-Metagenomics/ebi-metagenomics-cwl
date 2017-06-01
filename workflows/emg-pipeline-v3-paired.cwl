@@ -81,13 +81,13 @@ outputs:
     type: File
     outputSource: unified_processing/qc_stats_gc
   ipr_matchNumber:
-    type: File
+    type: int
     outputSource: unified_processing/ipr_matchNumber
   ipr_cdsWithMatchNumber:
-    type: File
+    type: int
     outputSource: unified_processing/ipr_cdsWithMatchNumber
   ipr_readWithMatchNumber:
-    type: File
+    type: int
     outputSource: unified_processing/ipr_readWithMatchNumber
   ipr_reads:
     type: File

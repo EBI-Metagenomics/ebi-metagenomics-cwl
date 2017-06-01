@@ -94,13 +94,13 @@ outputs:
     type: File
     outputSource: sequence_stats/gc_sum_out
   ipr_matchNumber:
-    type: File
+    type: int
     outputSource: ipr_stats/matchNumber
   ipr_cdsWithMatchNumber:
-    type: File
+    type: int
     outputSource: ipr_stats/cdsWithMatchNumber
   ipr_readWithMatchNumber:
-    type: File
+    type: int
     outputSource: ipr_stats/readWithMatchNumber
   ipr_reads:
     type: File
