@@ -16,7 +16,7 @@ inputs:
 baseCommand: [ bash ]
 
 arguments:
-  - valuefrom: |
+  - valueFrom: |
       'expr $(wc -l < $inputs.sequences.path) / 4'
     prefix: -c
 
