@@ -18,6 +18,9 @@ outputs:
   tree:
     type: File
     outputSource: prune_tree/pruned_tree 
+  biom_tsv:
+    type: File
+    outputSource: convert_new_biom_to_classic/result
   biom_json:
     type: File
     outputSource: convert_new_biom_to_old_biom/result
@@ -50,7 +53,7 @@ steps:
     run: ../tools/modify_taxonomy_table.cwl
     in:
       uclust_log: pick_closed_reference_otus/sequences-filtered_otus_log
-      otu_table: pick_closed_reference_otus/otu_table
+      otu_table: convert_new_biom_to_classic/result
     out: [ qiime_assigned_taxonomy ]
 
   convert_new_biom_to_old_biom:
