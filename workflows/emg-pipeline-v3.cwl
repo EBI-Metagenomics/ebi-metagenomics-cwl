@@ -153,7 +153,7 @@ outputs:
   no_functions_seqs:
     type: File
     outputSource: categorisation/no_functions_seqs
-  run_id:
+  actual_run_id:
     type: string
     outputSource: run_id
 steps:
