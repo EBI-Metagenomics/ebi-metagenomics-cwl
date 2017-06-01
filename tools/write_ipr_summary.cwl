@@ -36,7 +36,7 @@ arguments:
         unsortedEntries.append(tuple)
       sortedEntries = sorted(unsortedEntries, key=lambda item: item[2])
       sortedEntries.reverse()
-      handle = fileOpen("summary.ipr", "w", 1000000)
+      handle = open("summary.ipr", "w", 1000000)
       for entry in sortedEntries:
         handle.write('","'.join(['"' + entry[0], entry[1], str(entry[2]) + '"']) + "\n")
       handle.flush()
