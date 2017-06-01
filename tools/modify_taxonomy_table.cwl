@@ -27,11 +27,11 @@ arguments:
     valueFrom: |
       from __future__ import print_function
       unassignedOTUCount = "0"
-      with fileOpen("$(uclust_log)", "r") as uclog:
+      with fileOpen("$(inputs.uclust_log.path)", "r") as uclog:
           for f in uclog:
               if f.startswith("Num failures:"):
                   unassignedOTUCount = f.rstrip().split(":")[1]
-      with fileOpen("$(otu_table)", "r") as table:
+      with fileOpen("$(inputs.otu_table.path)", "r") as table:
           for line in table:
               line = line.rstrip()
               if line.startswith("#"):
