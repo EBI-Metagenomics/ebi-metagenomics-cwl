@@ -15,7 +15,7 @@ hints:
 inputs:
   i5_annotations:
     type: File
-    format: iana:text/tab-separated-values
+    #format: iana:text/tab-separated-values
     inputBinding:
       position: 1
 
