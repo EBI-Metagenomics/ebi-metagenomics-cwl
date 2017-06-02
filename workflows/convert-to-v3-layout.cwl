@@ -92,9 +92,9 @@ expression: |
      inputs.qc_stats_gc_pcbin.basename = "GC-distribution.out.full_pcbin";
      inputs.qc_stats_gc_bin.basename = "GC-distribution.out.full_bin";
      inputs.qc_stats_gc.basename = "GC-distribution.out.full";
-     inputs.16S_matches.basename = "16S.fasta";
-     inputs.23S_matches.basename = "23S.fasta";
-     inputs.5S_matches.basename = "5S.fasta";
+     inputs["16S_matches"].basename = "16S.fasta";
+     inputs["23S_matches"].basename = "23S.fasta";
+     inputs["5S_matches"].basename = "5S.fasta";
      inputs.interproscan_matches.basename = "interproscan.fasta";
      inputs.no_functions_seqs.basename = "noFunction.fasta";
      inputs.pCDS_seqs.basename = "pCDS.fasta";
@@ -135,9 +135,9 @@ expression: |
               { "class": "Directory",
                "basename": "sequence-categorisation",
                "listing": [
-                 inputs.16S_matches,
-                 inputs.23S_matches,
-                 inputs.5S_matches,
+                 inputs["16S_matches"],
+                 inputs["23S_matches"],
+                 inputs["5S_matches"],
                  inputs.interproscan_matches,
                  inputs.no_functions_seqs,
                  inputs.pCDS_seqs
