@@ -59,6 +59,12 @@ outputs:
   biom_json:
     type: File
     outputSource: unified_processing/biom_json
+  biom_hdf5:
+    type: File
+    outputSource: unified_processing/biom_hdf5
+  biom_tsv:
+    type: File
+    outputSource: unified_processing/biom_tsv
   qc_stats_summary:
     type: File
     outputSource: unified_processing/qc_stats_summary
@@ -146,6 +152,9 @@ outputs:
   post_qc_reads:
     type: File
     outputSource: unified_processing/post_qc_reads
+  summary:
+    type: File
+    outputSource: unified_processing/summary
 
 steps:
   overlap_reads:
