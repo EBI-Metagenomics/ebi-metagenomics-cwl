@@ -98,8 +98,8 @@ expression: |
      inputs.interproscan_matches.basename = "interproscan.fasta";
      inputs.no_functions_seqs.basename = "noFunction.fasta";
      inputs.pCDS_seqs.basename = "pCDS.fasta";
-     inputs.qiime_sequences-filtered_clusters.basename = run_id + "_16S_rRNA_QIIME_clusters.uc";
-     inputs.qiime_sequences-filtered_otus.basename = run_id + "_16S_rRNA_QIIME_otus.txt";
+     inputs["qiime_sequences-filtered_clusters"].basename = run_id + "_16S_rRNA_QIIME_clusters.uc";
+     inputs["qiime_sequences-filtered_otus"].basename = run_id + "_16S_rRNA_QIIME_otus.txt";
      inputs.tree.basename = run_id + "_pruned.tree";
      inputs.biom_json.basename = run_id + "_otu_table_json.biom";
      inputs.biom_hdf5.basename = run_id + "_otu_table_hdf5.biom";
@@ -148,8 +148,8 @@ expression: |
                  { "class": "Directory",
                    "basename": "uclust_ref_picked_otus",
                    "listing": [
-                     inputs.qiime_sequences-filtered_clusters,
-                     inputs.qiime_sequences-filtered_otus
+                     inputs["qiime_sequences-filtered_clusters"],
+                     inputs["qiime_sequences-filtered_otus"]
                    ] },
                  inputs.tree,
                  inputs.biom_json,
