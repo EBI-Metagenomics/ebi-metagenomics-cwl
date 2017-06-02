@@ -155,7 +155,7 @@ expression: |
                  inputs.biom_json,
                  inputs.biom_hdf5,
                  inputs.biom_tsv,
-                 inputs.biom_qiime_assigned_taxonomy
+                 inputs.qiime_assigned_taxonomy
                ] },
              inputs.post_qc_reads,
              { "class": "File",
