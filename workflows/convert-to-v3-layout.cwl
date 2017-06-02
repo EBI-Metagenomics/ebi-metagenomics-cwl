@@ -132,7 +132,7 @@ expression: |
                  inputs.qc_stats_gc_pcbin,
                  inputs.qc_stats_gc_bin,
                  inputs.qc_stats_gc ] },
-              { "class": "Directory",
+             { "class": "Directory",
                "basename": "sequence-categorisation",
                "listing": [
                  inputs["16S_matches"],
@@ -141,7 +141,7 @@ expression: |
                  inputs.interproscan_matches,
                  inputs.no_functions_seqs,
                  inputs.pCDS_seqs
-               ] },
+              ] },
              { "class": "Directory",
                "basename": "cr_otus",
                "listing": [
@@ -157,6 +157,7 @@ expression: |
                  inputs.biom_tsv,
                  inputs.biom_qiime_assigned_taxonomy
                ] },
+             inputs.post_qc_reads,
              { "class": "File",
                "contents": inputs.post_qc_read_count,
                "basename": run_id + ".fasta.submitted.count" },
@@ -168,7 +169,7 @@ expression: |
              inputs.annotated_CDS_aa,
              inputs.unannotated_CDS_nuc,
              inputs.unannotated_CDS_aa,
-             inputs.summary_ipr,
+             inputs.ipr_summary,
              inputs.summary
              ] } };
      return r; }
