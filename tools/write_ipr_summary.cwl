@@ -5,7 +5,7 @@ label: gather stats from InterProScan
 requirements:
   ResourceRequirement:
     coresMax: 1
-    ramMin: 1024  # just a default, could be lowered
+    ramMin: 2048  # just a default, could be lowered
 hints:
   SoftwareRequirement:
     packages:
@@ -36,7 +36,6 @@ arguments:
           unsortedEntries.append(tuple)
       sortedEntries = sorted(unsortedEntries, key=lambda item: item[2])
       sortedEntries.reverse()
-      handle = open("summary.ipr", "w", 1000000)
       for entry in sortedEntries:
           print(",".join(['"' + entry[0], entry[1], str(entry[2]) + '"']))
 
