@@ -32,7 +32,7 @@ arguments:
       for record in SeqIO.parse("$(inputs.seqs.path)", "fasta"):
           currentSequences.append(record)
           if len(currentSequences) == $(inputs.chunk_size):
-              fileName = currentSequences[0].id + "_" + \
+              fileName = currentSequences[0].id + "_" + \\
                              currentSequences[-1].id + ".fasta"
               for char in [ "/", " ", ":" ]:
                   fileName = fileName.replace(char, "_")
@@ -41,7 +41,7 @@ arguments:
 
       # write any remaining sequences
       if len(currentSequences) > 0:
-          fileName = currentSequences[0].id + "_" + 
+          fileName = currentSequences[0].id + "_" + \\
                          currentSequences[-1].id + ".fasta"
           for char in [ "/", " ", ":" ]:
               fileName = fileName.replace(char, "_")
