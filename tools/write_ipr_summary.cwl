@@ -15,7 +15,7 @@ inputs:
   ipr_entry_maps:
     type: File
     streamable: true
-    format: iana:application/json
+    format: iana:application/yaml
 
 baseCommand: python
 
@@ -23,30 +23,27 @@ arguments:
   - prefix: -c
     valueFrom: |
       from __future__ import print_function
-      import json
-      ipr_maps = json.load(open("$(inputs.ipr_entry_maps.path)", "r"))
+      import yaml
+      ipr_maps = yaml.load(open("$(inputs.ipr_entry_maps.path)", "r"))
       entry2protein = ipr_maps["entry2protein"]
-      entry2name = ipr_maps["entry2protein"]
+      entry2name = ipr_maps["entry2name"]
       unsortedEntries = []
       for item in entry2protein.items():
-        entry = item[0]
-        proteins = item[1]
-        name = entry2name[entry]
-        tuple = (entry, name, len(proteins))
-        unsortedEntries.append(tuple)
+          entry = item[0]
+          proteins = item[1]
+          name = entry2name[entry]
+          tuple = (entry, name, len(proteins))
+          unsortedEntries.append(tuple)
       sortedEntries = sorted(unsortedEntries, key=lambda item: item[2])
       sortedEntries.reverse()
       handle = open("summary.ipr", "w", 1000000)
       for entry in sortedEntries:
-        handle.write('","'.join(['"' + entry[0], entry[1], str(entry[2]) + '"']) + "\n")
-      handle.flush()
-      handle.close()
+          print(",".join(['"' + entry[0], entry[1], str(entry[2]) + '"']))
+
+stdout: summary.ipr
 
 outputs:
-  ipr_summary:
-    type: File
-    streamable: true
-    outputBinding: { glob: "summary.ipr" }
+  ipr_summary: stdout
 
 $namespaces:
  s: http://schema.org/

@@ -24,10 +24,11 @@ arguments:
       from __future__ import print_function
       import re
       import json
+      import yaml
       accessionPattern = re.compile("(\\S+)_\\d+_\\d+_[+-]")
       match_count = CDS_with_match_number = reads_with_match_count = 0
-      cds, reads = (set(),)*2
-      entry2protein, entry2name = ({},)*2
+      cds = set(); reads = set()
+      entry2protein = {}; entry2name = {}
       for line in open("$(inputs.iprscan.path)", "r"):
           splitLine = line.strip().split("\\t")
           cdsAccessions = splitLine[0].split("|")
@@ -41,7 +42,7 @@ arguments:
               readAccession = readAccessionMatch.group(1)
               reads.add(readAccession)
               match_count += 1
-      cds_with_match_count = len(cds)
+      CDS_with_match_count = len(cds)
       withFunctionFaaList = sorted(list(cds))
       with open("id_list.txt", "w") as idFile:
           for id in withFunctionFaaList:
@@ -49,24 +50,24 @@ arguments:
       reads_with_match_count = len(reads)
       with open("reads.json", "w") as readsFile:
           json.dump(list(reads), readsFile)
-      with open("ipr_entry_maps.json", "w") as mapsFile:
-          json.dump({"entry2protein": entry2protein,
+      with open("ipr_entry_maps.yaml", "w") as mapsFile:
+          yaml.dump({"entry2protein": entry2protein,
                      "entry2name": entry2name}, mapsFile)
       print(json.dumps({
-        "match_count": match_count,
-        "CDS_with_match_count": CDS_with_match_count,
-        "reads_with_match_count": reads_with_match_count,
-        "id_list": {
-            "class": "File",
-            "path": "$(runtime.outdir)/id_list.txt" },
-        "ipr_entry_maps": {
-            "class": "File",
-            "format": "https://www.iana.org/assignments/media-types/application/json",
-            "path": "$(runtime.outdir)/ipr_entry_maps.json" },
-        "reads": {
-            "class": "File",
-            "format": "https://www.iana.org/assignments/media-types/application/json",
-            "path": "$(runtime.outdir)/reads.json" } }))
+          "match_count": match_count,
+          "CDS_with_match_count": CDS_with_match_count,
+          "reads_with_match_count": reads_with_match_count,
+          "id_list": {
+              "class": "File",
+              "path": "$(runtime.outdir)/id_list.txt" },
+          "ipr_entry_maps": {
+              "class": "File",
+              "format": "https://www.iana.org/assignments/media-types/application/yaml",
+              "path": "$(runtime.outdir)/ipr_entry_maps.yaml" },
+          "reads": {
+              "class": "File",
+              "format": "https://www.iana.org/assignments/media-types/application/json",
+              "path": "$(runtime.outdir)/reads.json" } }))
 
 stdout: cwl.output.json
 
@@ -77,7 +78,7 @@ outputs:
   ipr_entry_maps:
     type: File
     streamable: true
-    format: iana:application/json
+    format: iana:application/yaml
   reads:
     type: File
     streamable: true
