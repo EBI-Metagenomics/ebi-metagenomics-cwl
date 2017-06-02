@@ -51,7 +51,7 @@ arguments:
           json.dump(list(reads), readsFile)
       with open("ipr_entry_maps.json", "w") as mapsFile:
           json.dump({"entry2protein": entry2protein,
-                     "entry2name": entry2name"}, mapsFile)
+                     "entry2name": entry2name}, mapsFile)
       print(json.dumps({
         "match_count": match_count,
         "CDS_with_match_count": CDS_with_match_count,
