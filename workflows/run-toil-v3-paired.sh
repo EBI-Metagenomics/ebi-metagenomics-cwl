@@ -1,6 +1,7 @@
 #!/bin/bash
 
 source ebi-setup.sh
+set -o pipefail
 
 #CWLTOIL="ipdb ../../toil-hack/venv/bin/cwltoil"
 CWLTOIL=cwltoil

@@ -11,6 +11,7 @@
 source ~mcrusoe/test/bin/activate
 
 source ebi-setup.sh
+set -o pipefail
 
 DEBUG=--debug  # uncomment to make output & logs more verbose
 
