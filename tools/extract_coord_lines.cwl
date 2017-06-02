@@ -18,7 +18,7 @@ baseCommand: [ grep, -v, "^#" ]
 
 successCodes: [ 0, 1 ]  # allow empty matches
 
-stdout: coord_lines  # helps with cwltool's --cache
+stdout: $(inputs.summary.nameroot).coord_lines
 
 outputs:
   coord_lines: stdout

@@ -39,7 +39,7 @@ inputs:
   summary:
     label: File names for summary of sequences, e.g. number, min/max length etc.
     type: string
-    default: summary
+    default: summary.out
     inputBinding:
       prefix: -o
   max_seq:
