@@ -37,6 +37,9 @@ outputs:
   post_sequences:
     type: File
     outputSource: clean_fasta_headers/sequences_with_cleaned_headers
+  post_qc_read_count:
+    type: int
+    outputSource: count_processed_reads/count
 
   #Sequences that are masked after the ribosomal step
   processed_sequences:
@@ -53,6 +56,12 @@ outputs:
   biom_json:
     type: File
     outputSource: 16S_taxonomic_analysis/biom_json
+  biom_hdf5:
+    type: File
+    outputSource: 16S_taxonomic_analysis/biom_hdf5
+  biom_tsv:
+    type: File
+    outputSource: 16S_taxonomic_analysis/biom_tsv
   qiime_sequences-filtered_clusters:
     type: File
     outputSource: 16S_taxonomic_analysis/qiime_sequences-filtered_clusters
@@ -156,6 +165,9 @@ outputs:
   actual_run_id:
     type: string
     outputSource: run_id
+  post_qc_reads:
+    type: File
+    outputSource: convert_trimmed-reads_to_fasta/fasta
 steps:
   count_reads:
     run: ../tools/count_fastq.cwl
@@ -265,6 +277,8 @@ steps:
       - otu_table_summary
       - tree
       - biom_json
+      - biom_hdf5
+      - biom_tsv
       - qiime_sequences-filtered_clusters
       - qiime_sequences-filtered_otus
       - qiime_assigned_taxonomy

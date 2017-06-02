@@ -32,6 +32,9 @@ inputs:
   go_summary_config: File
 
 outputs:
+  post_qc_read_count:
+    type: int
+    outputSource: unified_processing/post_qc_read_count
   processed_sequences:
     type: File
     outputSource: unified_processing/processed_sequences
@@ -140,6 +143,9 @@ outputs:
   actual_run_id:
     type: string
     outputSource: run_id
+  post_qc_reads:
+    type: File
+    outputSource: unified_processing/post_qc_reads
 
 steps:
   overlap_reads:
@@ -179,6 +185,8 @@ steps:
       - otu_table_summary
       - tree
       - biom_json
+      - biom_hdf5
+      - biom_tsv
       - qc_stats_summary
       - qc_stats_seq_len_pbcbin
       - qc_stats_seq_len_bin
@@ -206,6 +214,9 @@ steps:
       - interproscan_matches
       - pCDS_seqs
       - no_functions_seqs
+      - post_qc_reads
+      - post_qc_read_count
+      - summary
 
 $namespaces:
  edam: http://edamontology.org/
