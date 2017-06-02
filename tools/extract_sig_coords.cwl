@@ -22,13 +22,13 @@ inputs:
 baseCommand: [ extract_sig_coords.py ]
 
 arguments:
-  - valueFrom: $(inputs.i5_annotations).matches_coords
+  - valueFrom: $(inputs.i5_annotations.basename).matches_coords
     position: 2
 
 outputs:
   matches_coords:
     type: File
-    outputBinding: { glob: $(inputs.i5_annotations).matches_coords }
+    outputBinding: { glob: $(inputs.i5_annotations.basename).matches_coords }
 
 $namespaces:
  iana: https://www.iana.org/assignments/media-types/
