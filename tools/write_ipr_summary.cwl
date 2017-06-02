@@ -5,7 +5,7 @@ label: gather stats from InterProScan
 requirements:
   ResourceRequirement:
     coresMax: 1
-    ramMin: 2048  # just a default, could be lowered
+    ramMin: 10204  # just a default, could be lowered
 hints:
   SoftwareRequirement:
     packages:

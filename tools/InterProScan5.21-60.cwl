@@ -43,7 +43,7 @@ inputs:
 baseCommand: interproscan.sh
 
 arguments:
- - valueFrom: i5_annotations
+ - valueFrom: $(inputs.proteinFile.nameroot).i5_annotations
    prefix: --outfile
  - valueFrom: TSV
    prefix: --formats
@@ -59,7 +59,7 @@ outputs:
     type: File
     format: iana:text/tab-separated-values
     outputBinding:
-      glob: i5_annotations
+      glob: $(inputs.proteinFile.nameroot).i5_annotations
 
 $namespaces:
  iana: https://www.iana.org/assignments/media-types/
