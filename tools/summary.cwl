@@ -27,15 +27,15 @@ arguments:
   - prefix: -c
     valueFrom: |
       from __future__ import print_function
-      print("Submitted nucleotide sequences\t$(submitted_count)")
+      print("Submitted nucleotide sequences\\t$(inputs.submitted_count)")
       print("Nucleotide sequences after trimming and quality "
-            "filtering\t$(initial_filtered_count)")
-      print("Nucleotide sequences with predicted CDS\t$(reads_with_orf)")
-      print("Nucleotide sequences with predicted RNA\t$(rna_count)")
-      print("Nucleotide sequences with InterProScan match\t$(reads_with_match)")
-      print("Predicted CDS\t$(predicted_CDS_count)")
-      print("Predicted CDS with InterProScan match\t$(CDS_with_match)")
-      print("Total InterProScan matches\t$(IPS_matches)")
+            "filtering\\t$(inputs.initial_filtered_count)")
+      print("Nucleotide sequences with predicted CDS\\t$(inputs.reads_with_orf)")
+      print("Nucleotide sequences with predicted RNA\\t$(inputs.rna_count)")
+      print("Nucleotide sequences with InterProScan match\\t$(inputs.reads_with_match)")
+      print("Predicted CDS\\t$(inputs.predicted_CDS_count)")
+      print("Predicted CDS with InterProScan match\\t$(inputs.CDS_with_match)")
+      print("Total InterProScan matches\\t$(inputs.IPS_matches)")
 
 stdout: summary
 
