@@ -17,7 +17,7 @@ baseCommand: [ bash ]
 
 arguments:
   - valueFrom: |
-      'expr $(wc -l < $inputs.sequences.path) / 4'
+      expr \$(wc -l < $(inputs.sequences.path)) / 4
     prefix: -c
 
 stdout: count
