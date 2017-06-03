@@ -159,7 +159,7 @@ expression: |
                ] },
              inputs.post_qc_reads,
              { "class": "File",
-               "contents": inputs.post_qc_read_count,
+               "contents": inputs.post_qc_read_count.toString(),
                "basename": run_id + ".fasta.submitted.count" },
              inputs.processed_sequences,
              inputs.functional_annotations,
