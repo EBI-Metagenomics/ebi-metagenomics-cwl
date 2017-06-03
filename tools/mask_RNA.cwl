@@ -3,10 +3,19 @@ cwlVersion: v1.0
 class: CommandLineTool
 
 requirements:
+  InitialWorkDirRequirement:
+    listing:
+      - entryname: hmmer.txt
+        entry: $(inputs.unique_rRNA_hits)
+      - entryname: hmmer.16s.txt
+        entry: $(inputs.16s_rRNA_hmmer_matches)
+      - entryname: hmmer.23s.txt
+        entry: $(inputs.23s_rRNA_hmmer_matches)
+      - entryname: hmmer.5s.txt
+        entry: $(inputs.5s_rRNA_hmmer_matches)
   ResourceRequirement:
-    coresMax: 1
-    ramMin: 1024  # just a default, could be lowered
-  ShellCommandRequirement: {}
+   coresMax: 1
+   ramMin: 1024  # just a default, could be lowered
 
 inputs:
   unique_rRNA_hits: File
@@ -17,43 +26,19 @@ inputs:
   tRNA_matches: File
   sequences: File
 
-baseCommand: []
+baseCommand: rnaMaskingStep.py
 
 arguments:
- - ln
- - -s
- - $(inputs.unique_rRNA_hits.path)
- - hmmer.txt
- - ;
- - ln
- - -s
- - $(inputs.16s_rRNA_hmmer_matches.path)
- - hmmer.16s.txt
- - ;
- - ln
- - -s
- - $(inputs.23s_rRNA_hmmer_matches.path)
- - hmmer.23s.txt
- - ;
- - ln
- - -s
- - $(inputs.5s_rRNA_hmmer_matches.path)
- - hmmer.5s.txt
- - ;
- - rnaMaskingStep.py
- - valueFrom: hmmer.txt
-   prefix: --hmmer
- - valueFrom: $(inputs.tRNA_matches.path)
-   prefix: --nhmmer
- - valueFrom: $(inputs.unique_tRNA_hits.path)
-   prefix: --seq_id
- - valueFrom: $(inputs.sequences.path)
-   prefix: --input
- - valueFrom: masked_sequences.fasta
-   prefix: --output
-
-   #  TODO: either re-write using InitialWorkDirRequirement when Toil gets
-   #  support or add parsing of a CWL JSON object to the python script
+ - prefix: --hmmer
+   valueFrom: hmmer.txt
+ - prefix: --nhmmer
+   valueFrom: $(inputs.tRNA_matches.path)
+ - prefix: --seq_id
+   valueFrom: $(inputs.unique_tRNA_hits.path)
+ - prefix: --input
+   valueFrom: $(inputs.sequences.path)
+ - prefix: --output
+   valueFrom: masked_sequences.fasta
 
 outputs:
   masked_sequences:

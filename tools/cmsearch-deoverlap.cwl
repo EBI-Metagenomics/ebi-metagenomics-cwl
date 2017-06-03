@@ -3,17 +3,18 @@ class: CommandLineTool
 label: remove lower scoring overlaps from cmsearch --tblout files.
 doc: "https://github.com/nawrockie/cmsearch_tblout_deoverlap/blob/master/00README.txt"
 hints:
-  - class: SoftwareRequirement
+  SoftwareRequirement: 
     packages:
       cmsearch_tblout_deoverlap:
         specs: [ "https://github.com/nawrockie/cmsearch_tblout_deoverlap" ]
         #version: [ "1.1.2" ]
 
 requirements:
+  InitialWorkDirRequirement:
+    listing: [ $(inputs.cmsearch_matches) ]
   ResourceRequirement:
     coresMax: 1
     ramMin: 100  # just a default, could be lowered
-  ShellCommandRequirement: {}
   EnvVarRequirement:
     envDef:
       LC_ALL: C
@@ -21,29 +22,18 @@ requirements:
 inputs:
   cmsearch_matches:
     type: File
-    # inputBinding:
-    #   position: 1
-    #   valueFrom: $(self.basename)
+    inputBinding:
+      position: 1
+      valueFrom: $(self.basename)
 
   clan_information:
     label: clan information on the models provided
     type: File?
-    # inputBinding:
-    #   prefix: --clanin
+    inputBinding:
+      prefix: --clanin
     doc: Not all models provided need to be a member of a clan
 
-baseCommand: []  # TODO, replaces with InitialWorkDirRequirement
-
-arguments:
-  - ln
-  - -s
-  - $(inputs.cmsearch_matches.path)
-  - $(inputs.cmsearch_matches.basename)
-  - ;
-  - cmsearch-deoverlap.pl
-  - $(inputs.cmsearch_matches.basename)
-  - --clanin
-  - $(inputs.clan_information.path)
+baseCommand: cmsearch-deoverlap.pl
 
 outputs:
   deoverlapped_matches:
