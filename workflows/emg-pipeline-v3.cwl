@@ -71,6 +71,15 @@ outputs:
   qiime_assigned_taxonomy:
     type: File
     outputSource: 16S_taxonomic_analysis/qiime_assigned_taxonomy
+  krona_input:
+    type: File
+    outputSource: 16S_taxonomic_analysis/krona_input
+  kingdom_counts:
+    type: File
+    outputSource: 16S_taxonomic_analysis/kingdom_counts
+  otu_visualization:
+    type: File
+    outputSource: 16S_taxonomic_analysis/otu_visualization
 
   #The predicted proteins and their annotations
   predicted_CDS_aa:
@@ -282,7 +291,10 @@ steps:
       - qiime_sequences-filtered_clusters
       - qiime_sequences-filtered_otus
       - qiime_assigned_taxonomy
-
+      - krona_input
+      - kingdom_counts
+      - otu_visualization
+ 
   ipr_stats:
     run: ../tools/ipr_stats.cwl
     in:

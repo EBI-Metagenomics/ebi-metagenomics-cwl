@@ -125,6 +125,15 @@ outputs:
   qiime_assigned_taxonomy:
     type: File
     outputSource: unified_processing/qiime_assigned_taxonomy
+  krona_input:
+    type: File
+    outputSource: unified_processing/krona_input
+  kingdom_counts:
+    type: File
+    outputSource: unified_processing/kingdom_counts
+  otu_visualization:
+    type: File
+    outputSource: unified_processing/otu_visualization
   16S_matches:
     type: File
     outputSource: unified_processing/16S_matches
@@ -226,6 +235,9 @@ steps:
       - post_qc_reads
       - post_qc_read_count
       - summary
+      - krona_input
+      - kingdom_counts
+      - otu_visualization
 
 $namespaces:
  edam: http://edamontology.org/

@@ -69,6 +69,12 @@ inputs:
     type: File
   qiime_assigned_taxonomy:
     type: File
+  krona_input:
+    type: File
+  kingdom_counts:
+    type: File
+  otu_visualization:
+    type: File
   16S_matches:
     type: File
   23S_matches:
@@ -94,8 +100,14 @@ inputs:
 # turned into Python None objects that produce a very unhelpful error message
 
 # If making a new File from non-string types, don't forget to .toString() them
+
+# To reference inputs with identifers containing a dash '-' or starting with a
+# number, use dictionary indexing. Example, inputs["16S_matches"]
 expression: |
   ${ var run_id = inputs.actual_run_id + "_MERGED_FASTQ";
+     inputs.krona_input.basename = "krona-input.txt";
+     inputs.kingdom_counts.basename = "kingdom-counts.txt";
+     inputs.otu_visualization.basename = "krona.html";
      inputs.qc_stats_summary.basename = "summary.out";
      inputs.qc_stats_seq_len_pbcbin.basename = "seq-length.out.full_pcbin";
      inputs.qc_stats_seq_len_bin.basename = "seq-length.out.full_bin";
@@ -135,8 +147,11 @@ expression: |
            "listing": [
              { "class": "Directory",
                "basename": "taxonomy-summary",
-               "listing": [] },
-              { "class": "Directory",
+               "listing": [
+                 inputs.krona_input,
+                 inputs.kingdom_counts,
+                 inputs.otu_visualization ] },
+             { "class": "Directory",
                "basename": "qc-statistics",
                "listing": [
                  inputs.qc_stats_summary,

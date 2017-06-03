@@ -36,6 +36,15 @@ outputs:
   qiime_assigned_taxonomy:
     type: File
     outputSource: modify_taxonomy_table/qiime_assigned_taxonomy
+  krona_input:
+    type: File
+    outputSource: krona_setup/krona_input
+  kingdom_counts:
+    type: File
+    outputSource: krona_setup/kingdom_counts
+  otu_visualization:
+    type: File
+    outputSource: update_krona_chart_urls/fixed_krona_chart
 
 steps:
   pick_closed_reference_otus:
@@ -99,6 +108,24 @@ steps:
       tree: pick_closed_reference_otus/otus_tree
       tips_or_seqids_to_retain: extract_observations/observations
     out: [ pruned_tree ]
+
+  krona_setup:
+    run: ../tools/krona_setup.cwl
+    in:
+      qiime_taxonomy: modify_taxonomy_table/qiime_assigned_taxonomy
+    out: [ krona_input, kingdom_counts ]
+
+  visualize_otu_counts:
+    run: ../tools/krona.cwl
+    in:
+       otu_counts: krona_setup/krona_input
+    out: [ otu_visualization ]
+
+  update_krona_chart_urls:
+    run: ../tools/update_krona_chart_urls.cwl
+    in:
+       krona_chart: visualize_otu_counts/otu_visualization
+    out: [ fixed_krona_chart ]
 
 $namespaces:
  edam: http://edamontology.org/
