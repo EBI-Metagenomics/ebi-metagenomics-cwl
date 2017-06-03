@@ -1,7 +1,7 @@
 #!/bin/bash
 
 CLASSPATH=/hps/nobackup/production/metagenomics/production-scripts/current/mgportal/analysis-pipeline/python/tools/Trimmomatic-0.35/trimmomatic-0.35.jar:$CLASSPATH
-PATH=/hps/nobackup/production/metagenomics/CWL/code/:$PATH
+PATH=/hps/nobackup/production/metagenomics/CWL/mcrusoe/ebi-metagenomics-cwl/utils:$PATH
 PATH=/hps/nobackup/production/metagenomics/CWL/code/thirdparty/cmsearch_tblout_deoverlap/:$PATH
 PATH=/hps/nobackup/production/metagenomics/CWL/code/thirdparty/infernal/easel/miniapps/:$PATH
 PATH=/hps/nobackup/production/metagenomics/CWL/code/thirdparty/infernal/src/:$PATH

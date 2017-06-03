@@ -4,7 +4,6 @@
 use strict;
 use warnings;
 use Getopt::Long;
-use DDP;
 
 my($otuFile, $mFile, $outputFile, $label, $krona, $help);
 
