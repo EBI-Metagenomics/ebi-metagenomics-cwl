@@ -19,7 +19,7 @@ arguments:
   - prefix: -c
     valueFrom: |
       text = ""
-      with open("$(inputs.krona_chart.path)", "r") as inFile
+      with open("$(inputs.krona_chart.path)", "r") as inFile:
          text = inFile.read()
       notFound = r'<script id="notfound">window.onload=function(){document.body.innerHTML="Could not get resources from \\"http://krona.sourceforge.net\\"."}</script>'
       text = text.replace(notFound, "")
