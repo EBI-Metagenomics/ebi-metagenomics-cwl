@@ -1,5 +1,11 @@
 cwlVersion: v1.0
 class: ExpressionTool
+doc: |
+  Transforms the output of `emg-pipeline-v3-paired.cwl` to match the existing
+  pipeline (also known as "the Python pipeline").
+  To invoke `cwltool convert-to-v3-layout.cwl path/to/cwl-v3/output_object`
+  This is kept seperate from the main CWL definition as it uses a Directory type
+  which is not currently supported by Toil.
 requirements:
   InlineJavascriptRequirement: {}
 inputs:
@@ -82,6 +88,12 @@ inputs:
   post_qc_read_count: int
   summary: File
 
+# This can be hard to troubleshoot as invalid reference resolves to "undefined"
+# in Javascript and might not produce an immediate error. For example, I had
+# severals mistakes in populating the contents of a Directory.listing which
+# turned into Python None objects that produce a very unhelpful error message
+
+# If making a new File from non-string types, don't forget to .toString() them
 expression: |
   ${ var run_id = inputs.actual_run_id + "_MERGED_FASTQ";
      inputs.qc_stats_summary.basename = "summary.out";
@@ -122,6 +134,9 @@ expression: |
            "basename": run_id,
            "listing": [
              { "class": "Directory",
+               "basename": "taxonomy-summary",
+               "listing": [] },
+              { "class": "Directory",
                "basename": "qc-statistics",
                "listing": [
                  inputs.qc_stats_summary,
