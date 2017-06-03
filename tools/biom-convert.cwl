@@ -3,6 +3,7 @@ cwlVersion: v1.0
 class: CommandLineTool
 
 requirements:
+  InlineJavascriptRequirement: {}
   ResourceRequirement:
     coresMax: 1
     ramMin: 100  # just a default, could be lowered
@@ -59,13 +60,18 @@ inputs:
 baseCommand: [ biom, convert ]
 
 arguments:
-  - valueFrom: $(inputs.biom.basename)
+  - valueFrom: |
+     ${ var ext = "";
+        if (inputs.json) { ext = ".json"; }
+        if (inputs.hdf5) { ext = ".hdf5"; }
+        if (inputs.tsv) { ext = ".tsv"; }
+        return inputs.biom.nameroot + ext; }
     prefix: --output-fp
 
 outputs:
   result:
     type: File
-    outputBinding: { glob: $(inputs.biom.basename) }
+    outputBinding: { glob: "$(inputs.biom.nameroot)*" }
 
 $namespaces:
  edam: http://edamontology.org/

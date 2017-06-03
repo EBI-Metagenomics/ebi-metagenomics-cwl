@@ -91,7 +91,7 @@ outputs:
   #The predicted proteins and their annotations
   predicted_CDS:
     type: File
-    outputSource: ORF_prediction/predictedCDS
+    outputSource: ORF_prediction/predicted_CDS_aa
   #The GO terms, full and slimmed.
   go_summary:
     type: File
@@ -132,17 +132,17 @@ outputs:
   #TODO - check all the outputs
   #Sequence cat
   #Global Summary files
-  matchNumber:
+  match_count:
     type: int
-    outputSource: ipr_stats/matchNumber
+    outputSource: ipr_stats/match_count
 
-  cdsWithMatchNumber:
+  CDS_with_match_count:
     type: int
-    outputSource: ipr_stats/cdsWithMatchNumber
+    outputSource: ipr_stats/CDS_with_match_count
 
-  readWithMatchNumber:
+  reads_with_match_count:
     type: int
-    outputSource: ipr_stats/readWithMatchNumber
+    outputSource: ipr_stats/reads_with_match_count
 
   stats_reads:
     type: File
@@ -355,12 +355,12 @@ steps:
       sequence: clean_fasta_headers/sequences_with_cleaned_headers 
       completeSeq: { default: false }
       model: fraggenescan_model
-    out: [ predictedCDS ]
+    out: [ predicted_CDS_aa ]
 
   remove_asterisks_and_reformat:
     run: ../tools/esl-reformat.cwl
     in:
-      sequences: ORF_prediction/predictedCDS
+      sequences: ORF_prediction/predicted_CDS_aa
       replace: { default: { find: '*', replace: X } }
     out: [ reformatted_sequences ]
 
@@ -381,12 +381,17 @@ steps:
     run: ../tools/ipr_stats.cwl
     in:
       iprscan: functional_analysis/functional_annotations
-    out: [ matchNumber, cdsWithMatchNumber, readWithMatchNumber, reads ]
+    out:
+      - match_count
+      - CDS_with_match_count
+      - reads_with_match_count
+      - reads
+      - id_list
 
   orf_stats:
     run: ../tools/orf_stats.cwl
     in:
-      orfs: ORF_prediction/predictedCDS
+      orfs: ORF_prediction/predicted_CDS_aa
     out: [ numberReadsWithOrf, numberOrfs, readsWithOrf ]
 
   categorisation:

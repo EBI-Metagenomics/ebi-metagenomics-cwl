@@ -6,10 +6,9 @@ doc: "https://github.com/EddyRivasLab/easel"
 requirements:
   ResourceRequirement:
     coresMax: 1
-    ramMin: 100  # just a default, could be lowered
-  ShellCommandRequirement: {}
-#  InitialWorkDirRequirement:
-#    listing: [ $(inputs.sequences) ]
+    ramMin: 1024  # just a default, could be lowered
+  InitialWorkDirRequirement:
+    listing: [ $(inputs.sequences) ]
 hints:
   SoftwareRequirement:
     packages:
@@ -21,32 +20,17 @@ inputs:
   sequences:
     type: File
     inputBinding:
-      position: 10
+      position: 1
       valueFrom: $(self.basename)
-    format:
-      - edam:format_1929  # FASTA
-      # - edam:format_1927  # EMBL
-      # - edam:format_1936  # Genbank entry format
-      # - edam:format_1961  # Stockholm
-      # - edam:format_1963  # UniProt
-      # ddbj ?
+    format: edam:format_1929  # FASTA
 
-baseCommand: [ ]
-
-arguments:
- - cp
- - $(inputs.sequences.path)
- - $(runtime.outdir)
- - valueFrom: ";"
-   shellQuote: false
- - esl-sfetch
- - --index
+baseCommand: [ esl-sfetch, --index ]
 
 outputs:
   sequences_with_index:
     type: File
     secondaryFiles: .ssi
-    format: $(inputs.sequences.format)
+    format: edam:format_1929  # FASTA
     outputBinding:
       glob: $(inputs.sequences.basename)
 

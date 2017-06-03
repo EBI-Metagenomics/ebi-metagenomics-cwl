@@ -117,17 +117,17 @@ outputs:
 
   # Sequence categoriastion outputs
   # Summary files
-  matchNumber:
+  match_count:
     type: int
-    outputSource: unified_processing/matchNumber
+    outputSource: unified_processing/match_count
   
-  cdsWithMatchNumber:
+  CDS_with_match_count:
     type: int
-    outputSource: unified_processing/cdsWithMatchNumber
+    outputSource: unified_processing/CDS_with_match_count
 
-  readWithMatchNumber:
+  reads_with_match_count:
     type: int
-    outputSource: unified_processing/readWithMatchNumber
+    outputSource: unified_processing/reads_with_match_count
 
   stats_reads:
     type: File
@@ -208,9 +208,9 @@ steps:
       - qc_stats_gc_pcbin
       - qc_stats_gc_bin
       - qc_stats_gc
-      - matchNumber
-      - cdsWithMatchNumber
-      - readWithMatchNumber
+      - match_count
+      - CDS_with_match_count
+      - reads_with_match_count
       - stats_reads
       - numberReadsWithOrf
       - numberOrfs

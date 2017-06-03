@@ -1,7 +1,7 @@
 #!/bin/bash
 
 CLASSPATH=/hps/nobackup/production/metagenomics/production-scripts/current/mgportal/analysis-pipeline/python/tools/Trimmomatic-0.35/trimmomatic-0.35.jar:$CLASSPATH
-PATH=/hps/nobackup/production/metagenomics/CWL/code/:$PATH
+PATH=/hps/nobackup/production/metagenomics/CWL/mcrusoe/ebi-metagenomics-cwl/utils:$PATH
 PATH=/hps/nobackup/production/metagenomics/CWL/code/thirdparty/cmsearch_tblout_deoverlap/:$PATH
 PATH=/hps/nobackup/production/metagenomics/CWL/code/thirdparty/infernal/easel/miniapps/:$PATH
 PATH=/hps/nobackup/production/metagenomics/CWL/code/thirdparty/infernal/src/:$PATH
@@ -18,6 +18,9 @@ PATH=/hps/nobackup/production/metagenomics/production-scripts/current/mgportal/a
 PATH=/hps/nobackup/production/metagenomics/production-scripts/current/mgportal/analysis-pipeline/python/tools/RNASelector-1.0/scripts/python/:$PATH
 PATH=/hps/nobackup/production/metagenomics/production-scripts/current/mgportal/analysis-pipeline/python/tools/RNASelector-1.0/scripts/perl/:$PATH
 PATH=/hps/nobackup/production/metagenomics/production-scripts/current/mgportal/analysis-pipeline/python/tools/SeqPrep-1.1/:$PATH
+PATH=/hps/nobackup/production/metagenomics/production-scripts/current/mgportal/analysis-pipeline/python/tools/extract_sig_coords/:$PATH
+PATH=/hps/nobackup/production/metagenomics/production-scripts/current/mgportal/analysis-pipeline/python/tools/map_fa_headers/bin:$PATH
+PATH=/hps/nobackup/production/metagenomics/production-scripts/current/mgportal/analysis-pipeline/python/tools/faselector/bin:$PATH
 PATH=$PATH:/hps/nobackup/production/metagenomics/CWL/code/thirdparty/node-v6.10.3
 
 export PATH

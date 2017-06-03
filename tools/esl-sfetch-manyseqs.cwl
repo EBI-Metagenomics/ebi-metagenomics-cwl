@@ -22,13 +22,8 @@ inputs:
     inputBinding:
       prefix: -f
       position: 1
-    format:
-      - edam:format_1929  # FASTA
-      # - edam:format_1927  # EMBL
-      # - edam:format_1934  # Genbank entry format
-      # - edam:format_1961  # Stockholm
-      # - edam:format_1963  # UniProt
-      # ddbj ?
+    format: edam:format_1929  # FASTA
+
   names:
     type: File
     label: sequence names to retrieve, one per line
@@ -46,7 +41,7 @@ inputs:
 
 baseCommand: [ esl-sfetch ]
 
-stdout: sequences  # helps with cwltool's --cache
+stdout: $(inputs.indexed_sequences.nameroot)_$(inputs.names.nameroot).fasta
 
 outputs:
   sequences:

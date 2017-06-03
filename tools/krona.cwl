@@ -23,7 +23,7 @@ inputs:
 baseCommand: ktImportText
 
 arguments:
-  - valueFrom: $(inputs.otu_counts.basename).html
+  - valueFrom: $(inputs.otu_counts.nameroot).html
     prefix: -o
 
 outputs:
@@ -31,7 +31,7 @@ outputs:
     type: File
     format: iana:text/html
     outputBinding:
-      glob: $(inputs.otu_counts.basename).html
+      glob: $(inputs.otu_counts.nameroot).html
 
 $namespaces:
  edam: http://edamontology.org/

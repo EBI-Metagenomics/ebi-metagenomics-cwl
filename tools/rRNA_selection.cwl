@@ -54,7 +54,7 @@ steps:
                  with respect to the sequence, numbered 1..L for a sequence of
                  L residues.
       baseCommand: [ awk, '{print $1"/"$18"-"$19" "$18" "$19" "$1}' ]
-      stdout: formatted_names_and_coords  # helps with cwltool's --cache
+      stdout: $(inputs.coordinate_lines.nameroot).names_and_coords
       outputs: { formatted_names_and_coords: { type: stdout } }
     in: { coordinate_lines: extract_coord_lines/coord_lines }
     out: [ formatted_names_and_coords ]

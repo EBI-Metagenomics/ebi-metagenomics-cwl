@@ -34,7 +34,7 @@ inputs:
 baseCommand: [ hmmsearch ]
 
 arguments:
- - valueFrom: per_domain_summary.txt
+ - valueFrom: $(inputs.sequence_query.nameroot)_$(inputs.hmm_profiles.nameroot)_per_domain_summary.txt
    prefix: --domtblout
  - valueFrom: $(runtime.cores)
    prefix: --cpu
@@ -43,7 +43,7 @@ outputs:
   per_domain_summary:
     type: File
     outputBinding:
-      glob: per_domain_summary.txt
+      glob: $(inputs.sequence_query.nameroot)_$(inputs.hmm_profiles.nameroot)_per_domain_summary.txt
 
 $namespaces:
  edam: http://edamontology.org/

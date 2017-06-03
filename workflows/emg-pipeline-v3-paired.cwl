@@ -32,12 +32,15 @@ inputs:
   go_summary_config: File
 
 outputs:
+  post_qc_read_count:
+    type: int
+    outputSource: unified_processing/post_qc_read_count
   processed_sequences:
     type: File
     outputSource: unified_processing/processed_sequences
-  predicted_CDS:
+  predicted_CDS_aa:
     type: File
-    outputSource: unified_processing/predicted_CDS
+    outputSource: unified_processing/predicted_CDS_aa
   functional_annotations:
     type: File
     outputSource: unified_processing/functional_annotations
@@ -56,8 +59,111 @@ outputs:
   biom_json:
     type: File
     outputSource: unified_processing/biom_json
-
-#TODO - need to also pull back all of the QC files..
+  biom_hdf5:
+    type: File
+    outputSource: unified_processing/biom_hdf5
+  biom_tsv:
+    type: File
+    outputSource: unified_processing/biom_tsv
+  qc_stats_summary:
+    type: File
+    outputSource: unified_processing/qc_stats_summary
+  qc_stats_seq_len_pbcbin:
+    type: File
+    outputSource: unified_processing/qc_stats_seq_len_pbcbin
+  qc_stats_seq_len_bin:
+    type: File
+    outputSource: unified_processing/qc_stats_seq_len_bin
+  qc_stats_seq_len:
+    type: File
+    outputSource: unified_processing/qc_stats_seq_len
+  qc_stats_nuc_dist:
+    type: File
+    outputSource: unified_processing/qc_stats_nuc_dist
+  qc_stats_gc_pcbin:
+    type: File
+    outputSource: unified_processing/qc_stats_gc_pcbin
+  qc_stats_gc_bin:
+    type: File
+    outputSource: unified_processing/qc_stats_gc_bin
+  qc_stats_gc:
+    type: File
+    outputSource: unified_processing/qc_stats_gc
+  ipr_match_count:
+    type: int
+    outputSource: unified_processing/ipr_match_count
+  ipr_CDS_with_match_count:
+    type: int
+    outputSource: unified_processing/ipr_CDS_with_match_count
+  ipr_reads_with_match_count:
+    type: int
+    outputSource: unified_processing/ipr_reads_with_match_count
+  ipr_reads:
+    type: File
+    outputSource: unified_processing/ipr_reads
+  ipr_summary:
+    type: File
+    outputSource: unified_processing/ipr_summary
+  annotated_CDS_nuc:
+    type: File
+    outputSource: unified_processing/annotated_CDS_nuc
+  annotated_CDS_aa:
+    type: File
+    outputSource: unified_processing/annotated_CDS_aa
+  unannotated_CDS_nuc:
+    type: File
+    outputSource: unified_processing/unannotated_CDS_nuc
+  unannotated_CDS_aa:
+    type: File
+    outputSource: unified_processing/unannotated_CDS_aa
+  qiime_sequences-filtered_clusters:
+    type: File
+    outputSource: unified_processing/qiime_sequences-filtered_clusters
+  qiime_sequences-filtered_otus:
+    type: File
+    outputSource: unified_processing/qiime_sequences-filtered_otus
+  qiime_assigned_taxonomy:
+    type: File
+    outputSource: unified_processing/qiime_assigned_taxonomy
+  krona_input:
+    type: File
+    outputSource: unified_processing/krona_input
+  kingdom_counts:
+    type: File
+    outputSource: unified_processing/kingdom_counts
+  otu_visualization:
+    type: File
+    outputSource: unified_processing/otu_visualization
+  16S_matches:
+    type: File
+    outputSource: unified_processing/16S_matches
+  23S_matches:
+    type: File
+    outputSource: unified_processing/23S_matches
+  5S_matches:
+    type: File
+    outputSource: unified_processing/5S_matches
+  tRNA_matches:
+    type: File
+    outputSource: unified_processing/tRNA_matches 
+  interproscan_matches:
+    type: File
+    outputSource: unified_processing/interproscan_matches
+  pCDS_seqs:
+    type: File
+    outputSource: unified_processing/pCDS_seqs
+  no_functions_seqs:
+    type: File
+    outputSource: unified_processing/no_functions_seqs
+  actual_run_id:
+    type: string
+    outputSource: run_id
+  post_qc_reads:
+    type: File
+    outputSource: unified_processing/post_qc_reads
+  summary:
+    type: File
+    outputSource: unified_processing/summary
 
 steps:
   overlap_reads:
@@ -90,13 +196,48 @@ steps:
       go_summary_config: go_summary_config
     out:
       - processed_sequences
-      - predicted_CDS
+      - predicted_CDS_aa
       - functional_annotations
       - go_summary
       - go_summary_slim
       - otu_table_summary
       - tree
       - biom_json
+      - biom_hdf5
+      - biom_tsv
+      - qc_stats_summary
+      - qc_stats_seq_len_pbcbin
+      - qc_stats_seq_len_bin
+      - qc_stats_seq_len
+      - qc_stats_nuc_dist
+      - qc_stats_gc_pcbin
+      - qc_stats_gc_bin
+      - qc_stats_gc
+      - ipr_match_count
+      - ipr_CDS_with_match_count
+      - ipr_reads_with_match_count
+      - ipr_reads
+      - ipr_summary
+      - annotated_CDS_nuc
+      - annotated_CDS_aa
+      - unannotated_CDS_nuc
+      - unannotated_CDS_aa
+      - qiime_sequences-filtered_clusters
+      - qiime_sequences-filtered_otus
+      - qiime_assigned_taxonomy
+      - tRNA_matches
+      - 16S_matches
+      - 23S_matches
+      - 5S_matches
+      - interproscan_matches
+      - pCDS_seqs
+      - no_functions_seqs
+      - post_qc_reads
+      - post_qc_read_count
+      - summary
+      - krona_input
+      - kingdom_counts
+      - otu_visualization
 
 $namespaces:
  edam: http://edamontology.org/
