@@ -17,13 +17,13 @@ inputs:
     format: edam:format_1930  # FASTQ
   run_id: string
   fraggenescan_model: ../tools/FragGeneScan-model.yaml#model
-  16S_model:
+  _16S_model:
     type: File
     format: edam:format_1370  # HMMER
-  5S_model:
+  _5S_model:
     type: File
     format: edam:format_1370  # HMMER
-  23S_model:
+  _23S_model:
     type: File
     format: edam:format_1370  # HMMER
   tRNA_model:
@@ -49,37 +49,37 @@ outputs:
   #Taxonomic analysis step
   otu_table_summary:
     type: File
-    outputSource: 16S_taxonomic_analysis/otu_table_summary
+    outputSource: _16S_taxonomic_analysis/otu_table_summary
   tree:
     type: File
-    outputSource: 16S_taxonomic_analysis/tree
+    outputSource: _16S_taxonomic_analysis/tree
   biom_json:
     type: File
-    outputSource: 16S_taxonomic_analysis/biom_json
+    outputSource: _16S_taxonomic_analysis/biom_json
   biom_hdf5:
     type: File
-    outputSource: 16S_taxonomic_analysis/biom_hdf5
+    outputSource: _16S_taxonomic_analysis/biom_hdf5
   biom_tsv:
     type: File
-    outputSource: 16S_taxonomic_analysis/biom_tsv
+    outputSource: _16S_taxonomic_analysis/biom_tsv
   qiime_sequences-filtered_clusters:
     type: File
-    outputSource: 16S_taxonomic_analysis/qiime_sequences-filtered_clusters
+    outputSource: _16S_taxonomic_analysis/qiime_sequences-filtered_clusters
   qiime_sequences-filtered_otus:
     type: File
-    outputSource: 16S_taxonomic_analysis/qiime_sequences-filtered_otus
+    outputSource: _16S_taxonomic_analysis/qiime_sequences-filtered_otus
   qiime_assigned_taxonomy:
     type: File
-    outputSource: 16S_taxonomic_analysis/qiime_assigned_taxonomy
+    outputSource: _16S_taxonomic_analysis/qiime_assigned_taxonomy
   krona_input:
     type: File
-    outputSource: 16S_taxonomic_analysis/krona_input
+    outputSource: _16S_taxonomic_analysis/krona_input
   kingdom_counts:
     type: File
-    outputSource: 16S_taxonomic_analysis/kingdom_counts
+    outputSource: _16S_taxonomic_analysis/kingdom_counts
   otu_visualization:
     type: File
-    outputSource: 16S_taxonomic_analysis/otu_visualization
+    outputSource: _16S_taxonomic_analysis/otu_visualization
 
   #The predicted proteins and their annotations
   predicted_CDS_aa:
@@ -153,15 +153,15 @@ outputs:
   tRNA_matches:
     type: File
     outputSource: find_SSUs_and_mask/tRNA_matches 
-  16S_matches:
+  _16S_matches:
     type: File
-    outputSource: find_SSUs_and_mask/16S_matches 
-  23S_matches:
+    outputSource: find_SSUs_and_mask/_16S_matches 
+  _23S_matches:
     type: File
-    outputSource: find_SSUs_and_mask/23S_matches 
-  5S_matches:
+    outputSource: find_SSUs_and_mask/_23S_matches 
+  _5S_matches:
     type: File
-    outputSource: find_SSUs_and_mask/5S_matches 
+    outputSource: find_SSUs_and_mask/_5S_matches 
   interproscan_matches:
     type: File
     outputSource: categorisation/interproscan
@@ -239,14 +239,14 @@ steps:
     in: 
       reads: clean_fasta_headers/sequences_with_cleaned_headers
       run_id: run_id
-      16S_model: 16S_model
-      5S_model: 5S_model
-      23S_model: 23S_model
+      _16S_model: _16S_model
+      _5S_model: _5S_model
+      _23S_model: _23S_model
       tRNA_model: tRNA_model
     out:
-      - 16S_matches
-      - 23S_matches
-      - 5S_matches
+      - _16S_matches
+      - _23S_matches
+      - _5S_matches
       - tRNA_matches
       - masked_sequences
 
@@ -274,14 +274,14 @@ steps:
       go_summary_config: go_summary_config
     out: [ functional_annotations, go_summary, go_summary_slim ]
 
-  16S_taxonomic_analysis:
+  _16S_taxonomic_analysis:
     doc: |
       16s rRNA are annotated using the Greengenes reference database
       (default closed-reference OTU picking protocol with Greengenes
       13.8 reference with reverse strand matching enabled).
-    run: 16S_taxonomic_analysis.cwl
+    run: _16S_taxonomic_analysis.cwl
     in:
-      16S_matches: find_SSUs_and_mask/16S_matches
+      _16S_matches: find_SSUs_and_mask/_16S_matches
     out:
       - otu_table_summary
       - tree

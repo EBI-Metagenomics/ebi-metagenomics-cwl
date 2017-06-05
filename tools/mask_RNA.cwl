@@ -8,20 +8,20 @@ requirements:
       - entryname: hmmer.txt
         entry: $(inputs.unique_rRNA_hits)
       - entryname: hmmer.16s.txt
-        entry: $(inputs.16s_rRNA_hmmer_matches)
+        entry: $(inputs._16s_rRNA_hmmer_matches)
       - entryname: hmmer.23s.txt
-        entry: $(inputs.23s_rRNA_hmmer_matches)
+        entry: $(inputs._23s_rRNA_hmmer_matches)
       - entryname: hmmer.5s.txt
-        entry: $(inputs.5s_rRNA_hmmer_matches)
+        entry: $(inputs._5s_rRNA_hmmer_matches)
   ResourceRequirement:
    coresMax: 1
    ramMin: 1024  # just a default, could be lowered
 
 inputs:
   unique_rRNA_hits: File
-  16s_rRNA_hmmer_matches: File
-  23s_rRNA_hmmer_matches: File
-  5s_rRNA_hmmer_matches: File
+  _16s_rRNA_hmmer_matches: File
+  _23s_rRNA_hmmer_matches: File
+  _5s_rRNA_hmmer_matches: File
   unique_tRNA_hits: File
   tRNA_matches: File
   sequences: File

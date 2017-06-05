@@ -8,7 +8,7 @@ requirements:
     - $import: ../tools/biom-convert-table.yaml
 
 inputs:
-  16S_matches:
+  _16S_matches:
     type: File
 
 outputs:
@@ -50,7 +50,7 @@ steps:
   pick_closed_reference_otus:
     run: ../tools/qiime-pick_closed_reference_otus.cwl
     in:
-      sequences: 16S_matches
+      sequences: _16S_matches
     out:
       - otu_table
       - otus_tree

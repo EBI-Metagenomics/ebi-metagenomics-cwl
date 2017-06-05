@@ -19,13 +19,13 @@ inputs:
     type: File
     format: edam:format_1929  # FASTA
   run_id: string
-  16S_model:
+  _16S_model:
     type: File
     format: edam:format_1370  # HMMER
-  5S_model:
+  _5S_model:
     type: File
     format: edam:format_1370  # HMMER
-  23S_model:
+  _23S_model:
     type: File
     format: edam:format_1370  # HMMER
   tRNA_model:
@@ -33,13 +33,13 @@ inputs:
     format: edam:format_1370  # HMMER
 
 outputs:
-  16S_matches:
+  _16S_matches:
     type: File
     outputSource: prepend_header_for_QIIME/labeled_sequences
-  5S_matches:
+  _5S_matches:
     type: File
     outputSource: find_5S_matches/matching_sequences
-  23S_matches:
+  _23S_matches:
     type: File
     outputSource: find_23S_matches/matching_sequences
   masked_sequences:
@@ -60,21 +60,21 @@ steps:
     run: ../tools/rRNA_selection.cwl
     in:
       indexed_sequences: index_reads/sequences_with_index
-      model: 16S_model
+      model: _16S_model
     out: [ matching_sequences, hmmer_search_results ]
 
   find_23S_matches:
     run: ../tools/rRNA_selection.cwl
     in:
       indexed_sequences: index_reads/sequences_with_index
-      model: 23S_model
+      model: _23S_model
     out: [ matching_sequences, hmmer_search_results ]
 
   find_5S_matches:
     run: ../tools/rRNA_selection.cwl
     in:
       indexed_sequences: index_reads/sequences_with_index
-      model: 5S_model
+      model: _5S_model
     out: [ matching_sequences, hmmer_search_results ]
 
   find_tRNA_matches:
@@ -112,9 +112,9 @@ steps:
     run: ../tools/mask_RNA.cwl
     in:
       unique_rRNA_hits: collate_unique_rRNA_hmmer_hits/unique_hits
-      16s_rRNA_hmmer_matches: find_16S_matches/hmmer_search_results
-      23s_rRNA_hmmer_matches: find_23S_matches/hmmer_search_results
-      5s_rRNA_hmmer_matches: find_5S_matches/hmmer_search_results
+      _16s_rRNA_hmmer_matches: find_16S_matches/hmmer_search_results
+      _23s_rRNA_hmmer_matches: find_23S_matches/hmmer_search_results
+      _5s_rRNA_hmmer_matches: find_5S_matches/hmmer_search_results
       unique_tRNA_hits: collate_unique_tRNA_hmmer_hits/unique_hits
       tRNA_matches: find_tRNA_matches/hmmer_search_results
       sequences: index_reads/sequences_with_index

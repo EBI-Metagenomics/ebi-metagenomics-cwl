@@ -17,13 +17,13 @@ inputs:
     format: edam:format_1930  # FASTQ
   run_id: string
   fraggenescan_model: ../tools/FragGeneScan-model.yaml#model
-  16S_model:
+  _16S_model:
     type: File
     format: edam:format_1370  # HMMER
-  5S_model:
+  _5S_model:
     type: File
     format: edam:format_1370  # HMMER
-  23S_model:
+  _23S_model:
     type: File
     format: edam:format_1370  # HMMER
   tRNA_model:
@@ -134,15 +134,15 @@ outputs:
   otu_visualization:
     type: File
     outputSource: unified_processing/otu_visualization
-  16S_matches:
+  _16S_matches:
     type: File
-    outputSource: unified_processing/16S_matches
-  23S_matches:
+    outputSource: unified_processing/_16S_matches
+  _23S_matches:
     type: File
-    outputSource: unified_processing/23S_matches
-  5S_matches:
+    outputSource: unified_processing/_23S_matches
+  _5S_matches:
     type: File
-    outputSource: unified_processing/5S_matches
+    outputSource: unified_processing/_5S_matches
   tRNA_matches:
     type: File
     outputSource: unified_processing/tRNA_matches 
@@ -189,9 +189,9 @@ steps:
       reads: combine_overlaped_and_unmerged_reads/merged_with_unmerged_reads
       run_id: run_id
       fraggenescan_model: fraggenescan_model
-      16S_model: 16S_model
-      5S_model: 5S_model
-      23S_model: 23S_model
+      _16S_model: _16S_model
+      _5S_model: _5S_model
+      _23S_model: _23S_model
       tRNA_model: tRNA_model
       go_summary_config: go_summary_config
     out:
@@ -226,9 +226,9 @@ steps:
       - qiime_sequences-filtered_otus
       - qiime_assigned_taxonomy
       - tRNA_matches
-      - 16S_matches
-      - 23S_matches
-      - 5S_matches
+      - _16S_matches
+      - _23S_matches
+      - _5S_matches
       - interproscan_matches
       - pCDS_seqs
       - no_functions_seqs
