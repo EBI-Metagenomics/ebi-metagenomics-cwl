@@ -34,6 +34,7 @@ inputs:
     format: edam:format_1929  # FASTA
     secondaryFiles: .mscluster
   mapseq_taxonomy: File
+  mapseq_taxonomy_otu_table: File
   sequencing_run_id: string
 
   #Go summary file for slimming 
@@ -43,7 +44,7 @@ outputs:
   #
   processed_nucleotide_reads:
     type: File
-    outputSource: unified_processing/processed_nucleotide_reads
+    outputSource: trim_and_reformat_reads/trimmed_and_reformatted_reads
  
   #The idenditied SSU rRNA and their classification
   SSU_sequences:
@@ -174,6 +175,12 @@ steps:
       reverse_unmerged_reads: overlap_reads/reverse_unmerged_reads
     out: [ merged_with_unmerged_reads ]
 
+  trim_and_reformat_reads:
+    run: trim_and_reformat_reads.cwl
+    in:
+      reads: combine_overlaped_and_unmerged_reads/merged_with_unmerged_reads
+    out:  [ trimmed_and_reformatted_reads ] 
+
   unified_processing:
     label: continue with the main workflow
     run: emg-core-analysis-v4.cwl
@@ -181,16 +188,14 @@ steps:
       mapseq_ref: mapseq_ref
       mapseq_taxonomy: mapseq_taxonomy 
       sequencing_run_id: sequencing_run_id
-      reads: combine_overlaped_and_unmerged_reads/merged_with_unmerged_reads
+      input_sequences: trim_and_reformat_reads/trimmed_and_reformatted_reads
       fraggenescan_model: fraggenescan_model
- #Inputs are different.
       ncRNA_ribosomal_models: ncRNA_ribosomal_models
       ncRNA_ribosomal_model_clans: ncRNA_ribosomal_model_clans
       ncRNA_other_models: ncRNA_other_models
       ncRNA_other_model_clans: ncRNA_other_model_clans
       go_summary_config: go_summary_config
     out:
-      - processed_nucleotide_reads
       - other_ncRNAs
       - SSU_sequences
       - LSU_sequences
