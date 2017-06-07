@@ -1,23 +1,28 @@
 cwlVersion: v1.0
 class: Workflow
-label: EMG pipeline v4.0 (paired end version)
+label: EMG assembly for paired end Illumina
 
 requirements:
+ - class: StepInputExpressionRequirement
  - class: SubworkflowFeatureRequirement
  - class: SchemaDefRequirement
    types: 
-    - $import: ../tools/FragGeneScan-model.yaml
-    - $import: ../tools/InterProScan-apps.yaml
-    - $import: ../tools/InterProScan-protein_formats.yaml
-    - $import: ../tools/esl-reformat-replace.yaml
-    - $import: ../tools/biom-convert-table.yaml
+     - $import: ../tools/FragGeneScan-model.yaml
+     - $import: ../tools/InterProScan-apps.yaml
+     - $import: ../tools/InterProScan-protein_formats.yaml
+     - $import: ../tools/esl-reformat-replace.yaml
+     - $import: ../tools/biom-convert-table.yaml
 
 inputs:
+  sequencing_run_id: string
   forward_reads:
-    type: File
+    type: File?
     format: edam:format_1930  # FASTQ
   reverse_reads:
-    type: File
+    type: File?
+    format: edam:format_1930  # FASTQ
+  unpaired_reads:
+    type: File?
     format: edam:format_1930  # FASTQ
   fraggenescan_model: ../tools/FragGeneScan-model.yaml#model
   
@@ -40,11 +45,12 @@ inputs:
   #Go summary file for slimming 
   go_summary_config: File
 
+
 outputs:
   #
-  processed_nucleotide_reads:
+  scaffolds:
     type: File
-    outputSource: trim_and_reformat_reads/trimmed_and_reformatted_reads
+    outputSource: discard_short_scaffolds/filtered_sequences
  
   #The idenditied SSU rRNA and their classification
   SSU_sequences:
@@ -59,7 +65,6 @@ outputs:
   5S_sequences:
     type: File
     outputSource: unified_processing/5S_sequences  
-
   
   predicted_CDS:
     type: File
@@ -86,7 +91,7 @@ outputs:
     type: File
     outputSource: unified_processing/other_ncRNAs
 
-  #All of the sequence file QC stats
+ #All of the sequence file QC stats
   qc_stats_summary:
     type: File
     outputSource: unified_processing/qc_stats_summary
@@ -114,7 +119,6 @@ outputs:
 
   #TODO -
   # Add a step to extract ncRNAs
-  
 
   # Sequence categoriastion outputs
   # Summary files
@@ -158,29 +162,22 @@ outputs:
     type: File
     outputSource: unified_processing/pCDS_seqs  
  
+
 steps:
-  overlap_reads:
-    label: Paired-end overlapping reads are merged
-    run: ../tools/seqprep.cwl
+  assembly:
+    run: ../tools/metaspades.cwl
     in:
       forward_reads: forward_reads
       reverse_reads: reverse_reads
-    out: [ merged_reads, forward_unmerged_reads, reverse_unmerged_reads ]
+      unpaired_reads: unpaired_reads
+    out: [ scaffolds ]
 
-  combine_overlaped_and_unmerged_reads:
-    run: ../tools/seqprep-merge.cwl
-    in: 
-      merged_reads: overlap_reads/merged_reads
-      forward_unmerged_reads: overlap_reads/forward_unmerged_reads
-      reverse_unmerged_reads: overlap_reads/reverse_unmerged_reads
-    out: [ merged_with_unmerged_reads ]
-
-  trim_and_reformat_reads:
-    run: trim_and_reformat_reads.cwl
+  discard_short_scaffolds:
+    run: ../tools/discard_short_seqs.cwl
     in:
-      reads: combine_overlaped_and_unmerged_reads/merged_with_unmerged_reads
-    out:  [ trimmed_and_reformatted_reads ] 
-
+      sequences: assembly/scaffolds
+      minimum_length: { default: 100 }
+    out: [ filtered_sequences ]
   unified_processing:
     label: continue with the main workflow
     run: emg-core-analysis-v4.cwl
@@ -188,7 +185,7 @@ steps:
       mapseq_ref: mapseq_ref
       mapseq_taxonomy: mapseq_taxonomy 
       sequencing_run_id: sequencing_run_id
-      input_sequences: trim_and_reformat_reads/trimmed_and_reformatted_reads
+      input_sequences: discard_short_scaffolds/filtered_sequences
       fraggenescan_model: fraggenescan_model
       ncRNA_ribosomal_models: ncRNA_ribosomal_models
       ncRNA_ribosomal_model_clans: ncRNA_ribosomal_model_clans
@@ -228,6 +225,9 @@ steps:
 #TODO - checkouts and rationalise file names between v3 and v4
       #- tree
       #- biom_json
+
+
+
 
 $namespaces:
  edam: http://edamontology.org/

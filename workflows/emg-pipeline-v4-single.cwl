@@ -13,10 +13,7 @@ requirements:
     - $import: ../tools/biom-convert-table.yaml
 
 inputs:
-  forward_reads:
-    type: File
-    format: edam:format_1930  # FASTQ
-  reverse_reads:
+  reads:
     type: File
     format: edam:format_1930  # FASTQ
   fraggenescan_model: ../tools/FragGeneScan-model.yaml#model
@@ -159,26 +156,10 @@ outputs:
     outputSource: unified_processing/pCDS_seqs  
  
 steps:
-  overlap_reads:
-    label: Paired-end overlapping reads are merged
-    run: ../tools/seqprep.cwl
-    in:
-      forward_reads: forward_reads
-      reverse_reads: reverse_reads
-    out: [ merged_reads, forward_unmerged_reads, reverse_unmerged_reads ]
-
-  combine_overlaped_and_unmerged_reads:
-    run: ../tools/seqprep-merge.cwl
-    in: 
-      merged_reads: overlap_reads/merged_reads
-      forward_unmerged_reads: overlap_reads/forward_unmerged_reads
-      reverse_unmerged_reads: overlap_reads/reverse_unmerged_reads
-    out: [ merged_with_unmerged_reads ]
-
   trim_and_reformat_reads:
     run: trim_and_reformat_reads.cwl
     in:
-      reads: combine_overlaped_and_unmerged_reads/merged_with_unmerged_reads
+      reads: reads
     out:  [ trimmed_and_reformatted_reads ] 
 
   unified_processing:

@@ -1,6 +1,6 @@
 cwlVersion: v1.0
 class: Workflow
-label: EMG core analysis for Illumina
+label: EMG core analysis
 
 requirements:
  - class: StepInputExpressionRequirement
@@ -19,7 +19,7 @@ requirements:
 
 inputs:
   sequencing_run_id: string
-  reads:
+  input_sequences:
     type: File
     format: edam:format_1929  # FASTA
   ncRNA_ribosomal_models: File[]
@@ -36,12 +36,6 @@ inputs:
 
 outputs:  
 
-  #Need to pull back the file that we procced on. 
-  #This may need to be changed to a gzipped version
-  processed_nucleotide_reads: 
-    type: File
-    outputSource: clean_fasta_headers/sequences_with_cleaned_headers 
-    
   #All of the sequence file QC stats
   qc_stats_summary:
     type: File
@@ -173,43 +167,11 @@ outputs:
     outputSource: categorisation/pCDS_seqs
 
 steps:
-  #TODO - break this out into a subworkflow.  When we use assemblies, we do not need this.
-  trim_quality_control:
-    doc: |
-      Low quality trimming (low quality ends and sequences with < quality scores
-      less than 15 over a 4 nucleotide wide window are removed)
-    run: ../tools/trimmomatic.cwl
-    in:
-      reads1: reads
-      phred: { default: '33' }
-      leading: { default: 3 }
-      trailing: { default: 3 }
-      end_mode: { default: SE }
-      minlen: { default: 100 }
-      slidingwindow:
-        default:
-          windowSize: 4
-          requiredQuality: 15
-    out: [reads1_trimmed]
-
-  convert_trimmed-reads_to_fasta:
-    run: ../tools/fastq_to_fasta.cwl
-    in:
-      fastq: trim_quality_control/reads1_trimmed
-    out: [ fasta ]
-
-  clean_fasta_headers:
-    run: ../tools/clean_fasta_headers.cwl
-    in:
-      sequences: convert_trimmed-reads_to_fasta/fasta
-    out: [ sequences_with_cleaned_headers ]
-
-
   #sequence QC stats
   sequence_stats:
     run: ../tools/qc-stats.cwl
     in: 
-      QCed_reads: clean_fasta_headers/sequences_with_cleaned_headers 
+      QCed_reads: input_sequences
     out: 
       - summary_out
       - seq_length_pcbin
@@ -221,12 +183,11 @@ steps:
       - gc_sum_out
 
 
-
   #Ribosomal ncRNA identification
   find_ribosomal_ncRNAs:
     run:  cmsearch-multimodel.cwl 
     in: 
-      query_sequences: clean_fasta_headers/sequences_with_cleaned_headers 
+      query_sequences: input_sequences 
       covariance_models: ncRNA_ribosomal_models
       clan_info: ncRNA_ribosomal_model_clans
     out: [ matches ]
@@ -236,7 +197,7 @@ steps:
   index_reads:
     run: ../tools/esl-sfetch-index.cwl
     in:
-      sequences: clean_fasta_headers/sequences_with_cleaned_headers 
+      sequences: input_sequences 
     out: [ sequences_with_index ]
   
   #SSU classification
@@ -261,7 +222,6 @@ steps:
       database: mapseq_ref
       taxonomy: mapseq_taxonomy
     out: [ classifications ]
-
 
 
   #LSU classification
@@ -335,7 +295,7 @@ steps:
   find_other_ncRNAs:
     run:  cmsearch-multimodel.cwl 
     in: 
-      query_sequences: clean_fasta_headers/sequences_with_cleaned_headers 
+      query_sequences: input_sequences
       covariance_models: ncRNA_other_models
       clan_info: ncRNA_other_model_clans
     out: [ matches ]
@@ -352,7 +312,7 @@ steps:
   ORF_prediction:
     run: orf_prediction.cwl
     in:
-      sequence: clean_fasta_headers/sequences_with_cleaned_headers 
+      sequence: input_sequences
       completeSeq: { default: false }
       model: fraggenescan_model
     out: [ predicted_CDS_aa ]
