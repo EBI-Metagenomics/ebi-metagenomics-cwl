@@ -31,7 +31,7 @@ steps:
     run: ../tools/fasta_chunker.cwl
     in:
       seqs: sequence
-      chunk_size: { default: 10000 }
+      chunk_size: { default: 100000 }
     out: [ chunks ]
     
   ORF_prediction:
