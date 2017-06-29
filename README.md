@@ -3,7 +3,9 @@
 # ebi-metagenomics-cwl
 This repository contains the CWL description of the EBI Metagenomics pipeline
 
-The steps of the pipeline are visualised on the website and can be found here:
+[![Example workflow layout](https://view.commonwl.org/workflows/594809bd857aba0001dad385/graph/png)](https://view.commonwl.org/workflows/github.com/ProteinsWebTeam/ebi-metagenomics-cwl/tree/master/workflows/emg-pipeline-v3.cwl)
+
+The steps of the original pipeline are visualised on the website and can be found here:
 https://www.ebi.ac.uk/metagenomics/pipelines/3.0
 
 ## How to run our CWL files?
