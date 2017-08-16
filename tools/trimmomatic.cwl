@@ -102,7 +102,13 @@ inputs:
     inputBinding:
       position: 15
       valueFrom: |
-        SLIDINGWINDOW:$(self.windowSize):$(self.requiredQuality)
+        ${ if ( self ) {
+             return "SLIDINGWINDOW:" + self.windowSize + ":"
+               + self.requiredQuality;
+           } else {
+             return self;
+           }
+         }
     doc: |
       Perform a sliding window trimming, cutting once the average quality
       within the window falls below a threshold. By considering multiple
@@ -115,7 +121,15 @@ inputs:
     type: trimmomatic-illumina_clipping.yaml#illuminaClipping?
     inputBinding:
       valueFrom: |
-        ILLUMINACLIP:$(self.adapters_file.path):$(self.seedMismatches):$(self.palindromeClipThreshold):$(self.simpleClipThreshold):$(self.minAdapterLength):$(self.keepBothReads)
+        ${ if ( self ) {
+             return "ILLUMINACLIP:" + inputs.illuminaClip.adapters.path + ":"
+               + self.seedMismatches + ":" + self.palindromeClipThreshold + ":"
+               + self.simpleClipThreshold + ":" self.minAdapterLength + ":"
+               + self.keepBothReads;
+           } else {
+             return self;
+           }
+         }
       position: 11
     doc: Cut adapter and other illumina-specific sequences from the read.
 
@@ -174,7 +188,12 @@ inputs:
     inputBinding:
       position: 15
       valueFrom: |
-        MAXINFO:$(self.targetLength):$(strictness)
+        ${ if ( self ) {
+             return "MAXINFO:" + self.targetLength + ":" + self.strictness;
+           } else {
+             return self;
+           }
+         }
     doc: |
       Performs an adaptive quality trim, balancing the benefits of retaining
       longer reads against the costs of retaining bases with errors.
