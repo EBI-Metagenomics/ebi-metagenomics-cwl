@@ -1,6 +1,6 @@
 cwlVersion: v1.0
 class: Workflow
-label: EMG pipeline v4.0 (paired end version)
+label: EMG pipeline v4.0 (single end version)
 
 requirements:
  - class: SubworkflowFeatureRequirement
