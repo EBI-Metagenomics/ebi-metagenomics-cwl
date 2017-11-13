@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/ProteinsWebTeam/ebi-metagenomics-cwl.svg?branch=master)](https://travis-ci.org/ProteinsWebTeam/ebi-metagenomics-cwl)
+[![Build Status](https://travis-ci.org/EBI-Metagenomics/ebi-metagenomics-cwl.svg?branch=master)](https://travis-ci.org/EBI-Metagenomics/ebi-metagenomics-cwl)
 
 # ebi-metagenomics-cwl
 This repository contains the CWL description of the EBI Metagenomics pipeline
@@ -7,6 +7,8 @@ This repository contains the CWL description of the EBI Metagenomics pipeline
 
 The steps of the original pipeline are visualised on the website and can be found here:
 https://www.ebi.ac.uk/metagenomics/pipelines/3.0
+OR
+https://www.ebi.ac.uk/metagenomics/pipelines/4.0
 
 ## How to run our CWL files?
 
