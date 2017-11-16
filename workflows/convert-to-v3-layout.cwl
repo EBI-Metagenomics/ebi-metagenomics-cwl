@@ -5,7 +5,7 @@ doc: |
   pipeline (also known as "the Python pipeline").
   To invoke `cwltool convert-to-v3-layout.cwl path/to/cwl-v3/output_object`
   This is kept seperate from the main CWL definition as it uses a Directory type
-  which is not currently supported by Toil.
+  which was not supported by Toil at the time. Toil  3.10.0 and onwards have full CWL 1.0.1 support
 requirements:
   InlineJavascriptRequirement: {}
 inputs:
