@@ -40,7 +40,6 @@ inputs:
     secondaryFiles: .mscluster
   mapseq_taxonomy: File
   mapseq_taxonomy_otu_table: File
-  sequencing_run_id: string
 
   #Go summary file for slimming 
   go_summary_config: File
