@@ -13,7 +13,7 @@ doc: |
       Version 1.20 can be downloaded here:
       https://sourceforge.net/projects/fraggenescan/files/
 
-baseCommand: [] # FragGeneScan
+baseCommand: FragGeneScan
 
 requirements:
   ResourceRequirement:
@@ -23,8 +23,26 @@ requirements:
     types:
       - $import: FragGeneScan-model.yaml
   InlineJavascriptRequirement: {}
-  ShellCommandRequirement: {}
-
+  InitialWorkDirRequirement:
+    listing:
+      - entryname: train/model
+        entry: $(inputs.model.main)
+      - entryname: train/gene
+        entry: $(inputs.model.prob_forward)
+      - entryname: train/rgene
+        entry: $(inputs.model.prob_backward)
+      - entryname: train/noncoding
+        entry: $(inputs.model.prob_noncoding)
+      - entryname: train/start
+        entry: $(inputs.model.prob_start)
+      - entryname: train/stop
+        entry: $(inputs.model.prob_stop)
+      - entryname: train/start1
+        entry: $(inputs.model.prob_start1)
+      - entryname: train/stop1
+        entry: $(inputs.model.prob_stop1)
+      - entryname: train/pwm
+        entry: $(inputs.model.pwm_dist)
 hints:
   SoftwareRequirement:
     packages:
@@ -59,62 +77,10 @@ inputs:
 
 
 arguments:
- - mkdir
- - train
- - ;
- - ln
- - -s
- - $(inputs.model.main.path)
- - train/model
- - ;
- - ln
- - -s
- - $(inputs.model.prob_forward.path)
- - train/gene
- - ;
- - ln
- - -s
- - $(inputs.model.prob_backward.path)
- - train/rgene
- - ;
- - ln
- - -s
- - $(inputs.model.prob_noncoding.path)
- - train/noncoding
- - ;
- - ln
- - -s
- - $(inputs.model.prob_start.path)
- - train/start
- - ;
- - ln
- - -s
- - $(inputs.model.prob_stop.path)
- - train/stop
- - ;
- - ln
- - -s
- - $(inputs.model.prob_start1.path)
- - train/start1
- - ;
- - ln
- - -s
- - $(inputs.model.prob_stop1.path)
- - train/stop1
- - ;
- - ln
- - -s
- - $(inputs.model.pwm_dist.path)
- - train/pwm
- - ;
- - FragGeneScan
- - -o
- - $(runtime.outdir)/predicted_cds
- - -t
- - model
-
-# TODO: when Toil supports the InitialWorkDirRequirement, use that instead of
-# this ShellCommandRequirement hack/workaround
+ - prefix: -o
+   valueFrom: $(runtime.outdir)/predicted_cds
+ - prefix: -t
+   valueFrom: model
 
 outputs:
   predicted_CDS_aa:

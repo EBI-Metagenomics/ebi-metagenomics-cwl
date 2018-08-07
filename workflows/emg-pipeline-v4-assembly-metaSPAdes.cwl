@@ -40,7 +40,6 @@ inputs:
     secondaryFiles: .mscluster
   mapseq_taxonomy: File
   mapseq_taxonomy_otu_table: File
-  sequencing_run_id: string
 
   #Go summary file for slimming 
   go_summary_config: File
@@ -66,11 +65,6 @@ outputs:
     type: File
     outputSource: unified_processing/5S_sequences  
   
-  predicted_CDS:
-    type: File
-    outputSource: unified_processing/predicted_CDS
-
-
   #Keep all of the protein stuff here
   predicted_CDS:
     type: File
