@@ -60,12 +60,6 @@ outputs:
     type: File
     outputSource: unified_processing/5S_sequences  
 
-  
-  predicted_CDS:
-    type: File
-    outputSource: unified_processing/predicted_CDS
-
-
   #Keep all of the protein stuff here
   predicted_CDS:
     type: File

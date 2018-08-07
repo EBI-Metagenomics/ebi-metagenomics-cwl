@@ -5,5 +5,5 @@ set -e
 
 for i in $(find workflows -name "*.cwl"); do
  echo "Testing: ${i}"
- cwltool ${i} --help
+ cwltool --validate ${i}
 done
