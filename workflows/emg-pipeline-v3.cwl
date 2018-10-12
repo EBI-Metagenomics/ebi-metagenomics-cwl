@@ -44,6 +44,7 @@ outputs:
   #Sequences that are masked after the ribosomal step
   processed_sequences:
     type: File
+    format: edam:format_1929  # FASTA
     outputSource: find_SSUs_and_mask/masked_sequences
   
   #Taxonomic analysis step
@@ -152,15 +153,19 @@ outputs:
     outputSource: generate_summary/summary
   tRNA_matches:
     type: File
+    format: edam:format_1929  # FASTA
     outputSource: find_SSUs_and_mask/tRNA_matches 
   16S_matches:
     type: File
+    format: edam:format_1929  # FASTA
     outputSource: find_SSUs_and_mask/16S_matches 
   23S_matches:
     type: File
+    format: edam:format_1929  # FASTA
     outputSource: find_SSUs_and_mask/23S_matches 
   5S_matches:
     type: File
+    format: edam:format_1929  # FASTA
     outputSource: find_SSUs_and_mask/5S_matches 
   interproscan_matches:
     type: File

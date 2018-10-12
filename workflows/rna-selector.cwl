@@ -35,18 +35,23 @@ inputs:
 outputs:
   16S_matches:
     type: File
+    format: edam:format_1929  # FASTA
     outputSource: prepend_header_for_QIIME/labeled_sequences
   5S_matches:
     type: File
+    format: edam:format_1929  # FASTA
     outputSource: find_5S_matches/matching_sequences
   23S_matches:
     type: File
+    format: edam:format_1929  # FASTA
     outputSource: find_23S_matches/matching_sequences
   masked_sequences:
     type: File
+    format: edam:format_1929  # FASTA
     outputSource: mask_rRNA_and_tRNA/masked_sequences
   tRNA_matches:
     type: File
+    format: edam:format_1929  # FASTA
     outputSource: find_tRNA_matches/matching_sequences
 
 steps:
