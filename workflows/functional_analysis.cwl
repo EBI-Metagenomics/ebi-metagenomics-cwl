@@ -45,7 +45,7 @@ steps:
     doc: |
       Matches are generated against predicted CDS, using a sub set of databases
       (Pfam, TIGRFAM, PRINTS, PROSITE patterns, Gene3d) from InterPro. 
-    run: ../tools/InterProScan5.21-60.cwl
+    run: ../tools/InterProScan5.30-69.cwl
     in:
       proteinFile: chunk_inputs/chunks
       applications:

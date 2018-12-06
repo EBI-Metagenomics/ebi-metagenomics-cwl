@@ -1,3 +1,4 @@
+#!/usr/bin/env cwl-runner
 cwlVersion: v1.0
 class: CommandLineTool
 
@@ -11,20 +12,22 @@ doc: |
       https://github.com/ebi-pf-team/interproscan/wiki/HowToRun
 
 requirements:
-  ResourceRequirement:
-    ramMin: 10240
-    coresMin: 3
   SchemaDefRequirement:
     types: 
       - $import: InterProScan-apps.yaml
       - $import: InterProScan-protein_formats.yaml
+  DockerRequirement:
+    dockerPull: 'biocontainers/interproscan:v5.30-69.0_cv1'
+  ShellCommandRequirement: {}
 hints:
   SoftwareRequirement:
     packages:
       interproscan:
         specs: [ "https://identifiers.org/rrid/RRID:SCR_005829" ]
-        version: [ "5.21-60" ]
-
+        version: [ "5.30-69" ]
+  ResourceRequirement:
+    ramMin: 8192
+    coresMin: 3
 inputs:
   proteinFile:
     type: File
@@ -39,19 +42,40 @@ inputs:
     inputBinding:
       itemSeparator: ','
       prefix: --applications
+  databases: Directory
 
-baseCommand: interproscan.sh
+baseCommand: []  # interproscan.sh
 
 arguments:
- - valueFrom: $(inputs.proteinFile.nameroot).i5_annotations
-   prefix: --outfile
- - valueFrom: TSV
-   prefix: --formats
+ - cp
+ - -r
+ - /opt/interproscan
+ - $(runtime.outdir)/interproscan
+ - ;
+
+ - rm
+ - -rf
+ - $(runtime.outdir)/interproscan/data
+ - ;
+
+ - cp
+ - -rs
+ - $(inputs.databases.path)/data
+ - $(runtime.outdir)/interproscan/
+ - ;
+
+ - bash
+ - $(runtime.outdir)/interproscan/interproscan.sh
+
+ - prefix: --outfile
+   valueFrom: $(runtime.outdir)/$(inputs.proteinFile.nameroot).i5_annotations
+ - prefix: --formats
+   valueFrom: TSV
  - --disable-precalc
  - --goterms
  - --pathways
- - valueFrom: $(runtime.tmpdir)
-   prefix: --tempdir
+ - prefix: --tempdir
+   valueFrom: $(runtime.tmpdir)
 
 
 outputs:
