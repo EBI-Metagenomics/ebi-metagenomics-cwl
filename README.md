@@ -1,7 +1,7 @@
 [![Build Status](https://travis-ci.org/EBI-Metagenomics/ebi-metagenomics-cwl.svg?branch=master)](https://travis-ci.org/EBI-Metagenomics/ebi-metagenomics-cwl)
 
 # ebi-metagenomics-cwl
-This repository contains the CWL description of the EBI Metagenomics pipeline
+This repository contains the CWL description of the EBI Metagenomics pipeline. It is superceded by https://github.com/EBI-Metagenomics/pipeline-v5
 
 [![Example workflow layout](https://view.commonwl.org/workflows/594809bd857aba0001dad385/graph/png)](https://view.commonwl.org/workflows/github.com/ProteinsWebTeam/ebi-metagenomics-cwl/tree/master/workflows/emg-pipeline-v3.cwl)
 
