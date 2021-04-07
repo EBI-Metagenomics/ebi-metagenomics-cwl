@@ -19,8 +19,6 @@ outputs: { SSUs: { type: stdout } }
 
 $namespaces:
  s: http://schema.org/
-$schemas:
- - https://schema.org/version/latest/schema.rdf
 
 s:license: "https://www.apache.org/licenses/LICENSE-2.0"
 s:copyrightHolder: "EMBL - European Bioinformatics Institute"
